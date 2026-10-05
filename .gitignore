@@ -1,6 +1,13 @@
 venv/
 __pycache__/
 *.pyc
-data/*.pickle
-config/config.json
+*.pyo
+*.pyd
 .vscode/
+.idea/
+models/*.onnx
+data/embeddings/*.npy
+!data/embeddings/.gitkeep
+data/datasets/*
+!data/datasets/.gitkeep
+*.log
