@@ -15,7 +15,6 @@ if BASE_DIR in sys.path:
     sys.path.remove(BASE_DIR)
 sys.path.append(BASE_DIR)
 
-print("[DEBUG 1/7] Dang import cac module loi...")
 from core.detector import YuNetDetector
 from core.fiqa import FaceQualityAssessor
 from core.anti_spoof import MiniFASNetDetector
@@ -37,150 +36,187 @@ def load_templates():
 
 def main():
     try:
-        print("[DEBUG 2/7] Dang ket noi webcam...")
         cap = cv2.VideoCapture(0)
         if not cap.isOpened():
             print("[-] LOI: Khong the mo webcam.")
             return
 
-        ret, test_frame = cap.read()
-        if not ret or test_frame is None:
-            print("[-] LOI: Khong the doc frame test tu camera.")
-            cap.release()
-            return
-        print(f"[*] Webcam OK: {test_frame.shape[1]}x{test_frame.shape[0]}")
-
-        print("[DEBUG 3/7] Dang load database embedding...")
         db = load_templates()
         print(f"[*] Da load {len(db)} tai khoan: {list(db.keys())}")
 
-        print("[DEBUG 4/7] Dang khoi tao YuNet Detector...")
-        t0 = time.time()
+        print("[*] Khoi tao cac module AI (HM 4, 5, 6)...")
         detector = YuNetDetector()
-        print(f"[*] YuNet xong ({int((time.time()-t0)*1000)}ms)")
-
-        print("[DEBUG 5/7] Dang khoi tao ArcFace Embedder...")
-        t0 = time.time()
-        embedder = ArcFaceEmbedder()
-        print(f"[*] ArcFace xong ({int((time.time()-t0)*1000)}ms)")
-
-        print("[DEBUG 6/7] Dang khoi tao MiniFASNet Anti-spoof...")
-        t0 = time.time()
-        anti_spoof = MiniFASNetDetector(real_threshold=0.60)
         fiqa = FaceQualityAssessor()
-        print(f"[*] Anti-spoof & FIQA xong ({int((time.time()-t0)*1000)}ms)")
-
-        print("[DEBUG 7/7] Dang khoi tao Challenge Liveness Engine...")
         challenge = ChallengeResponseDetector(timeout_sec=16.0)
-        fusion = MultiModalFusionEngine(sim_threshold=0.62)
-        
-        # Dat thu thach dau tien la QUAY TRAI de tranh goi TFLite luc mo app
-        current_action = challenge.reset_challenge(ActionType.TURN_LEFT)
-        print(f"[*] Thu thach khoi diem an toan: {current_action.value}")
+        anti_spoof = MiniFASNetDetector(real_threshold=0.60)
+        embedder = ArcFaceEmbedder()
+        fusion = MultiModalFusionEngine(sim_threshold=0.62, decision_threshold=0.65)
 
+        current_action = challenge.reset_challenge(ActionType.TURN_LEFT)
         active_success = False
         authenticated = False
         auth_user = ""
-        auth_sim = 0.0
+        auth_conf = 0.0
 
-        cv2.namedWindow("FaceID Multi-Modal Pipeline", cv2.WINDOW_AUTOSIZE)
-        print("\n>>> DA VAO CAMERA LOOP THANH CONG. Cua so hien thi dang chay! <<<")
+        cv2.namedWindow("FaceID Multi-Modal Pipeline (HM 4+5+6)", cv2.WINDOW_AUTOSIZE)
+        print("\n>>> BANG THEO DOI HOAT DONG MODULE (DIAGNOSTIC LOG) <<<")
+        print("Trang thai: [RUN]=Dang chay | [WAIT]=Cho dieu kien | [SKIP]=Bo qua | [PASS]=Dat chuan | [FAIL]=Khong dat\n")
 
         frame_idx = 0
-        fps_t0 = time.time()
+        last_log_time = time.time()
 
         while True:
-            t_start = time.time()
+            t_frame_start = time.time()
             ret, frame = cap.read()
             if not ret or frame is None or frame.size == 0:
-                print("[-] Canh bao: Frame rong")
                 continue
 
             frame_idx += 1
             h, w = frame.shape[:2]
 
-            # 1. Detect
-            t_det = time.time()
-            detections = detector.detect(frame)
-            ms_det = int((time.time() - t_det) * 1000)
+            # Khoi tao bang trang thai chan doan
+            status_diag = {
+                "DET": "SKIP",
+                "FIQA": "SKIP",
+                "FFT": "SKIP",
+                "LIVE": "SKIP",
+                "PAD": "SKIP",
+                "EMB": "WAIT",
+                "FUS": "WAIT"
+            }
+            latencies = {}
 
-            status_text = f"THU THACH: {current_action.value}" if not active_success else "THU THACH OK -> DANG XAC THUC..."
+            # 1. DETECTOR (YuNet)
+            t0 = time.time()
+            detections = detector.detect(frame)
+            latencies["DET"] = int((time.time() - t0) * 1000)
+            status_diag["DET"] = f"RUN({len(detections)})"
+
+            status_text = f"THU THACH: {current_action.value}" if not active_success else "DANG XAC THUC FUSION..."
             detail_text = ""
             box_color = (0, 200, 255)
             box_mirrored = None
             fingertips_draw = []
 
-            ms_liveness = 0
-            ms_embed = 0
-
             if authenticated:
                 box_color = (0, 255, 0)
-                status_text = f"XAC THUC THANH CONG: {auth_user} ({auth_sim*100:.1f}%)"
-                detail_text = "He thong da mo khoa! Nhan 'r' de thu lai."
+                status_text = f"XAC THUC THANH CONG: {auth_user}"
+                detail_text = f"Do tin cay tong hop: {auth_conf*100:.1f}% | Nhan 'r' de thu lai"
+                status_diag["EMB"] = "DONE"
+                status_diag["FUS"] = "DONE"
 
             elif len(detections) == 0:
                 detail_text = "Dua khuon mat vao khung hinh..."
                 if current_action.name == "TWO_FINGERS" and not active_success:
-                    t_live = time.time()
+                    t0 = time.time()
                     passed, hint, dbg = challenge.check_action(frame, None, None, None)
-                    ms_liveness = int((time.time() - t_live) * 1000)
+                    latencies["LIVE"] = int((time.time() - t0) * 1000)
+                    status_diag["LIVE"] = "PASS" if passed else "RUN"
                     detail_text = hint
                     fingertips_draw = dbg.get("fingertips", [])
                     if passed:
                         active_success = True
             elif len(detections) > 1:
-                detail_text = "Canh bao: Chi de 1 nguoi truoc camera"
+                detail_text = "Canh bao: Phat hien nhieu hon 1 khuon mat"
+                status_diag["FIQA"] = "FAIL(MultiFace)"
             else:
                 box, landmarks, _ = detections[0]
                 top, right, bottom, left = box
                 box_mirrored = (w - right, top, w - left, bottom)
 
-                is_real, passive_score, _ = anti_spoof.predict_smoothed(frame, box)
-                pose = fiqa.estimate_pose(landmarks, w, h, yaw_sign=1, pitch_sign=-1)
+                # 2. FIQA & FFT MOIRE
+                t0 = time.time()
+                quality = fiqa.evaluate_quality(frame, box, landmarks)
+                latencies["FIQA"] = int((time.time() - t0) * 1000)
+                status_diag["FIQA"] = "PASS" if quality.passed else "FAIL"
+                status_diag["FFT"] = "PASS" if quality.is_live_fft else "FAIL(Moire)"
+                pose = (quality.yaw, quality.pitch, quality.roll)
 
-                # Chi kiem tra thu thach Liveness (Khoa chat ArcFace khi chua xong)
+                # 3. PASSIVE PAD (MiniFASNet)
+                t0 = time.time()
+                is_real, passive_score, _ = anti_spoof.predict_smoothed(frame, box)
+                latencies["PAD"] = int((time.time() - t0) * 1000)
+                status_diag["PAD"] = f"RUN({int(passive_score*100)}%)"
+
+                # 4. ACTIVE LIVENESS
                 if not active_success:
-                    t_live = time.time()
+                    t0 = time.time()
                     passed, hint, dbg = challenge.check_action(frame, pose, landmarks, box)
-                    ms_liveness = int((time.time() - t_live) * 1000)
+                    latencies["LIVE"] = int((time.time() - t0) * 1000)
+                    status_diag["LIVE"] = "PASS" if passed else "RUN"
                     detail_text = hint
                     fingertips_draw = dbg.get("fingertips", [])
                     if passed:
                         active_success = True
+                        status_diag["LIVE"] = "SUCCESS"
+                else:
+                    status_diag["LIVE"] = "PASSED"
 
-                # Chi khi xong thu thach moi chay so khop ArcFace
-                elif not authenticated:
-                    detail_text = "Dang trich xuat vector va so khop danh tinh..."
-                    t_emb = time.time()
-                    emb = embedder.extract(frame, box)
-                    ms_embed = int((time.time() - t_emb) * 1000)
+                    # 5. ARCFACE EMBEDDER & FUSION (Chi chay khi Live da dat)
+                    if not authenticated:
+                        if not quality.passed:
+                            box_color = (0, 140, 255)
+                            detail_text = f"FIQA: {quality.reason}"
+                            status_diag["EMB"] = "WAIT(FIQA)"
+                            status_diag["FUS"] = "WAIT(FIQA)"
+                        else:
+                            t0 = time.time()
+                            emb = embedder.extract(frame, box)
+                            latencies["EMB"] = int((time.time() - t0) * 1000)
+                            status_diag["EMB"] = "RUN"
 
-                    best_user = None
-                    min_dist = 1.0
+                            best_user = None
+                            best_template = None
+                            max_sim = -1.0
 
-                    for u, t_list in db.items():
-                        for t in t_list:
-                            d = embedder.compute_distance(emb, t)
-                            if d < min_dist:
-                                min_dist = d
-                                best_user = u
+                            for u, t_list in db.items():
+                                for t in t_list:
+                                    d = embedder.compute_distance(emb, t)
+                                    sim = 1.0 - d
+                                    if sim > max_sim:
+                                        max_sim = sim
+                                        best_user = u
+                                        best_template = t
 
-                    decision = fusion.evaluate(
-                        passive_score=passive_score,
-                        active_passed=True,
-                        best_user=best_user,
-                        min_cosine_dist=min_dist
-                    )
+                            t0 = time.time()
+                            fiqa_weight = 1.0 if quality.passed else 0.4
+                            decision = fusion.evaluate_fused(
+                                passive_score=passive_score,
+                                active_passed=True,
+                                probe_emb=emb,
+                                template_emb=best_template,
+                                raw_cosine_sim=max_sim,
+                                best_user=best_user,
+                                fiqa_score=fiqa_weight
+                            )
+                            latencies["FUS"] = int((time.time() - t0) * 1000)
+                            status_diag["FUS"] = f"RUN({int(decision.confidence_score*100)}%)"
 
-                    if decision.success:
-                        authenticated = True
-                        auth_user = decision.matched_user
-                        auth_sim = decision.similarity
-                    elif not decision.is_live:
-                        box_color = (0, 0, 255)
-                        detail_text = f"Tu choi: {decision.reason}"
+                            if decision.success:
+                                authenticated = True
+                                auth_user = decision.matched_user
+                                auth_conf = decision.confidence_score
+                            else:
+                                box_color = (0, 0, 255)
+                                detail_text = f"Tu choi: {decision.reason}"
 
-            # Hiển thị
+            # In Diagnostic Log len Terminal moi 0.15s (tranh nghen terminal)
+            now = time.time()
+            if now - last_log_time >= 0.15:
+                fps = 1.0 / max(1e-4, now - t_frame_start)
+                log_line = (
+                    f"[F:{frame_idx:04d}|{fps:4.1f}FPS] "
+                    f"DET:{status_diag['DET']}({latencies.get('DET',0)}ms) | "
+                    f"FIQA:{status_diag['FIQA']}({latencies.get('FIQA',0)}ms) | "
+                    f"FFT:{status_diag['FFT']} | "
+                    f"LIVE:{status_diag['LIVE']} | "
+                    f"PAD:{status_diag['PAD']} | "
+                    f"EMB:{status_diag['EMB']}({latencies.get('EMB',0)}ms) | "
+                    f"FUS:{status_diag['FUS']}"
+                )
+                print(log_line, end="\r")
+                last_log_time = now
+
             display = cv2.flip(frame, 1)
 
             if box_mirrored is not None:
@@ -200,11 +236,7 @@ def main():
             cv2.putText(display, "Nhan 'r': Doi thu thach | 'q': Thoat", (15, h - 12),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.45, (180, 180, 180), 1, cv2.LINE_AA)
 
-            cv2.imshow("FaceID Multi-Modal Pipeline", display)
-
-            # In thong so benchmark theo thoi gian thuc tren terminal
-            fps = 1.0 / max(1e-4, time.time() - t_start)
-            print(f"[Frame {frame_idx:04d}] FPS: {fps:4.1f} | Det: {ms_det:2d}ms | Live: {ms_liveness:2d}ms | Emb: {ms_embed:2d}ms", end="\r")
+            cv2.imshow("FaceID Multi-Modal Pipeline (HM 4+5+6)", display)
 
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
@@ -213,16 +245,15 @@ def main():
                 active_success = False
                 authenticated = False
                 current_action = challenge.reset_challenge()
-                print(f"\n[*] Doi thu thach sang: {current_action.value}")
+                print(f"\n[*] Reset thu thach moi: {current_action.value}")
 
     except Exception as ex:
-        print("\n[-] Xay ra ngoai le:")
+        print("\n[-] Xay ra loi:")
         traceback.print_exc()
     finally:
-        print("\n[*] Dang giai phong tai nguyen...")
         cap.release()
         cv2.destroyAllWindows()
-        print("[*] Hoan tat tat he thong.")
+        print("\n[*] Da giai phong webcam va dong he thong.")
 
 if __name__ == "__main__":
     main()

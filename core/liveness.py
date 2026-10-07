@@ -111,6 +111,8 @@ class ChallengeResponseDetector:
         self._smile_start = 0.0
 
         self.hand_match_frames = 0
+        self._pose_base = None
+        self._pose_buf = []
 
     def reset_challenge(self, action: ActionType | None = None) -> ActionType:
         self.current_action = action or random.choice(list(ActionType))
@@ -120,6 +122,46 @@ class ChallengeResponseDetector:
 
     # --- 1. POSE ---
     def _check_pose(self, pose: tuple[float, float, float] | None, act: ActionType) -> tuple[bool, str]:
+        if pose is None:
+            return False, "Dang tim khuon mat..."
+        yaw, pitch, _ = pose
+
+        # Lay mau tu the nhin thang lam goc (0, 0)
+        if self._pose_base is None:
+            self._pose_buf.append((yaw, pitch))
+            arr = np.array(self._pose_buf)
+            if len(arr) > 1 and (np.ptp(arr[:, 0]) > 8 or np.ptp(arr[:, 1]) > 8):
+                self._pose_buf = [(yaw, pitch)]  # dang cu dong -> lay lai
+                return False, "Giu dau yen, nhin thang..."
+            if len(arr) < 8:
+                return False, f"Nhin thang de lay mau... ({len(arr)}/8)"
+            self._pose_base = (float(np.median(arr[:, 0])), float(np.median(arr[:, 1])))
+            return False, "San sang! Hay lam thu thach"
+
+        dyaw = yaw - self._pose_base[0]
+        dpitch = pitch - self._pose_base[1]
+
+        if act == ActionType.TURN_LEFT:
+            target_met = dyaw < -9.0
+            hint = f"Quay sang TRAI (dYaw: {dyaw:+.1f} / < -9)"
+        elif act == ActionType.TURN_RIGHT:
+            target_met = dyaw > 9.0
+            hint = f"Quay sang PHAI (dYaw: {dyaw:+.1f} / > +9)"
+        elif act == ActionType.NOD_DOWN:
+            target_met = dpitch < -7.0
+            hint = f"Cui nhe cam (dPitch: {dpitch:+.1f} / < -7)"
+        else:  # LOOK_UP
+            target_met = dpitch > 8.0
+            hint = f"Nang nhe cam (dPitch: {dpitch:+.1f} / > +8)"
+
+        if target_met:
+            self._pose_hold_frames += 1
+            if self._pose_hold_frames >= 3:
+                return True, "Thanh cong: Da lam dung huong!"
+            return False, f"Giu nguyen ({self._pose_hold_frames}/3)..."
+
+        self._pose_hold_frames = max(0, self._pose_hold_frames - 1)
+        return False, hint        
         if pose is None:
             return False, "Dang tim khuon mat..."
         yaw, pitch, _ = pose
