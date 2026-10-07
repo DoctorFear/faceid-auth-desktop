@@ -13,9 +13,9 @@ from typing import Optional
 import cv2
 import numpy as np
 
-try:  # chi co tren Linux/macOS
+try:
     import pwd
-except ImportError:  # pragma: no cover
+except ImportError:
     pwd = None
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,18 +37,18 @@ class Config:
     cam_index: int = 0
     frame_w: int = 640
     frame_h: int = 480
-    hold_sec: float = 0.6            # giu on dinh 0.6s moi chup (tranh chup luc dang quay dau)
-    cooldown_sec: float = 1.0        # nghi sau moi lan chup, tranh chup lien tiep bang cung tu the
+    hold_sec: float = 0.65           # Giam xuong 0.65s de do moi co, chup nhanh gon hon
+    cooldown_sec: float = 1.0        # Nghi 1s giua cac lan chup
     step_timeout_sec: float = 60.0
-    angle_tolerance: float = 30.0
-    in_range_score: float = 0.9      # 0.9 ~ lech toi da 3 do ngoai khoang muc tieu
-    yaw_sign: int = 1               # Dong bo voi huong guong
+    angle_tolerance: float = 20.0    # Dung sai 20 do giup de dat phan tram chup hon
+    in_range_score: float = 0.90     # Nguong 90% de vao vung chup tu dong
+    yaw_sign: int = -1               # Huong quay dong bo theo hien thi guong
     pitch_sign: int = -1
-    max_roll_deg: float = 35.0
+    max_roll_deg: float = 25.0       # Cho phep do nghieng dau thoai mai hon (25 do)
     min_face_px: int = 80
-    edge_margin_frac: float = 0.15   # cho phep box lan ra ngoai khung toi da 15% kich thuoc mat
-    first_step_max_yaw: float = 15.0   # buoc 1 chi can nhin "gan thang" (chua co moc goc)
-    first_step_max_pitch: float = 30.0
+    edge_margin_frac: float = 0.15
+    first_step_max_yaw: float = 12.0
+    first_step_max_pitch: float = 15.0
     max_read_failures: int = 60
     debug: bool = False
 
@@ -62,30 +62,30 @@ class Step:
     target_pitch: tuple[float, float]
 
 
-# Goc muc tieu la goc TUONG DOI so voi tu the nhin thang o buoc 1 (da hieu chuan theo camera)
+# Cac moc goc da duoc ha do cao cuc doan xuong muc nguoc/cui tu nhien
 STEPS = [
     Step("THANG", "BUOC 1/5: NHIN THANG", "Nhin thang truc dien vao camera",
-         target_yaw=(-12, 12), target_pitch=(-12, 12)),
+         target_yaw=(-8, 8), target_pitch=(-8, 8)),
     Step("TRAI", "BUOC 2/5: QUAY TRAI", "Quay nhe mat sang ben TRAI cua ban <--",
-         target_yaw=(-40, -8), target_pitch=(-25, 25)),
+         target_yaw=(-35, -12), target_pitch=(-12, 12)),
     Step("PHAI", "BUOC 3/5: QUAY PHAI", "Quay nhe mat sang ben PHAI cua ban -->",
-         target_yaw=(8, 40), target_pitch=(-25, 25)),
+         target_yaw=(12, 35), target_pitch=(-12, 12)),
     Step("NGUOC", "BUOC 4/5: NGUOC LEN", "Hoi nang nhe cam / mat len [^]",
-         target_yaw=(-25, 25), target_pitch=(6, 35)),
+         target_yaw=(-14, 14), target_pitch=(6, 22)),
     Step("CUI", "BUOC 5/5: CUI XUONG", "Hoi cui nhe cam / dau xuong [v]",
-         target_yaw=(-25, 25), target_pitch=(-35, -6)),
+         target_yaw=(-14, 14), target_pitch=(-22, -6)),
 ]
 
 
 def save_user_embeddings_atomic(username: str, encodings: list[np.ndarray], out_dir: str,
                                 append: bool = False, max_vectors: int = 30) -> tuple[str, int]:
-    """Ghi atomic, quyen 0600. Tra ve (duong_dan, so_vector)."""
+    """Ghi file an toan atomic, set quyen 0600, allow_pickle=False[cite: 7]."""
     os.makedirs(out_dir, mode=0o700, exist_ok=True)
     target_path = os.path.join(out_dir, f"{username}.npy")
     arr = np.asarray(encodings, dtype=np.float32)
 
     if append and os.path.exists(target_path):
-        old = np.load(target_path, allow_pickle=False)  # khong bao gio nap pickle
+        old = np.load(target_path, allow_pickle=False)
         if old.ndim == 2 and old.shape[1] == arr.shape[1]:
             arr = np.concatenate([old.astype(np.float32), arr])[-max_vectors:]
         else:
@@ -93,8 +93,6 @@ def save_user_embeddings_atomic(username: str, encodings: list[np.ndarray], out_
 
     fd, tmp_path = tempfile.mkstemp(dir=out_dir, suffix=".tmp")
     try:
-        # QUAN TRONG: truyen file object. np.save(<duong dan khong co .npy>) se tu them
-        # ".npy" vao ten file, khien du lieu nam o file khac con file dich bi rong.
         with os.fdopen(fd, "wb") as f:
             np.save(f, arr)
             f.flush()
@@ -122,7 +120,6 @@ def clamp_box(box: tuple, w: int, h: int) -> tuple[int, int, int, int]:
 
 
 def check_face_basic(frame_bgr: np.ndarray, box: tuple, cfg: Config) -> str | None:
-    """Mat khong qua nho; cho phep box lan nhe ra ngoai khung (YuNet hay tra box vuot bien)."""
     top, right, bottom, left = box
     h, w = frame_bgr.shape[:2]
     bw, bh = right - left, bottom - top
@@ -154,7 +151,7 @@ def open_camera(cfg: Config) -> cv2.VideoCapture:
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, cfg.frame_w)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cfg.frame_h)
     time.sleep(0.5)
-    for _ in range(5):  # bo vai frame dau (tu dong phoi sang)
+    for _ in range(5):
         cap.read()
     return cap
 
@@ -168,22 +165,18 @@ def draw_hud(img, step: Step, yaw: float, pitch: float, percent: int, in_range: 
         x1, y1, x2, y2 = (int(v) for v in box_mirrored)
         cv2.rectangle(img, (x1, y1), (x2, y2), status_color, 2)
 
-    # Header
     cv2.rectangle(img, (0, 0), (w, 75), (20, 20, 20), -1)
     cv2.putText(img, step.title, (15, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(img, step.guide, (15, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 1, cv2.LINE_AA)
 
-    # Hop phan tram
     cv2.rectangle(img, (w - 120, 8), (w - 12, 68), (35, 35, 35), -1)
     cv2.putText(img, f"{percent}%", (w - 108, 52), cv2.FONT_HERSHEY_SIMPLEX, 1.0, status_color, 3, cv2.LINE_AA)
 
-    # Thanh tien trinh tu dong chup
     cv2.rectangle(img, (0, 75), (w, 86), (40, 40, 40), -1)
     if hold_frac > 0:
         fill_w = int(w * hold_frac)
         cv2.rectangle(img, (0, 75), (fill_w, 86), (0, 255, 0), -1)
 
-    # Hien thi goc (tuong doi so voi tu the nhin thang)
     target_info = f"Muc tieu: Yaw[{step.target_yaw[0]}..{step.target_yaw[1]}]  Pitch[{step.target_pitch[0]}..{step.target_pitch[1]}]"
     actual_info = f"Hien tai: Yaw = {yaw:+.1f}   Pitch = {pitch:+.1f}"
     cv2.putText(img, target_info, (15, h - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (180, 180, 180), 1, cv2.LINE_AA)
@@ -213,9 +206,9 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
     hold_start = None
     cooldown_until = 0.0
     flash_until = 0.0
-    smooth: tuple[float, float] | None = None   # EMA cua goc tho (yaw, pitch)
-    baseline = (0.0, 0.0)                       # goc tho khi nhin thang (de hieu chuan camera)
-    best = None                                 # frame net nhat trong luc giu tu the
+    smooth: tuple[float, float] | None = None
+    baseline = (0.0, 0.0)
+    best = None
     read_fail = 0
     last_debug = 0.0
 
@@ -247,7 +240,9 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
             box_mirrored = None
             can_capture = False
             active_box = None
+            active_landmarks = None
             rel_yaw = rel_pitch = 0.0
+            raw_yaw = raw_pitch = 0.0
 
             if n_faces == 0:
                 warning = "Khong tim thay mat"
@@ -273,11 +268,10 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
 
                     if cfg.debug and now - last_debug > 0.5:
                         last_debug = now
-                        log.info("[%s] raw yaw=%+.1f pitch=%+.1f roll=%+.1f | rel yaw=%+.1f pitch=%+.1f | box=%s",
-                                 step.name, raw_yaw, raw_pitch, roll, rel_yaw, rel_pitch, tuple(int(v) for v in box))
+                        log.info("[%s] raw yaw=%+.1f pitch=%+.1f roll=%+.1f | rel yaw=%+.1f pitch=%+.1f",
+                                 step.name, raw_yaw, raw_pitch, roll, rel_yaw, rel_pitch)
 
                     if step_idx == 0:
-                        # Buoc 1: chua co moc goc, chi can nhin gan thang; goc nay se thanh moc 0
                         ok_pose = (abs(smooth[0]) <= cfg.first_step_max_yaw
                                    and abs(smooth[1]) <= cfg.first_step_max_pitch)
                         percent = 100 if ok_pose else 0
@@ -298,21 +292,27 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
                     else:
                         can_capture = True
                         active_box = box
+                        active_landmarks = landmarks
 
-            # Giu on dinh du lau moi chup; chon frame net nhat trong luc giu
-            auto_ready = False
-            if can_capture and in_range and active_box is not None and smooth is not None:
+            # Kiem tra do on dinh cua dau, dung sai 5.0 giup khong bi reset do run nhe
+            is_head_still = False
+            if smooth is not None:
+                d_angle = abs(raw_yaw - smooth[0]) + abs(raw_pitch - smooth[1])
+                is_head_still = d_angle < 5.0
+
+            if can_capture and in_range and is_head_still and active_box is not None and smooth is not None:
                 if hold_start is None:
                     hold_start = now
                     best = None
                 hold_frac = min(1.0, (now - hold_start) / cfg.hold_sec)
                 sharp = sharpness(frame, active_box)
                 if best is None or sharp > best[0]:
-                    best = (sharp, frame.copy(), active_box, smooth)
+                    best = (sharp, frame.copy(), active_box, active_landmarks, smooth)
                 auto_ready = hold_frac >= 1.0
             else:
                 hold_start = None
                 best = None
+                auto_ready = False
 
             display = cv2.flip(frame, 1)
             draw_hud(display, step, rel_yaw, rel_pitch, percent, in_range, hold_frac,
@@ -324,10 +324,13 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
                 return None
 
             if auto_ready and best is not None:
-                _, best_frame, best_box, best_smooth = best
+                _, best_frame, best_box, best_lms, best_smooth = best
                 bh, bw = best_frame.shape[:2]
-                emb = embedder.extract(best_frame, clamp_box(best_box, bw, bh))
+
+                # Can chinh khuon mat bang Similarity Transform 5 moc landmarks
+                emb = embedder.extract(best_frame, clamp_box(best_box, bw, bh), landmarks=best_lms)
                 encodings.append(emb)
+
                 if step_idx == 0:
                     baseline = best_smooth
                     log.info("Moc goc nhin thang: yaw=%+.1f pitch=%+.1f", *baseline)
@@ -339,7 +342,7 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
                 step_start = time.time()
                 flash_until = step_start + 0.4
                 cooldown_until = step_start + cfg.cooldown_sec
-                for _ in range(4):  # Xa buffer
+                for _ in range(4):
                     cap.grab()
 
         return encodings
@@ -355,11 +358,11 @@ def main() -> int:
     parser.add_argument("username", nargs="?", help="Username")
     parser.add_argument("--camera", type=int, default=0)
     parser.add_argument("--data-dir", default=DEFAULT_EMBEDDINGS_DIR,
-                        help="Thu muc luu embedding (mac dinh: $FACEID_EMBEDDINGS_DIR hoac data/embeddings)")
+                        help="Thu muc luu embedding")
     parser.add_argument("--append", action="store_true",
-                        help="Them vao embedding da co (dang ky them dieu kien: kinh, anh sang...)")
+                        help="Them vao embedding da co")
     parser.add_argument("--max-vectors", type=int, default=30)
-    parser.add_argument("--debug", action="store_true", help="In goc tho/box de chan doan")
+    parser.add_argument("--debug", action="store_true", help="In thong so chan doan")
     args = parser.parse_args()
 
     username = (args.username or input("Username: ")).strip()

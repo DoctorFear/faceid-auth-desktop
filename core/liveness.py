@@ -62,12 +62,26 @@ class ChallengeResponseDetector:
 
     FINGER_HOLD_FRAMES = 4
 
-    def __init__(self, timeout_sec: float = 16.0):
+    def __init__(self, timeout_sec: float = 16.0, preload_hands: bool = True):
         self.timeout_sec = timeout_sec
         self.current_action: ActionType | None = None
         self.challenge_start_time = 0.0
         self._mp_hands = None
         self._reset_state()
+
+        if preload_hands:
+            self._warmup_mp_hands()
+
+    def _warmup_mp_hands(self):
+        """Warm-up truoc MediaPipe Hands voi frame rong de tranh stutter khi dang chay."""
+        hands = self._get_mp_hands()
+        if hands is not None:
+            try:
+                dummy = np.zeros((240, 320, 3), dtype=np.uint8)
+                with suppress_c_stderr():
+                    hands.process(dummy)
+            except Exception:
+                pass
 
     def _get_mp_hands(self):
         if self._mp_hands is None:
@@ -81,7 +95,7 @@ class ChallengeResponseDetector:
                         min_detection_confidence=0.55,
                         min_tracking_confidence=0.55
                     )
-            except Exception as e:
+            except Exception:
                 self._mp_hands = None
         return self._mp_hands
 
@@ -131,7 +145,7 @@ class ChallengeResponseDetector:
             self._pose_buf.append((yaw, pitch))
             arr = np.array(self._pose_buf)
             if len(arr) > 1 and (np.ptp(arr[:, 0]) > 8 or np.ptp(arr[:, 1]) > 8):
-                self._pose_buf = [(yaw, pitch)]  # dang cu dong -> lay lai
+                self._pose_buf = [(yaw, pitch)]
                 return False, "Giu dau yen, nhin thang..."
             if len(arr) < 8:
                 return False, f"Nhin thang de lay mau... ({len(arr)}/8)"
@@ -161,39 +175,7 @@ class ChallengeResponseDetector:
             return False, f"Giu nguyen ({self._pose_hold_frames}/3)..."
 
         self._pose_hold_frames = max(0, self._pose_hold_frames - 1)
-        return False, hint        
-        if pose is None:
-            return False, "Dang tim khuon mat..."
-        yaw, pitch, _ = pose
-
-        if not self._pose_centered:
-            if abs(yaw) < 6.0 and abs(pitch) < 6.0:
-                self._pose_centered = True
-            return False, f"Hay nhin THANG truoc (Yaw:{yaw:+.0f}, Pitch:{pitch:+.0f})"
-
-        target_met = False
-        hint = ""
-        if act == ActionType.TURN_LEFT:
-            target_met = (yaw < -9.0)
-            hint = f"Quay sang TRAI (Yaw: {yaw:+.1f} / < -9)"
-        elif act == ActionType.TURN_RIGHT:
-            target_met = (yaw > 9.0)
-            hint = f"Quay sang PHAI (Yaw: {yaw:+.1f} / > +9)"
-        elif act == ActionType.NOD_DOWN:
-            target_met = (pitch < -7.0)
-            hint = f"Cui nhe cam (Pitch: {pitch:+.1f} / < -7)"
-        elif act == ActionType.LOOK_UP:
-            target_met = (pitch > 8.0)
-            hint = f"Nang nhe cam (Pitch: {pitch:+.1f} / > +8)"
-
-        if target_met:
-            self._pose_hold_frames += 1
-            if self._pose_hold_frames >= 3:
-                return True, "Thanh cong: Da lam dung huong!"
-            return False, f"Giu nguyen ({self._pose_hold_frames}/3)..."
-        else:
-            self._pose_hold_frames = max(0, self._pose_hold_frames - 1)
-            return False, hint
+        return False, hint
 
     # --- 2. CHOP MAT ---
     def _eye_patches(self, gray: np.ndarray, landmarks: np.ndarray):
