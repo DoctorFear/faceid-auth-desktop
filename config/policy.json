@@ -1,0 +1,62 @@
+{
+  "security_policy": {
+    "rate_limiting": {
+      "max_consecutive_failures": 3,
+      "lockout_duration_sec": 45,
+      "flood_protection": {
+        "max_requests_per_second": 5,
+        "action": "DROP_AND_PENALIZE"
+      }
+    },
+    "anti_brute_force": {
+      "fallback_mechanism": "IMMEDIATE_PASSWORD_PROMPT",
+      "escalation_policy": "EXPONENTIAL_BACKOFF"
+    }
+  },
+  "device_policy": {
+    "camera_contention": {
+      "detection": "V4L2_EBUSY_CHECK",
+      "acquire_timeout_sec": 1.0,
+      "busy_action": "RETURN_PAM_AUTHINFO_UNAVAIL",
+      "terminal_freeze_prevention": true
+    },
+    "led_lifecycle": {
+      "mode": "EPHEMERAL_ON_DEMAND",
+      "led_active_only_during_verification": true,
+      "force_release_on_timeout": true
+    }
+  },
+  "privacy_compliance": {
+    "standard": "Decree 13/2023/ND-CP & GDPR Article 9",
+    "zero_image_retention": {
+      "enabled": true,
+      "description": "Never store raw images or video frames to non-volatile disk. All frames reside exclusively in ephemeral RAM buffers and are discarded immediately after 512-D embedding extraction."
+    },
+    "template_format": "ArcFace 512-D Floating Point Normalized Vector",
+    "biometric_reversible": false
+  },
+  "pam_integration": {
+    "supported_targets": [
+      {
+        "service": "sudo",
+        "recommended_control": "sufficient",
+        "gnome_keyring_impact": "NONE"
+      },
+      {
+        "service": "polkit-1",
+        "recommended_control": "sufficient",
+        "gnome_keyring_impact": "NONE"
+      },
+      {
+        "service": "gnome-screensaver",
+        "recommended_control": "sufficient",
+        "gnome_keyring_impact": "NONE_KEYRING_ALREADY_UNLOCKED"
+      },
+      {
+        "service": "gdm-password",
+        "recommended_control": "optional_or_password_preferred",
+        "gnome_keyring_impact": "KEYRING_LOCKED_REQUIRES_PLAINTEXT_PASSWORD"
+      }
+    ]
+  }
+}

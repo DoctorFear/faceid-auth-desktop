@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import logging
@@ -77,19 +77,71 @@ STEPS = [
 ]
 
 
+def consolidate_templates_to_k_prototypes(vectors: np.ndarray, k: int = 5) -> np.ndarray:
+    """Gom cum va nen tap embedding ve dung k=5 vector dai dien (Spherical K-Means) de triet tieu FAR inflation."""
+    norms = np.linalg.norm(vectors, axis=1, keepdims=True) + 1e-9
+    vecs = vectors / norms
+    if len(vecs) <= k:
+        return vecs.astype(np.float32)
+
+    rng = np.random.default_rng(42)
+    centers = [vecs[rng.choice(len(vecs))]]
+    for _ in range(1, k):
+        sims = np.max([np.dot(vecs, c) for c in centers], axis=0)
+        dists = np.maximum(0.0, 1.0 - sims)
+        probs = dists / (np.sum(dists) + 1e-9)
+        centers.append(vecs[rng.choice(len(vecs), p=probs)])
+    centers = np.array(centers)
+
+    for _ in range(20):
+        assignments = np.argmax(np.dot(vecs, centers.T), axis=1)
+        new_centers = []
+        for j in range(k):
+            members = vecs[assignments == j]
+            if len(members) > 0:
+                c = np.mean(members, axis=0)
+                new_centers.append(c / (np.linalg.norm(c) + 1e-9))
+            else:
+                new_centers.append(centers[j])
+        new_centers = np.array(new_centers, dtype=np.float32)
+        if np.allclose(centers, new_centers, atol=1e-4):
+            break
+        centers = new_centers
+    return centers.astype(np.float32)
+
+
 def save_user_embeddings_atomic(username: str, encodings: list[np.ndarray], out_dir: str,
-                                append: bool = False, max_vectors: int = 30) -> tuple[str, int]:
-    """Ghi file an toan atomic, set quyen 0600, allow_pickle=False[cite: 7]."""
+                                append: bool = False, max_vectors: int = 5) -> tuple[str, int]:
+    """Ghi file an toan atomic, set quyen 0600, allow_pickle=False.
+    Su dung co che 5 Pose Prototypes va Spherical Centroid de triet tieu FAR Inflation."""
     os.makedirs(out_dir, mode=0o700, exist_ok=True)
     target_path = os.path.join(out_dir, f"{username}.npy")
-    arr = np.asarray(encodings, dtype=np.float32)
+    new_arr = np.asarray(encodings, dtype=np.float32)
+
+    new_norms = np.linalg.norm(new_arr, axis=1, keepdims=True) + 1e-9
+    new_arr = new_arr / new_norms
 
     if append and os.path.exists(target_path):
-        old = np.load(target_path, allow_pickle=False)
-        if old.ndim == 2 and old.shape[1] == arr.shape[1]:
-            arr = np.concatenate([old.astype(np.float32), arr])[-max_vectors:]
-        else:
-            log.warning("File cu co dinh dang/so chieu khac, se ghi de.")
+        try:
+            old = np.load(target_path, allow_pickle=False).astype(np.float32)
+            if old.ndim == 2 and old.shape[1] == new_arr.shape[1]:
+                if len(old) == len(new_arr) == 5:
+                    combined = 0.5 * old + 0.5 * new_arr
+                    c_norms = np.linalg.norm(combined, axis=1, keepdims=True) + 1e-9
+                    arr = (combined / c_norms).astype(np.float32)
+                    log.info("Cap nhat 5 Pose Prototypes (Spherical Average) cho user: %s", username)
+                else:
+                    all_vecs = np.concatenate([old, new_arr], axis=0)
+                    arr = consolidate_templates_to_k_prototypes(all_vecs, k=max_vectors)
+                    log.info("Gom cum %d vectors ve %d prototypes dai dien", len(all_vecs), len(arr))
+            else:
+                log.warning("File cu co dinh dang/so chieu khac, se ghi de.")
+                arr = new_arr[:max_vectors]
+        except Exception as e:
+            log.warning("Loi khi doc file cu: %s, se ghi de.", e)
+            arr = new_arr[:max_vectors]
+    else:
+        arr = new_arr[:max_vectors]
 
     fd, tmp_path = tempfile.mkstemp(dir=out_dir, suffix=".tmp")
     try:
@@ -104,6 +156,29 @@ def save_user_embeddings_atomic(username: str, encodings: list[np.ndarray], out_
             os.remove(tmp_path)
         raise
     return target_path, len(arr)
+
+
+def load_user_templates(username: str, emb_dir: str = DEFAULT_EMBEDDINGS_DIR) -> np.ndarray | None:
+    """Nạp tập vector template của một user từ data/embeddings/<username>.npy.
+    Nếu file có nhiều hơn 5 vector (từ phiên bản cũ), tự động nén về 5 Pose Prototypes."""
+    user_file = os.path.join(emb_dir, f"{username}.npy")
+    if not os.path.exists(user_file):
+        return None
+    try:
+        arr = np.load(user_file, allow_pickle=False).astype(np.float32)
+        if arr.ndim == 2 and arr.shape[1] == 512:
+            if len(arr) > 5:
+                arr = consolidate_templates_to_k_prototypes(arr, k=5)
+            norms = np.linalg.norm(arr, axis=1, keepdims=True) + 1e-9
+            return (arr / norms).astype(np.float32)
+        return arr
+    except Exception as e:
+        log.warning("Khong the doc template cua user '%s': %s", username, e)
+        return None
+
+
+# Alias load_user_template = load_user_templates
+load_user_template = load_user_templates
 
 
 def calc_score(val: float, target_range: tuple[float, float], tol: float) -> float:
@@ -361,7 +436,8 @@ def main() -> int:
                         help="Thu muc luu embedding")
     parser.add_argument("--append", action="store_true",
                         help="Them vao embedding da co")
-    parser.add_argument("--max-vectors", type=int, default=30)
+    parser.add_argument("--max-vectors", type=int, default=5,
+                        help="So luong Pose Prototypes toi da (mac dinh: 5)")
     parser.add_argument("--debug", action="store_true", help="In thong so chan doan")
     args = parser.parse_args()
 

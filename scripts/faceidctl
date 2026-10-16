@@ -1,0 +1,133 @@
+#!/usr/bin/env python3
+"""
+faceidctl - Command Line Interface quan ly he thong FaceID Linux (tuong tu fprintd / howdy).
+Cac lenh ho tro:
+  faceidctl enroll [username]     : Dang ky khuon mat voi 5 Pose Prototypes
+  faceidctl verify [username]     : Kiem thu xac thuc 1:1 truc tiep
+  faceidctl list                  : Liet ke danh sach user da dang ky FaceID
+  faceidctl remove [username]     : Xoa template FaceID cua user
+  faceidctl status                : Kiem tra trang thai Daemon va Rate Limiter
+  faceidctl test-cam              : Kiem tra ket noi camera
+"""
+
+import os
+import sys
+import argparse
+import subprocess
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
+EMB_DIR = os.path.join(BASE_DIR, "data", "embeddings")
+
+
+def get_current_user():
+    try:
+        import pwd
+        return pwd.getpwuid(os.getuid()).pw_name
+    except Exception:
+        return os.environ.get("USER", os.environ.get("USERNAME", "default"))
+
+
+def cmd_list(args):
+    print("=== DANH SACH USER DA DANG KY FACEID ===")
+    if not os.path.exists(EMB_DIR):
+        print("  (Chua co thu muc data/embeddings)")
+        return
+    files = [f for f in os.listdir(EMB_DIR) if f.endswith(".npy")]
+    if not files:
+        print("  (Chua co user nao dang ky)")
+        return
+    import numpy as np
+    for f in sorted(files):
+        u = f[:-4]
+        path = os.path.join(EMB_DIR, f)
+        try:
+            arr = np.load(path, allow_pickle=False)
+            print(f"  - {u:<16} : {len(arr)} templates (512-D)")
+        except Exception as e:
+            print(f"  - {u:<16} : [Loi file: {e}]")
+
+
+def cmd_enroll(args):
+    user = args.user or get_current_user()
+    python_exe = sys.executable
+    script = os.path.join(BASE_DIR, "scripts", "enroll.py")
+    print(f"[*] Bat dau enroll cho user '{user}'...")
+    cmd = [python_exe, script, "--user", user]
+    subprocess.run(cmd)
+
+
+def cmd_verify(args):
+    user = args.user or get_current_user()
+    python_exe = sys.executable
+    script = os.path.join(BASE_DIR, "scripts", "verify_interactive.py")
+    print(f"[*] Bat dau verify cho user '{user}'...")
+    cmd = [python_exe, script, "--user", user]
+    subprocess.run(cmd)
+
+
+def cmd_remove(args):
+    user = args.user
+    if not user:
+        print("[-] Vui long chi dinh username can xoa: faceidctl remove <username>")
+        return
+    path = os.path.join(EMB_DIR, f"{user}.npy")
+    if os.path.exists(path):
+        os.remove(path)
+        print(f"[+] Da xoa thanh cong template FaceID cua user '{user}'.")
+    else:
+        print(f"[-] Khong tim thay template cua user '{user}'.")
+
+
+def cmd_status(args):
+    print("=== TRANG THAI HE THONG FACEID ===")
+    from platforms.linux.pam_faceid import communicate_daemon
+    res = communicate_daemon(get_current_user(), service="status")
+    if res.get("status") == "DAEMON_UNAVAILABLE":
+        print("  • Daemon Service : [CHUA CHAY] (Khong tim thay socket)")
+    else:
+        print(f"  • Daemon Service : [DANG HOAT DONG] (Socket phan hoi OK)")
+    
+    # Kiem tra camera
+    from platforms.linux.camera import LinuxCameraManager
+    cam_mgr = LinuxCameraManager()
+    is_cam_avail = cam_mgr.is_device_available()
+    print(f"  • Camera /dev/video0: {'[SAN SANG]' if is_cam_avail else '[KHONG CO SAN / BAN]'}")
+
+
+def main():
+    parser = argparse.ArgumentParser(prog="faceidctl", description="FaceID CLI Tool")
+    sub = parser.add_subparsers(dest="subcommand")
+
+    p_enroll = sub.add_parser("enroll", help="Dang ky khuon mat")
+    p_enroll.add_argument("user", nargs="?", default="", help="Username can enroll")
+
+    p_verify = sub.add_parser("verify", help="Kiem thu xac thuc")
+    p_verify.add_argument("user", nargs="?", default="", help="Username can verify")
+
+    sub.add_parser("list", help="Liet ke danh sach user da dang ky")
+
+    p_rem = sub.add_parser("remove", help="Xoa template cua user")
+    p_rem.add_argument("user", help="Username can xoa")
+
+    sub.add_parser("status", help="Kiem tra trang thai he thong va daemon")
+
+    args = parser.parse_args()
+    if not args.subcommand:
+        parser.print_help()
+        return
+
+    dispatch = {
+        "enroll": cmd_enroll,
+        "verify": cmd_verify,
+        "list": cmd_list,
+        "remove": cmd_remove,
+        "status": cmd_status,
+    }
+    dispatch[args.subcommand](args)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 import warnings
 from contextlib import contextmanager
@@ -421,6 +421,8 @@ class ChallengeResponseDetector:
             return passed, hint, debug_info
 
         if act == ActionType.TWO_FINGERS:
+            if face_box is None:
+                return False, "Can giu khuon mat trong khung hinh khi gio tay", debug_info
             passed, hint, tips = self._check_two_fingers(frame_bgr)
             debug_info["fingertips"] = tips
             return passed, hint, debug_info

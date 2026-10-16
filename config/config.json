@@ -1,0 +1,25 @@
+{
+  "system": {
+    "name": "FaceID Hybrid Linux",
+    "version": "2.0.0",
+    "os_target": "Ubuntu 24.04 LTS",
+    "socket_path": "/run/faceid/faceid.sock"
+  },
+  "camera": {
+    "device_index": 0,
+    "v4l2_device": "/dev/video0",
+    "width": 640,
+    "height": 480,
+    "fps": 30,
+    "open_timeout_sec": 1.0,
+    "verify_timeout_sec": 6.0,
+    "auto_release_on_finish": true
+  },
+  "ai_pipeline": {
+    "detector_model": "models/face_detection_yunet.onnx",
+    "anti_spoof_model": "models/minifasnet_v2.onnx",
+    "embedder_model": "models/arcface.onnx",
+    "cohort_path": "data/cohort_lfw.npy",
+    "fusion_config": "config/fusion_model.json"
+  }
+}

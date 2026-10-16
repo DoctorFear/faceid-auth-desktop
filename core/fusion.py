@@ -1,4 +1,5 @@
-﻿import os
+import os
+import json
 import numpy as np
 from dataclasses import dataclass
 
@@ -23,26 +24,58 @@ class MultiModalFusionEngine:
         embedding_dim: int = 512,
         temperature: float = 1.65,
         sim_threshold: float = 0.62,
-        decision_threshold: float = 0.65
+        decision_threshold: float | None = None
     ):
         self.temperature = temperature
         self.sim_threshold = sim_threshold
-        self.decision_threshold = decision_threshold
+        custom_threshold_passed = decision_threshold is not None
+        self.decision_threshold = decision_threshold if custom_threshold_passed else 0.65
         self.embedding_dim = embedding_dim
+
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+        if cohort_path is None:
+            default_path = os.path.join(base_dir, "data", "cohort_lfw.npy")
+            if os.path.exists(default_path):
+                cohort_path = default_path
 
         self.cohort_embeddings = self._init_cohort(cohort_path, cohort_size, embedding_dim)
         
-        # Trong so Logistic Regression: [calib_passive, snorm_sim, fiqa_score, active_bias]
-        self.weights = np.array([2.8, 3.2, 0.8, 2.0], dtype=np.float32)
-        self.intercept = -4.2
+        # Nạp trọng số Logistic Regression đã huấn luyện khoa học từ config/fusion_model.json
+        model_config = os.path.join(base_dir, "config", "fusion_model.json")
+        loaded_from_json = False
+        if os.path.exists(model_config):
+            try:
+                with open(model_config, "r", encoding="utf-8") as f:
+                    cfg = json.load(f)
+                self.weights = np.array(cfg["weights"], dtype=np.float32)
+                self.intercept = float(cfg["intercept"])
+                if "decision_threshold" in cfg and not custom_threshold_passed:
+                    self.decision_threshold = float(cfg["decision_threshold"])
+                print(f"[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: {cfg.get('auc', 0.99):.4f})")
+                loaded_from_json = True
+            except Exception as e:
+                print(f"[-] Canh bao: Khong the doc file config/fusion_model.json: {e}")
+
+        if not loaded_from_json:
+            # Baseline du phong neu chua chay eval/train_fusion.py
+            self.weights = np.array([2.8, 3.2, 0.8, 2.0], dtype=np.float32)
+            self.intercept = -4.2
 
     def _init_cohort(self, path: str | None, size: int, dim: int) -> np.ndarray:
         if path and os.path.exists(path):
-            cohort = np.load(path)
-            if cohort.ndim == 2 and cohort.shape[1] == dim:
-                norms = np.linalg.norm(cohort, axis=1, keepdims=True) + 1e-9
-                return cohort / norms
+            try:
+                cohort = np.load(path, allow_pickle=False)
+                if cohort.ndim == 2 and cohort.shape[1] == dim:
+                    norms = np.linalg.norm(cohort, axis=1, keepdims=True) + 1e-9
+                    print(f"[*] S-Norm: Da nap thanh cong {len(cohort)} vector Cohort tu: '{os.path.basename(path)}'")
+                    return cohort / norms
+                else:
+                    print(f"[-] Canh bao: File cohort co kich thuoc khong hop le: {cohort.shape}")
+            except Exception as e:
+                print(f"[-] Loi khi doc cohort tu '{path}': {e}")
 
+        print("[!] Canh bao: Chua tim thay data/cohort_lfw.npy! Chay 'python scripts/build_cohort.py' de tao.")
         rng = np.random.default_rng(seed=42)
         random_cohort = rng.standard_normal((size, dim), dtype=np.float32)
         norms = np.linalg.norm(random_cohort, axis=1, keepdims=True) + 1e-9

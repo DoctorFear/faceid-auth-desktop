@@ -1,0 +1,26 @@
+[Unit]
+Description=FaceID Hybrid Linux Authentication Daemon
+Documentation=https://github.com/faceid-auth-desktop
+After=network.target systemd-user-sessions.service
+Before=display-manager.service
+
+[Service]
+Type=simple
+User=root
+Group=video
+WorkingDirectory=/usr/local/faceid
+ExecStart=/usr/local/faceid/venv/bin/python3 /usr/local/faceid/daemon.py --socket /run/faceid/faceid.sock
+Restart=always
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+
+# Security Sandboxing
+RuntimeDirectory=faceid
+RuntimeDirectoryMode=0755
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/run/faceid /usr/local/faceid/data
+
+[Install]
+WantedBy=multi-user.target
