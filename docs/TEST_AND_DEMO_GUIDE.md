@@ -144,27 +144,33 @@ Chứng minh kiến trúc **Daemon Client-Server**: Toàn bộ Model AI được
 [*] Lang nghe TCP Socket tai: 127.0.0.1:9876
 ```
 
-### Bước 2: Mở Terminal 2 (Cửa sổ mới) — Giả lập yêu cầu xác thực từ PAM
+### Bước 2: Mở Terminal 2 (Cửa sổ mới) — Giả lập yêu cầu xác thực từ PAM (với Thử thách Liveness)
 Trong cửa sổ Terminal thứ 2, kích hoạt venv và chạy PAM Client:
 ```powershell
 .\venv\Scripts\python.exe scripts/faceid_pam_client.py son sudo
 ```
-* **Hiện tượng xảy ra:**
-  - Daemon ở Terminal 1 nhận diện kết nối từ PID gọi, kiểm tra regex username `son`.
-  - Camera bật đèn LED, quét khuôn mặt trong chưa đầy 1 giây.
-  - Sau khi nhận diện xong, camera tự động giải phóng (tắt đèn LED).
-  - Terminal 2 nhận kết quả: `{"status": "SUCCESS", "confidence": 0.98}` và trả exit code `0` (cho phép `sudo` thực thi).
+* **Hiện tượng xuất hiện trực tiếp trên Terminal 2 (Thời gian thực):**
+  ```text
+  [FaceID] Camera da bat. Vui long nhin thang vao camera...
+  [FaceID] [*] YEU CAU LIVENESS: CHOP MAT 2 CAI [o_o]x2
+  ```
+* **Thao tác người dùng**: Bạn nhìn vào camera và làm theo yêu cầu (ví dụ chớp mắt 2 cái hoặc mỉm cười).
+* **Kết quả hiển thị ngay sau khi hoàn thành:**
+  ```text
+  [FaceID] [+] Thu thach Liveness DAT! Dang so khop danh tinh...
+  [FaceID] Xac thuc khuon mat THANH CONG cho 'son' (Confidence: 0.99)!
+  ```
+  *(Tiến trình trả về Exit code `0` $\to$ Lệnh `sudo` được phép thực thi).*
 
-### Bước 3: Thử nghiệm Fallback khi không có khuôn mặt
+### Bước 3: Thử nghiệm Fallback khi không làm theo thử thách hoặc không có mặt
 - Vẫn để Daemon chạy ở Terminal 1.
-- Dùng tay che kín camera hoặc quay camera đi chỗ khác, chạy lại:
+- Dùng tay che kín camera hoặc không thực hiện cử động, chạy lại:
   ```powershell
   .\venv\Scripts\python.exe scripts/faceid_pam_client.py son sudo
   ```
-- Sau 5 giây timeout không thấy mặt:
-  - Daemon thông báo: `[AUDIT] AUTH_FAILED user='son' svc='sudo' (Con lai 2 lan)`.
-  - Terminal 2 nhận `{"status": "FAILED", "fallback": "PASSWORD"}` và trả exit code `1`.
-  - PAM trên Linux sẽ lập tức hiện prompt nhập mật khẩu `[sudo] password for son:`, không gây treo hệ thống.
+- Sau 5 giây timeout:
+  - Terminal 2 thông báo: `[FaceID] Xac thuc THAT BAI (Khuon mat khong khop hoac het timeout) -> Chuyen sang nhap Password.`
+  - Exit code là `1` $\to$ Hệ điều hành Linux sẽ lập tức hiện prompt nhập mật khẩu `[sudo] password:`, hoàn toàn không gây treo hệ thống.
 
 ---
 

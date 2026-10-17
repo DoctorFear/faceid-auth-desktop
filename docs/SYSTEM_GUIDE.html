@@ -183,7 +183,7 @@
                  class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg px-3.5 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="text-xs text-slate-400">
-          Hiển thị: <span id="matchCount" class="font-bold text-blue-400">15</span> tập tin và module
+          Hiển thị: <span id="matchCount" class="font-bold text-blue-400">16</span> tập tin và module
         </div>
       </div>
 
@@ -218,7 +218,7 @@
               <td class="p-3 font-mono text-indigo-400">platforms/linux/socket_server.py</td>
               <td class="p-3 font-semibold text-white">FaceIDDaemon<br>handle_client()</td>
               <td class="p-3 font-mono text-slate-400">conn: socket -> {"status": "SUCCESS/FAILED"}</td>
-              <td class="p-3">Trái tim của Daemon: Kiểm tra SO_PEERCRED, verify SHA-256 model, nạp model AI vào RAM (~0.3s), ẩn chi tiết lỗi gửi về client.</td>
+              <td class="p-3">Trái tim của Daemon: Kiểm tra SO_PEERCRED, verify SHA-256 model, nạp model AI vào RAM (~0.3s), ẩn chi tiết lỗi, phát thông báo Liveness qua socket về Terminal theo thời gian thực.</td>
             </tr>
 
             <tr class="fn-row hover:bg-slate-800/40">
@@ -232,7 +232,7 @@
               <td class="p-3 font-mono text-amber-400">scripts/faceid-pam-client</td>
               <td class="p-3 font-semibold text-white">pam_exec client script</td>
               <td class="p-3 font-mono text-slate-400">Env: PAM_USER, PAM_SERVICE -> Exit Code (0 / 1)</td>
-              <td class="p-3">Client trung gian chuyên dụng cho pam_exec.so trên Ubuntu 24.04 (Python 3.12). Thoát 0 là PAM_SUCCESS, thoát 1 là fallback password.</td>
+              <td class="p-3">Client trung gian chuyên dụng cho pam_exec.so trên Ubuntu 24.04 (Python 3.12). Hiển thị hướng dẫn Liveness trực tiếp trên Terminal. Thoát 0 là PAM_SUCCESS, thoát 1 là fallback password.</td>
             </tr>
 
             <tr class="fn-row hover:bg-slate-800/40">
@@ -261,6 +261,13 @@
               <td class="p-3 font-semibold text-white">Logistic Regression Weights</td>
               <td class="p-3 font-mono text-slate-400">Weights: [7.75, 10.07, 2.92, 4.22], Intercept: -19.21</td>
               <td class="p-3">Bộ trọng số tối ưu từ thực nghiệm 2,500 mẫu kiểm định chéo 5-Fold Stratified CV, xóa bỏ lỗi gán trọng số cảm tính (AUC = 1.0000).</td>
+            </tr>
+
+            <tr class="fn-row hover:bg-slate-800/40">
+              <td class="p-3 font-mono text-rose-400">eval/benchmark.py</td>
+              <td class="p-3 font-semibold text-white">Pipeline Benchmark</td>
+              <td class="p-3 font-mono text-slate-400">iterations=50 -> Latencies (ms), FPS, Breakdown %</td>
+              <td class="p-3">Đo lường thời gian suy diễn và thông lượng của từng module AI (YuNet, FIQA, PAD, ArcFace, Fusion) phục vụ làm bảng biểu báo cáo đồ án.</td>
             </tr>
 
             <tr class="fn-row hover:bg-slate-800/40">

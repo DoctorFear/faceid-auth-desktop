@@ -158,6 +158,7 @@ sequenceDiagram
   - `_print_startup_banner()`: In banner hiển thị rõ hệ điều hành (`Windows Dev` vs `Ubuntu Linux`), trạng thái công tắc và điểm lắng nghe socket.
   - `_verify_models_integrity()`: Băm SHA-256 kiểm tra tính toàn vẹn của cả 3 file model ONNX chống tấn công tráo model (Backdoor).
   - `handle_client(conn)`: Sử dụng `SO_PEERCRED` trên Linux để kiểm tra PID/UID/GID của client; áp dụng Contextual Policy theo từng service và ẩn chi tiết lỗi (chỉ trả về `FAILED`).
+  - **Real-time Event Streaming:** Gửi thông điệp tiến trình và thử thách Liveness ngẫu nhiên (`event: progress`) về thẳng Terminal của client qua socket theo thời gian thực.
 
 #### 📄 `platforms/linux/camera.py` — Quản lý Camera V4L2 chống treo Terminal
 - **Class:** `LinuxCameraManager`
@@ -167,7 +168,8 @@ sequenceDiagram
 
 #### 📄 `scripts/faceid-pam-client` & `faceid_pam_client.py` — Client cho `pam_exec.so`
 - Client trung gian chuyên dụng cho module `pam_exec.so` trên Ubuntu 24.04 (Python 3.12).
-- Nhận biến môi trường `$PAM_USER`, `$PAM_SERVICE`, kết nối socket tới Daemon.
+- Nhận biến môi trường `$PAM_USER`, `$PAM_SERVICE` (hoặc tham số CLI), kết nối socket tới Daemon.
+- Lắng nghe sự kiện thử thách cử động (Liveness Challenge) thời gian thực và hiển thị trên màn hình người dùng.
 - Trả mã thoát: Exit code `0` (`PAM_SUCCESS`), Exit code `1` (Fallback Password).
 
 #### 📄 `scripts/faceidctl` — CLI Quản Trị Hệ Thống

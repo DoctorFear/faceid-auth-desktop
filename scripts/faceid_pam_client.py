@@ -20,7 +20,7 @@ DEFAULT_TCP_PORT = 9876
 def get_pam_environment():
     """Lay thong tin user va service do Linux PAM truyen qua bien moi truong."""
     user = os.environ.get("PAM_USER", "")
-    service = os.environ.get("PAM_SERVICE", "sudo")
+    service = os.environ.get("PAM_SERVICE", "")
     
     # Neu chay test bang tay tren Terminal (khong qua PAM)
     if not user:
@@ -32,11 +32,16 @@ def get_pam_environment():
                 user = pwd.getpwuid(os.getuid()).pw_name
             except Exception:
                 user = os.environ.get("USERNAME", "test")
+    if not service:
+        if len(sys.argv) > 2:
+            service = sys.argv[2]
+        else:
+            service = "sudo"
     return user, service
 
 
 def query_daemon(user: str, service: str = "sudo", action: str = "auth") -> dict:
-    """Ket noi toi Daemon (Unix Socket tren Linux hoac TCP Loopback tren Windows)."""
+    """Ket noi toi Daemon va lang nghe ca su kien huong dan liveness theo thoi gian thuc."""
     s = None
     try:
         if hasattr(socket, "AF_UNIX") and sys.platform != "win32" and os.path.exists(DEFAULT_SOCKET_PATH):
@@ -46,12 +51,23 @@ def query_daemon(user: str, service: str = "sudo", action: str = "auth") -> dict
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect(("127.0.0.1", DEFAULT_TCP_PORT))
 
-        s.settimeout(10.0)
+        s.settimeout(12.0)
         req = {"action": action, "user": user, "service": service}
         s.sendall((json.dumps(req) + "\n").encode("utf-8"))
 
-        data = s.recv(4096).decode("utf-8").strip()
-        return json.loads(data)
+        sock_file = s.makefile("r", encoding="utf-8")
+        for line in sock_file:
+            line = line.strip()
+            if not line:
+                continue
+            msg_obj = json.loads(line)
+            # Neu la su kien tien do hoac thu thach liveness, in ra man hinh ngay
+            if msg_obj.get("event") == "progress":
+                print(f"[FaceID] {msg_obj.get('message')}", file=sys.stderr)
+            elif "status" in msg_obj:
+                return msg_obj
+
+        return {"status": "FAILED", "fallback": "PASSWORD"}
     except Exception as e:
         return {"status": "UNAVAILABLE", "error": str(e)}
     finally:
@@ -68,7 +84,7 @@ def main():
 
     if status == "SUCCESS":
         # In thong bao ra stderr de hien thi tren Terminal cua user truoc khi vao sudo
-        print(f"[FaceID] Xac thuc khuon mat thanh cong cho '{user}'!", file=sys.stderr)
+        print(f"[FaceID] Xac thuc khuon mat THANH CONG cho '{user}' (Confidence: {res.get('confidence', 0):.2f})!", file=sys.stderr)
         sys.exit(0)  # PAM_SUCCESS
     elif status == "LOCKED_OUT":
         rem = res.get("remaining_seconds", 45)
@@ -77,8 +93,13 @@ def main():
     elif status == "CAMERA_BUSY":
         print("[FaceID] Camera dang ban (Zoom/Meet) -> Chuyen sang nhap Password.", file=sys.stderr)
         sys.exit(1)
+    elif status == "NOT_ENROLLED":
+        print(f"[FaceID] Nguoi dung '{user}' chua dang ky khuon mat -> Fallback Password.", file=sys.stderr)
+        sys.exit(1)
     else:
         # Cac truong hop FAILED, UNAVAILABLE, BYPASS -> Fallback password
+        err_hint = res.get("error", "Khuon mat khong khop hoac het timeout")
+        print(f"[FaceID] Xac thuc THAT BAI ({err_hint}) -> Chuyen sang nhap Password.", file=sys.stderr)
         sys.exit(1)
 
 

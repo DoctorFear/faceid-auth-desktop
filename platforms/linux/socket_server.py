@@ -181,7 +181,7 @@ class FaceIDDaemon:
                     logger.error(f"[FATAL] Model {name} bi sai lech SHA-256 checksum! Co the file da bi sua doi.")
                     raise RuntimeError(f"Tamper Detection: Model {name} hash mismatch!")
 
-    def authenticate_user(self, user: str, service: str = "sudo", peer_pid: int = 0, peer_uid: int = 0) -> dict:
+    def authenticate_user(self, user: str, service: str = "sudo", peer_pid: int = 0, peer_uid: int = 0, client_conn: Optional[socket.socket] = None) -> dict:
         """Thuc hien xac thuc 1:1 voi Policy theo tung dich vu PAM."""
         # 1. Kiem tra cong tac tong
         if not self.enabled:
@@ -214,15 +214,29 @@ class FaceIDDaemon:
             logger.warning(f"[AUDIT] User '{user}' chua dang ky FaceID (Chua enroll).")
             return {"status": "NOT_ENROLLED", "fallback": "PASSWORD"}
 
+        def send_progress(msg: str):
+            """Gui huong dan truc tiep ve terminal cua client."""
+            if client_conn:
+                try:
+                    payload = json.dumps({"event": "progress", "message": msg}) + "\n"
+                    client_conn.sendall(payload.encode("utf-8"))
+                except Exception:
+                    pass
+
         # 6. Mo camera an toan
         try:
             with self.camera_mgr.acquire() as cap:
                 logger.info(f"[*] Camera BAT thanh cong. Tien hanh quet khuon mat...")
+                send_progress("Camera da bat. Vui long nhin thang vao camera...")
                 challenge = ChallengeResponseDetector(timeout_sec=timeout_sec, preload_hands=False)
+                if require_active:
+                    chosen_action = challenge.reset_challenge()
+                    send_progress(f"[*] YEU CAU LIVENESS: {chosen_action.value}")
                 t_start = time.time()
 
                 best_decision = None
                 active_passed = not require_active
+                last_hint_sent = ""
 
                 while time.time() - t_start < timeout_sec:
                     ret, frame = cap.read()
@@ -237,18 +251,23 @@ class FaceIDDaemon:
 
                     box, landmarks, det_conf = detections[0]
                     quality = self.fiqa.evaluate_quality(frame, box, landmarks)
-                    if not quality.passed:
-                        continue
-
-                    is_real, passive_score, _ = self.anti_spoof.predict_smoothed(frame, box)
                     pose = (quality.yaw, quality.pitch, quality.roll)
 
                     if not active_passed:
                         p, hint, _ = challenge.check_action(frame, pose, landmarks, box)
+                        if hint and hint != last_hint_sent:
+                            logger.info(f"[*] Thu thach liveness: {hint}")
+                            send_progress(f"[*] YEU CAU LIVENESS: {hint}")
+                            last_hint_sent = hint
                         if p:
                             active_passed = True
+                            logger.info("[+] Thu thach liveness: HOAN THANH!")
+                            send_progress("[+] Thu thach Liveness DAT! Dang so khop danh tinh...")
 
                     if active_passed:
+                        if not quality.passed:
+                            continue
+                        is_real, passive_score, _ = self.anti_spoof.predict_smoothed(frame, box)
                         emb = self.embedder.extract(frame, box, landmarks=landmarks)
                         
                         # So khop voi 5 Pose Prototypes (Top-2 Regularized)
@@ -343,7 +362,7 @@ class FaceIDDaemon:
             if self.rate_limiter.check_flood_attack():
                 resp = {"status": "RATE_LIMITED", "fallback": "PASSWORD"}
             elif action == "auth" and user:
-                resp = self.authenticate_user(user, service=service, peer_pid=peer_pid, peer_uid=peer_uid)
+                resp = self.authenticate_user(user, service=service, peer_pid=peer_pid, peer_uid=peer_uid, client_conn=conn)
             elif action == "status":
                 resp = {"status": "OK", "os": self.os_type, "enabled": self.enabled, "mode": self.mode}
             else:
