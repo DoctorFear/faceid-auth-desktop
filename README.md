@@ -92,18 +92,25 @@ Giao diện sẽ tự động hướng dẫn 5 tư thế và tự chụp khi ng�
 4. Hơi ngước cằm lên
 5. Hơi cúi cằm xuống
 
-### Kiểm thử nhận diện trực tiếp
+### Kiểm thử nhận diện trực quan tương tác (HUD & Challenge)
 
-```bash
-python scripts/verify_live.py
-
+```powershell
+.\venv\Scripts\python.exe scripts/verify_interactive.py --user <username>
 ```
 
-* Khung **Xanh lá**: Người thật và khớp với danh tính đã đăng ký.
-* Khung **Vàng**: Người thật nhưng chưa đăng ký (`Unknown`).
-* Khung **Đỏ**: Phát hiện khuôn mặt giả mạo (`SPOOF`).
-* Nhấn phím `q` để thoát.
+* Hiển thị bảng HUD OSD đo lường thời gian thực (FPS, Quality FIQA, 2D FFT Moiré, PAD MiniFASNet, ArcFace 512-D, Logistic Regression Confidence).
+* Thử thách cử động chủ động ngẫu nhiên: Chớp mắt 2 cái (`[o_o]x2`), Mỉm cười (`:D`), Nghiêng đầu.
+* Khung **Xanh lá**: Xác thực thành công chính chủ.
+* Khung **Đỏ**: Phát hiện khuôn mặt giả mạo (`SPOOF`) hoặc không khớp danh tính.
+* Nhấn phím `q` hoặc `ESC` để thoát.
 
-```
+---
 
-```
+## 4. Tài liệu hướng dẫn & Báo cáo kỹ thuật (`docs/`)
+
+Hệ thống đi kèm bộ 4 tài liệu kỹ thuật đầy đủ:
+
+1. **[TEST_AND_DEMO_GUIDE.md](docs/TEST_AND_DEMO_GUIDE.md)**: Hướng dẫn chi tiết từng bước kiểm thử, demo trực quan, thử thách chống ảnh in/màn hình, kiểm tra Daemon socket và Fuzz testing.
+2. **[SYSTEM_GUIDE.html](docs/SYSTEM_GUIDE.html)**: Bản đồ hệ thống trực quan tương tác dạng Web Dashboard (có thể mở trên trình duyệt và xuất ra PDF).
+3. **[ARCHITECTURE_AND_CODEBASE.md](docs/ARCHITECTURE_AND_CODEBASE.md)**: Sơ đồ kiến trúc tuần tự Mermaid, mô hình luồng dữ liệu đầu-cuối và danh mục tra cứu hàm chi tiết.
+4. **[MATHEMATICAL_AND_TECHNICAL_SPECS.md](docs/MATHEMATICAL_AND_TECHNICAL_SPECS.md)**: Cơ sở toán học giải tích, chứng minh chống FAR Inflation, chuẩn hóa S-Norm, 2D FFT và chuẩn ISO/IEC.

@@ -1,6 +1,6 @@
 # CƠ SỞ TOÁN HỌC VÀ ĐẶC TẢ GIẢI THUẬT KỸ THUẬT
-**Dự án:** FaceID Hybrid Authentication System (Linux PAM / Ubuntu 24.04 LTS)  
-**Phiên bản:** 2.0.0 (Cập nhật: 2026-10-16)  
+**Dự án:** FaceID Hybrid Authentication System (Linux PAM / Ubuntu 24.04 LTS & Windows Dev)  
+**Phiên bản:** 2.1.0 (Cập nhật: 2026-10-17)  
 **Tài liệu dành cho:** Báo cáo đồ án học thuật, Slide bảo vệ tốt nghiệp & Nghiên cứu sinh
 
 ---
@@ -236,3 +236,36 @@ $$\mathcal{S}_{\text{user}} = \left(N_{\text{fails}}, \, t_{\text{lockout}}, \, 
 - Toàn bộ dữ liệu khung hình camera chỉ tồn tại trên mảng ma trận RAM khả biến (Volatile Buffer).
 - Sau khi hàm `ArcFaceEmbedder.extract()` hoàn tất phép chiếu thành mảng vector $\mathbb{R}^{512}$, mảng frame lập tức được thu hồi rác (Garbage Collector giải phóng con trỏ bộ nhớ C++ trong OpenCV).
 - Vector đặc trưng 512 số thực là hàm biến đổi một chiều (Non-reversible Projection), không thể giải mã ngược để tái tạo lại ảnh khuôn mặt của công dân, đáp ứng Điều 17 Nghị định 13/2023/NĐ-CP về Bảo vệ Dữ liệu Cá nhân và Điều 9 GDPR.
+
+---
+
+## 8. BẢO MẬT HỆ ĐIỀU HÀNH VÀ KIỂM CHỨNG TÍNH TOÀN VẸN (LINUX HARDENING & INTEGRITY)
+
+### 8.1. Kiểm định Toàn vẹn Mật mã học SHA-256 (Tamper & Backdoor Detection)
+Để chống lại các cuộc tấn công thay thế model bằng mô hình cài cửa sau (Trojaned/Backdoored ONNX weights), Daemon tính toán hàm băm mật mã học khi nạp vào RAM:
+$$\mathcal{H}(M) = \text{SHA-256}\left(\text{Bytes}(M)\right)$$
+Điều kiện khởi động thành công:
+$$\forall M \in \{M_{\text{detect}}, M_{\text{pad}}, M_{\text{embed}}\}, \quad \mathcal{H}(M) \equiv \mathcal{H}_{\text{expected}}(M)$$
+Nếu $\mathcal{H}(M) \neq \mathcal{H}_{\text{expected}}$, hệ thống lập tức ngắt tiến trình khẩn cấp với mã lỗi an ninh.
+
+### 8.2. Xác thực Danh tính Tiến trình Gọi qua `SO_PEERCRED`
+Tại tầng Socket Kernel của Linux, daemon truy xuất cấu trúc xác thực tiến trình:
+$$\text{struct ucred} = \{\text{pid: } P, \; \text{uid: } U, \; \text{gid: } G\}$$
+Hàm kiểm soát quyền truy cập:
+$$\mathcal{A}(U, \text{user}_{\text{target}}) = \begin{cases} 
+\text{ALLOW}, & \text{nếu } U = 0 \text{ (Root / PAM Context)} \text{ hoặc } \text{UserOf}(U) = \text{user}_{\text{target}} \\
+\text{DENY}, & \text{ngược lại (Chặn tấn công mạo danh tiến trình)}
+\end{cases}$$
+
+### 8.3. Không gian Trạng thái Chính sách Ngữ cảnh (Contextual Decision Space)
+Hàm ra quyết định theo từng dịch vụ PAM:
+$$\mathcal{D}(s_{\text{fused}}, \text{service}) = \mathbb{I}\left(s_{\text{fused}} \ge \tau(\text{service})\right) \wedge \left(\text{require\_active}(\text{service}) \implies \text{active\_passed}\right)$$
+với:
+- $\tau(\text{sudo}) = 0.75, \quad \text{require\_active} = \text{True}$ (Bảo mật tối đa cho đặc quyền quản trị).
+- $\tau(\text{screensaver}) = 0.65, \quad \text{require\_active} = \text{False}$ (Mở khóa màn hình siêu tốc dưới $0.3\text{s}$).
+
+### 8.4. Kiểm thử Độ bền Socket (Fuzz Testing Resilience)
+Hệ thống được kiểm chứng miễn nhiễm trước:
+1. Gói tin JSON phân rã (Grammar Fuzzing): Bộ bọc `try...except` bắt ngoại lệ `json.JSONDecodeError` và gửi mã phản hồi chung `{"status": "FAILED"}`.
+2. Tấn công tràn bộ đệm (Buffer Flood): Thử nghiệm với gói tin $100\text{ KB}$ (vượt gấp 25 lần buffer chuẩn $4096\text{ bytes}$) được kernel socket xử lý theo dòng mà không gây rò rỉ RAM.
+3. Ký tự Path Traversal: Chặn đứng bằng chuẩn POSIX Regex $O(N)$ thời gian kiểm tra.

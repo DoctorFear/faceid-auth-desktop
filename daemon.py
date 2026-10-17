@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 moi
 """
 FaceID Authentication Daemon Entrypoint
 Dung de khoi chay tien trinh FaceID Daemon chay ngam tren he thong Linux (systemd service).

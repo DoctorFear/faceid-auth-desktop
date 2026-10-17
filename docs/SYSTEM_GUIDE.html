@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FaceID Hybrid - Bản Đồ Hệ Thống & Hướng Dẫn Kỹ Thuật</title>
+  <title>FaceID Hybrid - Bản Đồ Hệ Thống & Hướng Dẫn Kỹ Thuật (v2.1.0)</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @media print {
@@ -24,9 +24,9 @@
         </div>
         <div>
           <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            FaceID Hybrid Linux <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">v2.0.0</span>
+            FaceID Hybrid Linux & Windows <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">v2.1.0 (Secure Edition)</span>
           </h1>
-          <p class="text-xs text-slate-400">Tài liệu trực quan cho nhóm: Kiến trúc, Hàm & Cơ sở Toán học</p>
+          <p class="text-xs text-slate-400">Tài liệu trực quan: Kiến trúc, Danh mục Hàm, Cơ sở Toán học & An ninh Linux PAM</p>
         </div>
       </div>
 
@@ -44,13 +44,13 @@
         🗺️ 1. Bản Đồ & Luồng Chạy
       </button>
       <button onclick="switchTab('tab-codebase')" id="btn-tab-codebase" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200">
-        📦 2. Tra Cứu File & Hàm (Có Tìm Kiếm)
+        📦 2. Tra Cứu File & Hàm (15 File Mới)
       </button>
       <button onclick="switchTab('tab-math')" id="btn-tab-math" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200">
         📐 3. Toán Học & Giải Thuật (Trước vs Sau)
       </button>
       <button onclick="switchTab('tab-security')" id="btn-tab-security" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200">
-        🛡️ 4. An Ninh Linux & Nghị Định 13
+        🛡️ 4. An Ninh Linux, SO_PEERCRED & Nghị Định 13
       </button>
     </div>
   </header>
@@ -64,9 +64,9 @@
       <!-- Flow Overview Card -->
       <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-sm">
         <h2 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-          🚀 Luồng Xác Thực Sinh Trắc Học Từng Bước (End-to-End)
+          🚀 Luồng Xác Thực Sinh Trắc Học Từng Bước (End-to-End Pipeline)
         </h2>
-        <p class="text-sm text-slate-400 mb-6">Mỗi khi người dùng gõ lệnh <code class="text-blue-400 bg-blue-950/60 px-1.5 py-0.5 rounded">sudo</code> hoặc mở khóa màn hình, dữ liệu sẽ chạy qua 6 cổng kiểm soát tuần tự:</p>
+        <p class="text-sm text-slate-400 mb-6">Mỗi khi người dùng gõ lệnh <code class="text-blue-400 bg-blue-950/60 px-1.5 py-0.5 rounded">sudo</code> hoặc mở khóa màn hình, dữ liệu chạy qua 6 cổng kiểm soát tuần tự:</p>
 
         <!-- Step-by-step Visual Grid -->
         <div class="grid grid-cols-1 md:grid-cols-6 gap-3">
@@ -76,10 +76,10 @@
             <div>
               <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Bước 1</span>
               <h3 class="text-sm font-semibold text-white mt-1">PAM Trigger</h3>
-              <p class="text-xs text-slate-400 mt-2">Linux PAM gửi yêu cầu qua Unix Socket tới Daemon.</p>
+              <p class="text-xs text-slate-400 mt-2">pam_exec.so gọi faceid-pam-client gửi IPC request.</p>
             </div>
             <div class="mt-4 pt-2 border-t border-slate-800 text-[11px] text-amber-300 font-mono">
-              pam_faceid.py
+              pam_exec / client
             </div>
           </div>
 
@@ -87,11 +87,11 @@
           <div class="bg-slate-900/90 border border-slate-700/50 rounded-xl p-4 flex flex-col justify-between">
             <div>
               <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Bước 2</span>
-              <h3 class="text-sm font-semibold text-white mt-1">Rate Limit</h3>
-              <p class="text-xs text-slate-400 mt-2">Kiểm tra tài khoản có bị khóa không (Fail >= 3 lần thì khóa 45s).</p>
+              <h3 class="text-sm font-semibold text-white mt-1">SO_PEERCRED & Regex</h3>
+              <p class="text-xs text-slate-400 mt-2">Kiểm tra PID/UID người gọi; validate username regex chống Path Traversal.</p>
             </div>
             <div class="mt-4 pt-2 border-t border-slate-800 text-[11px] text-emerald-300 font-mono">
-              security.py
+              fhs.py + security.py
             </div>
           </div>
 
@@ -100,7 +100,7 @@
             <div>
               <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Bước 3</span>
               <h3 class="text-sm font-semibold text-white mt-1">Camera V4L2</h3>
-              <p class="text-xs text-slate-400 mt-2">Bật camera, kiểm tra chống kẹt tài nguyên (Zoom/Meet đang bận).</p>
+              <p class="text-xs text-slate-400 mt-2">Mở camera &lt;= 1.0s; nếu Meet/Zoom bận thì fallback password ngay 0.1s không đơ máy.</p>
             </div>
             <div class="mt-4 pt-2 border-t border-slate-800 text-[11px] text-blue-300 font-mono">
               camera.py
@@ -111,11 +111,11 @@
           <div class="bg-slate-900/90 border border-slate-700/50 rounded-xl p-4 flex flex-col justify-between">
             <div>
               <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Bước 4</span>
-              <h3 class="text-sm font-semibold text-white mt-1">AI Pipeline</h3>
-              <p class="text-xs text-slate-400 mt-2">YuNet tìm mặt -> FIQA & FFT Moiré -> MiniFASNet chống ảnh giả.</p>
+              <h3 class="text-sm font-semibold text-white mt-1">AI Pipeline (RAM)</h3>
+              <p class="text-xs text-slate-400 mt-2">YuNet tìm mặt -> FIQA & FFT Moiré -> MiniFASNet PAD chống ảnh giả.</p>
             </div>
             <div class="mt-4 pt-2 border-t border-slate-800 text-[11px] text-purple-300 font-mono">
-              detector + anti_spoof
+              detector + fiqa + PAD
             </div>
           </div>
 
@@ -124,7 +124,7 @@
             <div>
               <span class="text-xs font-bold text-pink-400 uppercase tracking-wider">Bước 5</span>
               <h3 class="text-sm font-semibold text-white mt-1">ArcFace 512-D</h3>
-              <p class="text-xs text-slate-400 mt-2">Trích xuất vector khuôn mặt và so khớp Top-2 Regularized.</p>
+              <p class="text-xs text-slate-400 mt-2">Trích xuất vector khuôn mặt và so khớp Top-2 Regularized 5 Prototypes.</p>
             </div>
             <div class="mt-4 pt-2 border-t border-slate-800 text-[11px] text-pink-300 font-mono">
               embedder.py
@@ -135,85 +135,55 @@
           <div class="bg-slate-900/90 border border-slate-700/50 rounded-xl p-4 flex flex-col justify-between">
             <div>
               <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Bước 6</span>
-              <h3 class="text-sm font-semibold text-white mt-1">S-Norm Fusion</h3>
-              <p class="text-xs text-slate-400 mt-2">Hồi quy Logistic hợp nhất đa chỉ số. Tắt camera & trả quyền.</p>
+              <h3 class="text-sm font-semibold text-white mt-1">Contextual Fusion</h3>
+              <p class="text-xs text-slate-400 mt-2">S-Norm 128 LFW + Hồi quy Logistic theo Policy từng service (sudo: 0.75, lock: 0.65).</p>
             </div>
             <div class="mt-4 pt-2 border-t border-slate-800 text-[11px] text-cyan-300 font-mono">
-              fusion.py
+              fusion.py + policy.json
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- Module Breakdown Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        <!-- Core AI Group -->
-        <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-5">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="text-lg">🧠</span>
-            <h3 class="font-semibold text-white">Nhóm 1: Giải thuật AI Cốt Lõi (core/)</h3>
+      <!-- Dual Mode Comparison Card -->
+      <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-5">
+        <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
+          <span>🔄</span> Cơ Chế Chuyển Đổi Kép (Dual-Platform Architecture)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-slate-900/70 border border-blue-500/30 rounded-lg">
+            <span class="font-bold text-blue-400 text-sm">🪟 Trên Máy Windows (Chế độ Dev)</span>
+            <ul class="mt-2 space-y-1.5 text-slate-300">
+              <li>• Tự động dùng cổng TCP nội bộ <code class="text-blue-300">127.0.0.1:9876</code> để mô phỏng socket.</li>
+              <li>• Camera tự động dùng backend DirectShow (<code class="text-blue-300">cv2.CAP_DSHOW</code>).</li>
+              <li>• Chế độ <code class="text-amber-300">standalone_test</code>: Không chạy ngầm vĩnh viễn, bật tắt bằng tay khi test.</li>
+            </ul>
           </div>
-          <ul class="space-y-2.5 text-xs text-slate-300">
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-blue-400 font-semibold">detector.py:</span> Mạng YuNet ONNX phát hiện mặt và 5 điểm mốc (2 mắt, mũi, 2 khóe miệng).
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-purple-400 font-semibold">fiqa.py:</span> Đánh giá độ nét, ánh sáng, góc quay 3D và quét tần số Fourier 2D FFT tìm vân sọc màn hình.
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-amber-400 font-semibold">anti_spoof.py:</span> MiniFASNet v2 phân biệt mặt người thật và ảnh in màu / màn hình phát lại.
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-pink-400 font-semibold">embedder.py:</span> ArcFace xoay thẳng mặt (Affine) và nén thành vector 512 số thực chuẩn hóa độ dài = 1.
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-cyan-400 font-semibold">fusion.py:</span> Chuẩn hóa S-Norm với 128 người LFW và kết luận cuối cùng bằng Logistic Regression.
-            </li>
-          </ul>
-        </div>
-
-        <!-- OS & System Group -->
-        <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-5">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="text-lg">🐧</span>
-            <h3 class="font-semibold text-white">Nhóm 2: Tầng Hệ Thống & Linux PAM (platforms/)</h3>
+          <div class="p-4 bg-slate-900/70 border border-emerald-500/30 rounded-lg">
+            <span class="font-bold text-emerald-400 text-sm">🐧 Trên Máy Ubuntu Linux (Chế độ Production)</span>
+            <ul class="mt-2 space-y-1.5 text-slate-300">
+              <li>• Giao tiếp qua Unix Domain Socket chuẩn FHS: <code class="text-emerald-300">/run/faceid/faceid.sock</code> (0660).</li>
+              <li>• Camera mở qua chuẩn nhân V4L2: <code class="text-emerald-300">/dev/video0</code>.</li>
+              <li>• Quản lý ngầm qua <code class="text-emerald-300">systemd</code> socket activation và đạt điểm an ninh SAFE.</li>
+            </ul>
           </div>
-          <ul class="space-y-2.5 text-xs text-slate-300">
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-emerald-400 font-semibold">security.py:</span> RateLimiter khóa tài khoản 45 giây nếu gõ sai 3 lần; chặn flood socket nếu bị spam.
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-blue-400 font-semibold">camera.py:</span> Quản lý camera Linux qua V4L2; nếu camera bận (Zoom/Meet) thì báo lỗi ngay trong 0.1s không làm đơ Terminal.
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-indigo-400 font-semibold">socket_server.py:</span> Daemon chạy ngầm bằng quyền root, lắng nghe yêu cầu qua file socket <code class="text-slate-300">/run/faceid/faceid.sock</code>.
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-orange-400 font-semibold">pam_faceid.py:</span> Module gắn vào Linux PAM (/etc/pam.d/sudo); trả về <code class="text-slate-300">PAM_SUCCESS</code> hoặc fallback password.
-            </li>
-            <li class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800">
-              <span class="font-mono text-teal-400 font-semibold">faceidctl:</span> Lệnh CLI người dùng gõ trên Terminal để enroll, test, xóa tài khoản hoặc xem trạng thái.
-            </li>
-          </ul>
         </div>
-
       </div>
 
     </div>
 
-    <!-- ==================== TAB 2: CODEBASE EXPLORER (SEARCHABLE) ==================== -->
+    <!-- ==================== TAB 2: CODEBASE EXPLORER ==================== -->
     <div id="tab-codebase" class="tab-pane hidden space-y-4">
       
       <!-- Search Input -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-800/60 border border-slate-700/60 p-4 rounded-xl">
         <div class="relative w-full sm:w-96">
-          <input type="text" id="fnSearch" onkeyup="filterFunctions()" placeholder="🔍 Gõ tên file, tên hàm hoặc từ khóa (vd: snorm, detect, camera)..." 
+          <input type="text" id="fnSearch" onkeyup="filterFunctions()" placeholder="🔍 Gõ tên file, hàm, từ khóa (vd: fhs, peercred, sha256, policy)..." 
                  class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg px-3.5 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="text-xs text-slate-400">
-          Hiển thị: <span id="matchCount" class="font-bold text-blue-400">12</span> hàm quan trọng
+          Hiển thị: <span id="matchCount" class="font-bold text-blue-400">15</span> tập tin và module
         </div>
       </div>
 
@@ -222,121 +192,117 @@
         <table class="w-full text-left text-xs" id="fnTable">
           <thead class="bg-slate-950 text-slate-400 uppercase tracking-wider border-b border-slate-800">
             <tr>
-              <th class="p-3">Tập tin & Class</th>
-              <th class="p-3">Tên Hàm (Method)</th>
-              <th class="p-3">Đầu vào (Inputs)</th>
-              <th class="p-3">Đầu ra (Outputs)</th>
-              <th class="p-3">Mục đích & Ý nghĩa nghiệp vụ</th>
+              <th class="p-3">Tập tin & Module</th>
+              <th class="p-3">Thành phần / Hàm cốt lõi</th>
+              <th class="p-3">Đặc tả Kỹ thuật (Inputs / Outputs)</th>
+              <th class="p-3">Vai trò & Ý nghĩa Bảo mật</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-800/80 text-slate-300">
             
-            <!-- Row 1 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-blue-400">core/detector.py<br><span class="text-slate-500 text-[11px]">YuNetDetector</span></td>
-              <td class="p-3 font-semibold text-white">detect(frame)</td>
-              <td class="p-3 font-mono text-slate-400">frame: np.ndarray (BGR)</td>
-              <td class="p-3 font-mono text-emerald-400">list[(box, landmarks, score)]</td>
-              <td class="p-3">Tìm khuôn mặt, trả về bounding box và 5 điểm mốc (mắt, mũi, khóe miệng).</td>
+              <td class="p-3 font-mono text-emerald-400">core/fhs.py</td>
+              <td class="p-3 font-semibold text-white">validate_username()<br>get_fhs_path()</td>
+              <td class="p-3 font-mono text-slate-400">username: str -> bool<br>category: str -> abs_path: str</td>
+              <td class="p-3">Dùng Regex POSIX chặn đứng Path Traversal (../../etc/passwd); tự động trỏ đúng thư mục FHS trên Linux và thư mục dev trên Windows.</td>
             </tr>
 
-            <!-- Row 2 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-purple-400">core/fiqa.py<br><span class="text-slate-500 text-[11px]">FaceQualityAssessor</span></td>
-              <td class="p-3 font-semibold text-white">detect_moire_fft(gray_roi)</td>
-              <td class="p-3 font-mono text-slate-400">gray_roi: np.ndarray (Mặt xám)</td>
-              <td class="p-3 font-mono text-emerald-400">moire_score: float [0, 1]</td>
-              <td class="p-3">Phân tích phổ 2D Fourier thích ứng khử trục chữ thập để tìm vân sọc màn hình điện thoại.</td>
+              <td class="p-3 font-mono text-emerald-400">core/security.py</td>
+              <td class="p-3 font-semibold text-white">RateLimiter<br>record_failure()</td>
+              <td class="p-3 font-mono text-slate-400">user: str -> LockoutStatus (is_locked, remaining)</td>
+              <td class="p-3">Khóa tài khoản 45s-60s nếu fail liên tiếp 3 lần; chặn flood socket nếu có hơn 5 requests/giây.</td>
             </tr>
 
-            <!-- Row 3 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-purple-400">core/fiqa.py<br><span class="text-slate-500 text-[11px]">FaceQualityAssessor</span></td>
-              <td class="p-3 font-semibold text-white">evaluate_quality(...)</td>
-              <td class="p-3 font-mono text-slate-400">frame, box, landmarks</td>
-              <td class="p-3 font-mono text-emerald-400">QualityMetrics (passed, yaw, ...)</td>
-              <td class="p-3">Kiểm tra ảnh có bị mờ, tối, quá chói hoặc lệch đầu quá mức không (không hard-reject Moiré).</td>
+              <td class="p-3 font-mono text-indigo-400">platforms/linux/socket_server.py</td>
+              <td class="p-3 font-semibold text-white">FaceIDDaemon<br>handle_client()</td>
+              <td class="p-3 font-mono text-slate-400">conn: socket -> {"status": "SUCCESS/FAILED"}</td>
+              <td class="p-3">Trái tim của Daemon: Kiểm tra SO_PEERCRED, verify SHA-256 model, nạp model AI vào RAM (~0.3s), ẩn chi tiết lỗi gửi về client.</td>
             </tr>
 
-            <!-- Row 4 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-amber-400">core/anti_spoof.py<br><span class="text-slate-500 text-[11px]">MiniFASNetDetector</span></td>
-              <td class="p-3 font-semibold text-white">predict_smoothed(...)</td>
-              <td class="p-3 font-mono text-slate-400">frame, box</td>
-              <td class="p-3 font-mono text-emerald-400">(is_real, score, raw_score)</td>
-              <td class="p-3">MiniFASNet v2 nhận diện mặt thật vs giả mạo, làm mịn theo thời gian chống nhấp nháy.</td>
+              <td class="p-3 font-mono text-blue-400">platforms/linux/camera.py</td>
+              <td class="p-3 font-semibold text-white">LinuxCameraManager<br>acquire()</td>
+              <td class="p-3 font-mono text-slate-400">timeout=1.0s -> ContextManager[cv2.VideoCapture]</td>
+              <td class="p-3">Mở camera V4L2 an toàn; nếu Meet/Zoom bận, ném lỗi ngay để PAM hiện prompt mật khẩu trong 0.1s không làm treo Terminal. Tự tắt đèn LED.</td>
             </tr>
 
-            <!-- Row 5 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-pink-400">core/embedder.py<br><span class="text-slate-500 text-[11px]">ArcFaceEmbedder</span></td>
-              <td class="p-3 font-semibold text-white">extract(frame, box, ...)</td>
-              <td class="p-3 font-mono text-slate-400">frame, box, landmarks</td>
-              <td class="p-3 font-mono text-emerald-400">emb: np.ndarray (512-D, ||e||=1)</td>
-              <td class="p-3">Căn chỉnh xoay thẳng mặt (Affine) và trích xuất vector đặc trưng danh tính 512 chiều.</td>
+              <td class="p-3 font-mono text-amber-400">scripts/faceid-pam-client</td>
+              <td class="p-3 font-semibold text-white">pam_exec client script</td>
+              <td class="p-3 font-mono text-slate-400">Env: PAM_USER, PAM_SERVICE -> Exit Code (0 / 1)</td>
+              <td class="p-3">Client trung gian chuyên dụng cho pam_exec.so trên Ubuntu 24.04 (Python 3.12). Thoát 0 là PAM_SUCCESS, thoát 1 là fallback password.</td>
             </tr>
 
-            <!-- Row 6 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-pink-400">core/embedder.py<br><span class="text-slate-500 text-[11px]">ArcFaceEmbedder</span></td>
-              <td class="p-3 font-semibold text-white">compute_distance(e1, e2)</td>
-              <td class="p-3 font-mono text-slate-400">e1, e2: np.ndarray (512-D)</td>
-              <td class="p-3 font-mono text-emerald-400">distance: float [0, 2]</td>
-              <td class="p-3">Tính khoảng cách Cosine: dist = 1.0 - dot(e1, e2).</td>
+              <td class="p-3 font-mono text-teal-400">scripts/faceidctl</td>
+              <td class="p-3 font-semibold text-white">faceidctl CLI</td>
+              <td class="p-3 font-mono text-slate-400">Subcommands: on, off, status, enroll, verify, list</td>
+              <td class="p-3">Công cụ CLI quản trị FaceID: Cho phép bật/tắt FaceID tức thì, kiểm tra trạng thái Daemon và camera.</td>
             </tr>
 
-            <!-- Row 7 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-cyan-400">core/fusion.py<br><span class="text-slate-500 text-[11px]">MultiModalFusionEngine</span></td>
-              <td class="p-3 font-semibold text-white">compute_snorm(...)</td>
-              <td class="p-3 font-mono text-slate-400">probe, template, raw_sim</td>
-              <td class="p-3 font-mono text-emerald-400">snorm_sim: float [0, 1]</td>
-              <td class="p-3">Chuẩn hóa điểm số đối xứng S-Norm với 128 người thật LFW loại bỏ hiệu ứng Doddington's Zoo.</td>
+              <td class="p-3 font-mono text-cyan-400">config/config.json</td>
+              <td class="p-3 font-semibold text-white">Cấu hình tổng quan</td>
+              <td class="p-3 font-mono text-slate-400">JSON: enabled, mode, model_hashes (SHA-256)</td>
+              <td class="p-3">Chứa công tắc bật/tắt toàn hệ thống, cấu hình cổng IPC và mã băm SHA-256 của 3 file model ONNX chống backdoor.</td>
             </tr>
 
-            <!-- Row 8 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-cyan-400">core/fusion.py<br><span class="text-slate-500 text-[11px]">MultiModalFusionEngine</span></td>
-              <td class="p-3 font-semibold text-white">evaluate_fused(...)</td>
-              <td class="p-3 font-mono text-slate-400">passive, snorm, fiqa, active</td>
-              <td class="p-3 font-mono text-emerald-400">FusionDecision (success, conf)</td>
-              <td class="p-3">Đưa 4 chỉ số qua hàm Logistic Regression (đã train trên 2,500 mẫu) để ra quyết định cuối cùng.</td>
+              <td class="p-3 font-mono text-cyan-400">config/policy.json</td>
+              <td class="p-3 font-semibold text-white">Contextual Policy</td>
+              <td class="p-3 font-mono text-slate-400">JSON: sudo, su, screensaver, gdm</td>
+              <td class="p-3">Chính sách riêng theo ngữ cảnh PAM: sudo yêu cầu ngưỡng 0.75 + liveness; screensaver ngưỡng 0.65 mở siêu tốc 0.3s; gdm ưu tiên password.</td>
             </tr>
 
-            <!-- Row 9 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-emerald-400">core/security.py<br><span class="text-slate-500 text-[11px]">RateLimiter</span></td>
-              <td class="p-3 font-semibold text-white">record_failure(user)</td>
-              <td class="p-3 font-mono text-slate-400">user: str</td>
-              <td class="p-3 font-mono text-emerald-400">LockoutStatus (is_locked, rem)</td>
-              <td class="p-3">Ghi nhận 1 lần xác thực sai. Nếu đạt 3 lần, tự động khóa FaceID người dùng trong 45 giây.</td>
+              <td class="p-3 font-mono text-cyan-400">config/fusion_model.json</td>
+              <td class="p-3 font-semibold text-white">Logistic Regression Weights</td>
+              <td class="p-3 font-mono text-slate-400">Weights: [7.75, 10.07, 2.92, 4.22], Intercept: -19.21</td>
+              <td class="p-3">Bộ trọng số tối ưu từ thực nghiệm 2,500 mẫu kiểm định chéo 5-Fold Stratified CV, xóa bỏ lỗi gán trọng số cảm tính (AUC = 1.0000).</td>
             </tr>
 
-            <!-- Row 10 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-blue-400">platforms/linux/camera.py<br><span class="text-slate-500 text-[11px]">LinuxCameraManager</span></td>
-              <td class="p-3 font-semibold text-white">acquire()</td>
-              <td class="p-3 font-mono text-slate-400">none (Context Manager)</td>
-              <td class="p-3 font-mono text-emerald-400">cap: cv2.VideoCapture</td>
-              <td class="p-3">Mở camera V4L2 trong tối đa 1.0s. Nếu camera bận (Meet/Zoom), ném lỗi ngay không làm treo máy.</td>
+              <td class="p-3 font-mono text-rose-400">eval/fuzz_socket.py</td>
+              <td class="p-3 font-semibold text-white">Fuzz Testing Suite</td>
+              <td class="p-3 font-mono text-slate-400">6 kịch bản tấn công dồn dập -> Console Report</td>
+              <td class="p-3">Kịch bản kiểm thử độ bền: Gửi JSON méo mó, gói 100KB, chuỗi Path Traversal, non-UTF8 bytes và DoS flood để chứng minh Daemon không bao giờ crash.</td>
             </tr>
 
-            <!-- Row 11 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-indigo-400">platforms/linux/socket_server.py<br><span class="text-slate-500 text-[11px]">FaceIDDaemon</span></td>
-              <td class="p-3 font-semibold text-white">authenticate_user(user)</td>
-              <td class="p-3 font-mono text-slate-400">user: str, service: str</td>
-              <td class="p-3 font-mono text-emerald-400">dict: {"status": ..., "conf": ...}</td>
-              <td class="p-3">Hàm xử lý trọn gói 1 lượt xác thực cho Daemon chạy ngầm khi PAM gọi qua Socket.</td>
+              <td class="p-3 font-mono text-rose-400">eval/metrics.py</td>
+              <td class="p-3 font-semibold text-white">ISO/IEC Metrics</td>
+              <td class="p-3 font-mono text-slate-400">genuine, imposter -> FAR, FRR, EER, APCER, BPCER</td>
+              <td class="p-3">Tính toán các chỉ số sinh trắc học chuẩn quốc tế ISO/IEC 19795-1 và ISO/IEC 30107-3 phục vụ viết báo cáo học thuật.</td>
             </tr>
 
-            <!-- Row 12 -->
             <tr class="fn-row hover:bg-slate-800/40">
-              <td class="p-3 font-mono text-amber-400">scripts/enroll.py<br><span class="text-slate-500 text-[11px]">Module Top-level</span></td>
-              <td class="p-3 font-semibold text-white">consolidate_to_k_prototypes</td>
-              <td class="p-3 font-mono text-slate-400">vectors: np.ndarray, k=5</td>
-              <td class="p-3 font-mono text-emerald-400">prototypes: np.ndarray (5, 512)</td>
-              <td class="p-3">Thuật toán Spherical K-Means nén tập hàng chục ảnh về đúng 5 góc chuẩn để chống FAR Inflation.</td>
+              <td class="p-3 font-mono text-purple-400">platforms/linux/service/faceid-auth.service</td>
+              <td class="p-3 font-semibold text-white">Hardened Systemd Unit</td>
+              <td class="p-3 font-mono text-slate-400">Unit Service file</td>
+              <td class="p-3">File cấu hình systemd service đạt điểm SAFE trên systemd-analyze security: ProtectSystem=strict, NoNewPrivileges=true, DevicePolicy=closed.</td>
+            </tr>
+
+            <tr class="fn-row hover:bg-slate-800/40">
+              <td class="p-3 font-mono text-purple-400">platforms/linux/service/faceid.socket</td>
+              <td class="p-3 font-semibold text-white">Socket Activation Unit</td>
+              <td class="p-3 font-mono text-slate-400">Unit Socket file (Mode=0660)</td>
+              <td class="p-3">Quản lý kích hoạt socket tự động qua systemd tại /run/faceid/faceid.sock.</td>
+            </tr>
+
+            <tr class="fn-row hover:bg-slate-800/40">
+              <td class="p-3 font-mono text-amber-400">scripts/enroll.py</td>
+              <td class="p-3 font-semibold text-white">Spherical K-Means</td>
+              <td class="p-3 font-mono text-slate-400">30 vectors -> 5 Pose Prototypes (5, 512)</td>
+              <td class="p-3">Nén tập ảnh về đúng 5 góc chuẩn (Thẳng, Trái, Phải, Ngước, Cúi) để triệt tiêu hoàn toàn hiện tượng FAR Inflation.</td>
+            </tr>
+
+            <tr class="fn-row hover:bg-slate-800/40">
+              <td class="p-3 font-mono text-blue-400">daemon.py</td>
+              <td class="p-3 font-semibold text-white">Main Daemon Entrypoint</td>
+              <td class="p-3 font-mono text-slate-400">CLI flags -> FaceIDDaemon execution</td>
+              <td class="p-3">File thực thi khởi động Daemon, bắt tín hiệu dừng SIGINT/SIGTERM để giải phóng socket an toàn.</td>
             </tr>
 
           </tbody>
@@ -348,31 +314,25 @@
     <!-- ==================== TAB 3: MATHEMATICAL SPECIFICATIONS ==================== -->
     <div id="tab-math" class="tab-pane hidden space-y-6">
 
-      <!-- Math Cards Comparison -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         <!-- Card 1: Anti-FAR Inflation -->
         <div class="bg-slate-800/50 border border-slate-700/60 rounded-xl p-5">
           <div class="flex items-center justify-between mb-3">
             <h3 class="font-semibold text-white flex items-center gap-2">
-              <span class="text-amber-400">⚠️</span> 1. Chống Phóng Đại Nhận Nhầm (FAR Inflation)
+              <span class="text-amber-400">⚠️</span> 1. Chống FAR Inflation (So khớp 30 ảnh)
             </h3>
             <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">Khoa học</span>
           </div>
-          
           <div class="text-xs space-y-3 text-slate-300">
             <div class="p-3 bg-red-950/30 border border-red-800/30 rounded-lg">
               <p class="font-semibold text-red-400 mb-1">❌ Code cũ bị trừ điểm học thuật:</p>
-              <p>Lưu 30 templates rời rạc của 1 user và so khớp lấy <code class="text-slate-200">max_sim</code>. Nếu xác suất nhận nhầm 1 template là p = 0.001 (0.1%), thì khi so khớp với 30 templates, xác suất nhận nhầm tăng gấp 30 lần:</p>
-              <p class="font-mono text-red-300 mt-1 text-[11px]">P(Khớp nhầm) = 1 - (1 - p)^30 ≈ 30 × 0.001 = 3.0%</p>
+              <p>Lưu 30 templates rời rạc của 1 user và so khớp lấy max_sim. Kẻ tấn công có xác suất may mắn khớp nhầm tăng gấp 30 lần: P(Khớp nhầm) = 1 - (1 - p)^30 ≈ 30 × 0.001 = 3.0%!</p>
             </div>
-
             <div class="p-3 bg-emerald-950/30 border border-emerald-800/30 rounded-lg">
               <p class="font-semibold text-emerald-400 mb-1">✅ Cách khắc phục đã triển khai:</p>
               <p>1. <b>Spherical K-Means:</b> Nén toàn bộ về đúng <b>5 Pose Prototypes</b> (Thẳng, Trái, Phải, Ngước, Cúi).</p>
-              <p>2. <b>Top-2 Regularized Fusion:</b> Lấy 70% điểm cao nhất cộng 30% điểm cao thứ nhì:</p>
-              <p class="font-mono text-emerald-300 mt-1 text-[11px]">Sim_eff = 0.70 × Best_Sim + 0.30 × Second_Sim</p>
-              <p class="text-[11px] text-slate-400 mt-1">Kẻ mạo danh chỉ tình cờ khớp 1 vector sẽ bị điểm thứ 2 tụt sâu kéo ngã ngay lập tức!</p>
+              <p>2. <b>Top-2 Regularized Fusion:</b> Lấy 70% điểm cao nhất cộng 30% điểm cao thứ nhì: <code class="text-emerald-300">Sim_eff = 0.70 × Best + 0.30 × Second</code>. Kẻ mạo danh chỉ tình cờ khớp 1 vector sẽ bị điểm thứ 2 tụt sâu kéo ngã ngay!</p>
             </div>
           </div>
         </div>
@@ -385,18 +345,14 @@
             </h3>
             <span class="text-[11px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20">Chuẩn Quốc Tế</span>
           </div>
-
           <div class="text-xs space-y-3 text-slate-300">
             <div class="p-3 bg-red-950/30 border border-red-800/30 rounded-lg">
               <p class="font-semibold text-red-400 mb-1">❌ Code cũ bị trừ điểm học thuật:</p>
-              <p>Dùng hàm <code class="text-slate-200">np.random.standard_normal()</code> tạo vector nhiễu ngẫu nhiên làm Cohort. Trong không gian 512 chiều, hai vector ngẫu nhiên luôn có Cosine ≈ 0 và độ lệch ≈ 0.044, hoàn toàn không mang đặc trưng khuôn mặt người tự nhiên.</p>
+              <p>Dùng hàm np.random.standard_normal() tạo vector ngẫu nhiên. Trong không gian 512 chiều, 2 vector ngẫu nhiên luôn có Cosine ≈ 0 và độ lệch ≈ 0.044, hoàn toàn không mang đặc trưng khuôn mặt người.</p>
             </div>
-
             <div class="p-3 bg-emerald-950/30 border border-emerald-800/30 rounded-lg">
               <p class="font-semibold text-emerald-400 mb-1">✅ Cách khắc phục đã triển khai:</p>
-              <p>Trích xuất <b>128 vector khuôn mặt thật từ tập LFW (Labeled Faces in the Wild)</b> vào file <code class="text-slate-200">data/cohort_lfw.npy</code>. Áp dụng công thức S-Norm đối xứng:</p>
-              <p class="font-mono text-emerald-300 mt-1 text-[11px]">S_norm = 0.5 × [(s - μ_P)/σ_P + (s - μ_T)/σ_T]</p>
-              <p class="text-[11px] text-slate-400 mt-1">Triệt tiêu hoàn toàn hiện tượng Doddington's Zoo (người chuyên bị mạo danh Lambs và kẻ chuyên mạo danh Wolves).</p>
+              <p>Trích xuất <b>128 vector khuôn mặt thật từ tập LFW</b> vào file <code class="text-slate-200">data/cohort_lfw.npy</code>. Áp dụng chuẩn hóa đối xứng: <code class="text-emerald-300">S_norm = 0.5 × [(s - μ_P)/σ_P + (s - μ_T)/σ_T]</code>, triệt tiêu Doddington's Zoo.</p>
             </div>
           </div>
         </div>
@@ -409,19 +365,14 @@
             </h3>
             <span class="text-[11px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">Vật Lý Sóng</span>
           </div>
-
           <div class="text-xs space-y-3 text-slate-300">
             <div class="p-3 bg-red-950/30 border border-red-800/30 rounded-lg">
               <p class="font-semibold text-red-400 mb-1">❌ Code cũ bị trừ điểm học thuật:</p>
-              <p>Gán cứng vành tròn bán kính <code class="text-slate-200">42 &lt;= r &lt;= 58</code> và cho quyền "Hard Reject" (đánh rớt ngay lập tức). Khiến màn hình Retina mật độ điểm ảnh cao lọt lưới, còn người mặc áo caro hoặc đeo kính gọng lưới bị chặn oan.</p>
+              <p>Cố định vành tròn bán kính 42 &lt;= r &lt;= 58 và hard-reject ngay. Khiến màn hình Retina mật độ cao lọt lưới, còn người mặc áo caro bị chặn oan.</p>
             </div>
-
             <div class="p-3 bg-emerald-950/30 border border-emerald-800/30 rounded-lg">
               <p class="font-semibold text-emerald-400 mb-1">✅ Cách khắc phục đã triển khai:</p>
-              <p>1. Cửa sổ Hanning 2D triệt tiêu rò rỉ phổ biên.</p>
-              <p>2. Khử trục chữ thập tọa độ chính (mắt, mũi, miệng tự nhiên).</p>
-              <p>3. <b>Adaptive Radial Prominence:</b> Quét toàn dải bán kính r từ 8 đến 58 tìm đỉnh phổ nhọn: <code class="text-slate-200">Prom = max(vals) / median(vals)</code>.</p>
-              <p>4. Chuyển FFT thành <b>Soft-Indicator</b> hỗ trợ MiniFASNet hạ điểm nhẹ chứ không đánh rớt oan một mình.</p>
+              <p>1. Cửa sổ Hanning 2D triệt tiêu rò rỉ phổ biên.<br>2. Khử trục chữ thập tọa độ chính (mắt, mũi, miệng).<br>3. <b>Adaptive Radial Prominence:</b> Quét toàn dải bán kính r từ 8 đến 58 tìm đỉnh phổ: <code class="text-slate-200">Prom = max / median</code>.<br>4. Chuyển thành <b>Soft-Indicator</b> hỗ trợ MiniFASNet chứ không đánh rớt oan một mình.</p>
             </div>
           </div>
         </div>
@@ -434,18 +385,14 @@
             </h3>
             <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">Machine Learning</span>
           </div>
-
           <div class="text-xs space-y-3 text-slate-300">
             <div class="p-3 bg-red-950/30 border border-red-800/30 rounded-lg">
               <p class="font-semibold text-red-400 mb-1">❌ Code cũ bị trừ điểm học thuật:</p>
-              <p>Gán tay cảm tính các con số <code class="text-slate-200">weights = [2.8, 3.2, 0.8, 2.0]</code> và <code class="text-slate-200">intercept = -4.2</code> mà không có số liệu thực nghiệm chứng minh.</p>
+              <p>Gán tay cảm tính weights = [2.8, 3.2, 0.8, 2.0] và intercept = -4.2 mà không có số liệu thực nghiệm chứng minh.</p>
             </div>
-
             <div class="p-3 bg-emerald-950/30 border border-emerald-800/30 rounded-lg">
               <p class="font-semibold text-emerald-400 mb-1">✅ Cách khắc phục đã triển khai:</p>
-              <p>Tạo script <code class="text-slate-200">eval/train_fusion.py</code> thu thập 2,500 mẫu, chạy hồi quy Logistic Regression với <b>5-Fold Stratified Cross-Validation</b>:</p>
-              <p class="font-mono text-emerald-300 mt-1 text-[11px]">P(Real) = σ(7.75·PAD + 10.07·S-Norm + 2.92·FIQA + 4.22·Active - 19.21)</p>
-              <p class="text-[11px] text-slate-400 mt-1">Xuất biểu đồ ROC đạt AUC = 1.0000 lưu tại <code class="text-slate-200">eval/roc_curve.png</code> để đưa vào slide bảo vệ.</p>
+              <p>Huấn luyện Logistic Regression <b>5-Fold Stratified Cross-Validation</b> trên 2,500 mẫu: <code class="text-emerald-300">P(Real) = σ(7.75·PAD + 10.07·S-Norm + 2.92·FIQA + 4.22·Active - 19.21)</code>. Xuất biểu đồ ROC đạt <b>AUC = 1.0000</b> lưu tại <code class="text-slate-200">eval/roc_curve.png</code>.</p>
             </div>
           </div>
         </div>
@@ -457,68 +404,63 @@
     <!-- ==================== TAB 4: SECURITY & LINUX OS ==================== -->
     <div id="tab-security" class="tab-pane hidden space-y-6">
 
-      <!-- 4 pillars of OS integration -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
-        <!-- Pillar 1: Rate Limiting -->
         <div class="bg-slate-800/50 border border-slate-700/60 rounded-xl p-5">
           <div class="flex items-center gap-2 mb-2">
             <span class="text-lg">⏱️</span>
             <h3 class="font-semibold text-white">1. Chống Vét Cạn (Rate Limiting & Lockout)</h3>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Nếu không có Rate Limit, tiến trình độc hại có thể gửi dồn dập hàng nghìn request qua Unix Socket gây nghẽn CPU hoặc brute-force sinh trắc học.
+            Ngăn chặn tiến trình độc hại spam hàng nghìn request qua Unix Socket gây nghẽn CPU hoặc vét cạn khuôn mặt:
           </p>
           <div class="mt-3 p-3 bg-slate-900/80 rounded-lg text-xs space-y-1.5 border border-slate-800">
-            <p>• <b>Quy tắc khóa:</b> Sai liên tiếp <b>3 lần</b> $\implies$ Khóa FaceID trong <b>45 giây</b>.</p>
-            <p>• <b>Tiết kiệm pin/CPU:</b> Trong 45s bị khóa, Socket trả về lỗi ngay (&lt; 1ms), không bật camera và không chạy model AI.</p>
-            <p>• <b>Chống DoS Socket:</b> Giới hạn tối đa 5 requests/giây; quá ngưỡng sẽ bị drop ngay lập tức.</p>
+            <p>• Sai liên tiếp <b>3 lần</b> $\implies$ Khóa FaceID trong <b>45 - 60 giây</b>.</p>
+            <p>• Trong thời gian khóa, Socket từ chối ngay trong 1ms, không bật camera và không chạy mạng AI.</p>
+            <p>• Chống DoS: Giới hạn tối đa 5 requests/giây; quá ngưỡng sẽ bị drop lập tức.</p>
           </div>
         </div>
 
-        <!-- Pillar 2: Camera Contention -->
         <div class="bg-slate-800/50 border border-slate-700/60 rounded-xl p-5">
           <div class="flex items-center gap-2 mb-2">
             <span class="text-lg">📹</span>
             <h3 class="font-semibold text-white">2. Xung Đột Camera (Không Treo Terminal)</h3>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Khi người dùng đang gọi video trên Google Meet / Zoom / Discord, ứng dụng đó đã chiếm giữ file thiết bị <code class="text-slate-200">/dev/video0</code> (V4L2 EBUSY).
+            Nếu người dùng đang họp Google Meet / Zoom / Discord, ứng dụng đó đã chiếm giữ file thiết bị <code class="text-slate-200">/dev/video0</code> (V4L2 EBUSY):
           </p>
           <div class="mt-3 p-3 bg-slate-900/80 rounded-lg text-xs space-y-1.5 border border-slate-800">
-            <p>• <b>Xử lý mượt mà:</b> CameraManager giới hạn thời gian mở camera $\le 1.0\text{s}$. Nếu bận, ném ngoại lệ <code class="text-amber-400">CameraBusyError</code>.</p>
-            <p>• <b>Chuyển quyền tức thì:</b> PAM module nhận mã trả về và lập tức xuất hiện dòng hỏi mật khẩu <code class="text-blue-400">[sudo] password:</code> chỉ sau <b>0.1s</b>, hoàn toàn không làm đơ terminal của người dùng.</p>
+            <p>• CameraManager giới hạn thời gian mở camera $\le 1.0\text{s}$. Nếu bận, ném ngoại lệ <code class="text-amber-400">CameraBusyError</code>.</p>
+            <p>• PAM module nhận mã và chuyển sang hỏi mật khẩu <code class="text-blue-400">[sudo] password:</code> chỉ sau <b>0.1s</b>, hoàn toàn không làm đơ Terminal của người dùng.</p>
           </div>
         </div>
 
-        <!-- Pillar 3: Privacy & Decree 13 -->
         <div class="bg-slate-800/50 border border-slate-700/60 rounded-xl p-5">
           <div class="flex items-center gap-2 mb-2">
             <span class="text-lg">🔒</span>
-            <h3 class="font-semibold text-white">3. Quyền Riêng Tư (Nghị Định 13/2023/NĐ-CP)</h3>
+            <h3 class="font-semibold text-white">3. Quyền Riêng Tư & Nghị Định 13/2023/NĐ-CP</h3>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Hệ thống tuân thủ chặt chẽ pháp luật Việt Nam về Bảo vệ Dữ liệu Cá nhân và tiêu chuẩn châu Âu GDPR:
+            Tuân thủ nghiêm ngặt pháp luật Việt Nam về Bảo vệ Dữ liệu Cá nhân và tiêu chuẩn châu Âu GDPR:
           </p>
           <div class="mt-3 p-3 bg-slate-900/80 rounded-lg text-xs space-y-1.5 border border-slate-800">
-            <p>• <b>Zero-Image Retention:</b> Tuyệt đối <b>không lưu bất kỳ ảnh chụp hay video nào xuống đĩa cứng/SSD</b>. Khung hình chỉ tồn tại trên bộ nhớ RAM tạm và bị giải phóng ngay sau khi trích xuất vector.</p>
-            <p>• <b>Vector một chiều:</b> Vector 512 số thực là hàm bất khả nghịch, về mặt toán học không thể dịch ngược thành khuôn mặt gốc.</p>
-            <p>• <b>Minh bạch đèn LED:</b> Camera chỉ bật khi có lệnh PAM và tự động ngắt ngay sau khi nhận diện xong.</p>
+            <p>• <b>Zero-Image Retention:</b> Tuyệt đối <b>không lưu bất kỳ ảnh chụp hay video nào xuống đĩa cứng/SSD</b>. Khung hình chỉ nằm trên RAM tạm và bị hủy ngay sau khi trích xuất vector 512-D.</p>
+            <p>• <b>Vector một chiều:</b> Vector 512 số thực là hàm bất khả nghịch, về mặt toán học không thể tái tạo lại khuôn mặt gốc.</p>
+            <p>• <b>Minh bạch đèn LED:</b> Camera chỉ bật khi có lệnh PAM và tự động tắt đèn LED ngay sau khi nhận diện xong.</p>
           </div>
         </div>
 
-        <!-- Pillar 4: GNOME Keyring -->
         <div class="bg-slate-800/50 border border-slate-700/60 rounded-xl p-5">
           <div class="flex items-center gap-2 mb-2">
             <span class="text-lg">🔑</span>
             <h3 class="font-semibold text-white">4. Giới Hạn GNOME Keyring (Điểm Sáng Học Thuật)</h3>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Hiểu biết chuyên sâu về kiến trúc hệ thống Linux để ghi điểm tuyệt đối khi bảo vệ:
+            Hiểu biết chuyên sâu về kiến trúc hệ điều hành Linux để trả lời phản biện:
           </p>
           <div class="mt-3 p-3 bg-slate-900/80 rounded-lg text-xs space-y-1.5 border border-slate-800">
-            <p>• <b>Nguyên nhân kỹ thuật:</b> Kho khóa <code class="text-slate-200">login.keyring</code> bắt buộc phải giải mã bằng <b>mật khẩu dạng rõ (plaintext password)</b> của user. Sinh trắc học (vân tay hay FaceID) chỉ trả về kết quả Đúng/Sai chứ không giữ mật khẩu người dùng.</p>
-            <p>• <b>Giải pháp tối ưu:</b> Dùng mật khẩu ở màn hình Boot/GDM để mở khóa Keyring; dùng FaceID khi gõ <code class="text-blue-400">sudo</code> và mở khóa màn hình (<code class="text-blue-400">screensaver</code>) cực kỳ an toàn và tiện lợi.</p>
+            <p>• <b>Bản chất kỹ thuật:</b> Kho khóa <code class="text-slate-200">login.keyring</code> bắt buộc phải giải mã bằng <b>mật khẩu chữ (plaintext password)</b>. Sinh trắc học (vân tay hay FaceID) chỉ trả về kết quả Đúng/Sai chứ không nắm giữ mật khẩu người dùng.</p>
+            <p>• <b>Chiến lược phân tách:</b> Dùng mật khẩu ở màn hình Boot/GDM để mở khóa Keyring; dùng FaceID khi gõ <code class="text-blue-400">sudo</code> và mở khóa màn hình (<code class="text-blue-400">screensaver</code>) cực kỳ an toàn và tiện lợi.</p>
           </div>
         </div>
 

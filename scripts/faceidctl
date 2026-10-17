@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-faceidctl - Command Line Interface quan ly he thong FaceID Linux (tuong tu fprintd / howdy).
+faceidctl - Command Line Interface quan ly he thong FaceID (Linux & Windows).
 Cac lenh ho tro:
+  faceidctl on                    : Bat FaceID
+  faceidctl off                   : Tat FaceID (fallback password 100%)
+  faceidctl status                : Kiem tra trang thai he thong (OS, Daemon, Camera)
   faceidctl enroll [username]     : Dang ky khuon mat voi 5 Pose Prototypes
   faceidctl verify [username]     : Kiem thu xac thuc 1:1 truc tiep
   faceidctl list                  : Liet ke danh sach user da dang ky FaceID
   faceidctl remove [username]     : Xoa template FaceID cua user
-  faceidctl status                : Kiem tra trang thai Daemon va Rate Limiter
-  faceidctl test-cam              : Kiem tra ket noi camera
 """
 
 import os
 import sys
+import json
 import argparse
 import subprocess
 
@@ -19,7 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-EMB_DIR = os.path.join(BASE_DIR, "data", "embeddings")
+from core.fhs import get_fhs_path
+
+CONFIG_FILE = get_fhs_path("config.json", category="config")
+EMB_DIR = get_fhs_path("embeddings", category="data")
 
 
 def get_current_user():
@@ -28,6 +33,68 @@ def get_current_user():
         return pwd.getpwuid(os.getuid()).pw_name
     except Exception:
         return os.environ.get("USER", os.environ.get("USERNAME", "default"))
+
+
+def cmd_on(args):
+    """Bat tinh nang FaceID trong config.json."""
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            cfg = json.load(f)
+        cfg.setdefault("system", {})["enabled"] = True
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(cfg, f, indent=2)
+        print("[+] DA BAT FaceID: He thong se tu dong xac thuc khuon mat khi sudo / mo khoa.")
+    else:
+        print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
+
+
+def cmd_off(args):
+    """Tat FaceID trong config.json (chuyen sang fallback password 100%)."""
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            cfg = json.load(f)
+        cfg.setdefault("system", {})["enabled"] = False
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(cfg, f, indent=2)
+        print("[-] DA TAT FaceID: He thong se bo qua FaceID va hoi mat khau truyen thong.")
+    else:
+        print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
+
+
+def cmd_status(args):
+    os_name = "Windows (Dev Environment)" if sys.platform == "win32" else "Linux/Ubuntu 24.04 (Production)"
+    print("==================================================")
+    print(f"  TRANG THAI HE THONG FACEID ({os_name})")
+    print("==================================================")
+
+    # 1. Trang thai config
+    enabled = True
+    mode = "standalone_test"
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+                enabled = cfg.get("system", {}).get("enabled", True)
+                mode = cfg.get("system", {}).get("mode", "standalone_test")
+        except Exception:
+            pass
+
+    print(f"  • Cong tac FaceID  : {'[BAT / ENABLED]' if enabled else '[TAT / DISABLED (Bypass)]'}")
+    print(f"  • Che do van hanh  : {mode.upper()}")
+
+    # 2. Trang thai Daemon
+    from scripts.faceid_pam_client import query_daemon
+    res = query_daemon(get_current_user(), service="status")
+    if res.get("status") == "UNAVAILABLE":
+        print("  • Daemon Process   : [CHUA CHAY] (Chua co socket hoac daemon dang tat)")
+    else:
+        print(f"  • Daemon Process   : [DANG HOAT DONG] (Ket noi Socket OK)")
+
+    # 3. Kiem tra Camera
+    from platforms.linux.camera import LinuxCameraManager
+    cam_mgr = LinuxCameraManager()
+    is_cam_avail = cam_mgr.is_device_available()
+    print(f"  • Thiet bi Camera  : {'[SAN SANG]' if is_cam_avail else '[KHONG CO SAN / DANG BAN]'}")
 
 
 def cmd_list(args):
@@ -55,8 +122,7 @@ def cmd_enroll(args):
     python_exe = sys.executable
     script = os.path.join(BASE_DIR, "scripts", "enroll.py")
     print(f"[*] Bat dau enroll cho user '{user}'...")
-    cmd = [python_exe, script, "--user", user]
-    subprocess.run(cmd)
+    subprocess.run([python_exe, script, "--user", user])
 
 
 def cmd_verify(args):
@@ -64,8 +130,7 @@ def cmd_verify(args):
     python_exe = sys.executable
     script = os.path.join(BASE_DIR, "scripts", "verify_interactive.py")
     print(f"[*] Bat dau verify cho user '{user}'...")
-    cmd = [python_exe, script, "--user", user]
-    subprocess.run(cmd)
+    subprocess.run([python_exe, script, "--user", user])
 
 
 def cmd_remove(args):
@@ -81,25 +146,14 @@ def cmd_remove(args):
         print(f"[-] Khong tim thay template cua user '{user}'.")
 
 
-def cmd_status(args):
-    print("=== TRANG THAI HE THONG FACEID ===")
-    from platforms.linux.pam_faceid import communicate_daemon
-    res = communicate_daemon(get_current_user(), service="status")
-    if res.get("status") == "DAEMON_UNAVAILABLE":
-        print("  • Daemon Service : [CHUA CHAY] (Khong tim thay socket)")
-    else:
-        print(f"  • Daemon Service : [DANG HOAT DONG] (Socket phan hoi OK)")
-    
-    # Kiem tra camera
-    from platforms.linux.camera import LinuxCameraManager
-    cam_mgr = LinuxCameraManager()
-    is_cam_avail = cam_mgr.is_device_available()
-    print(f"  • Camera /dev/video0: {'[SAN SANG]' if is_cam_avail else '[KHONG CO SAN / BAN]'}")
-
-
 def main():
-    parser = argparse.ArgumentParser(prog="faceidctl", description="FaceID CLI Tool")
+    parser = argparse.ArgumentParser(prog="faceidctl", description="FaceID CLI Tool (Dual-Platform)")
     sub = parser.add_subparsers(dest="subcommand")
+
+    sub.add_parser("on", help="Bat FaceID")
+    sub.add_parser("off", help="Tat FaceID (chuyen sang dung mat khau)")
+    sub.add_parser("status", help="Kiem tra trang thai he thong")
+    sub.add_parser("list", help="Liet ke danh sach user")
 
     p_enroll = sub.add_parser("enroll", help="Dang ky khuon mat")
     p_enroll.add_argument("user", nargs="?", default="", help="Username can enroll")
@@ -107,12 +161,8 @@ def main():
     p_verify = sub.add_parser("verify", help="Kiem thu xac thuc")
     p_verify.add_argument("user", nargs="?", default="", help="Username can verify")
 
-    sub.add_parser("list", help="Liet ke danh sach user da dang ky")
-
     p_rem = sub.add_parser("remove", help="Xoa template cua user")
     p_rem.add_argument("user", help="Username can xoa")
-
-    sub.add_parser("status", help="Kiem tra trang thai he thong va daemon")
 
     args = parser.parse_args()
     if not args.subcommand:
@@ -120,11 +170,13 @@ def main():
         return
 
     dispatch = {
+        "on": cmd_on,
+        "off": cmd_off,
+        "status": cmd_status,
+        "list": cmd_list,
         "enroll": cmd_enroll,
         "verify": cmd_verify,
-        "list": cmd_list,
         "remove": cmd_remove,
-        "status": cmd_status,
     }
     dispatch[args.subcommand](args)
 
