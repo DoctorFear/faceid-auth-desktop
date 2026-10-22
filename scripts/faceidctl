@@ -146,6 +146,38 @@ def cmd_remove(args):
         print(f"[-] Khong tim thay template cua user '{user}'.")
 
 
+def cmd_test(args):
+    """Chay kiem thu mo phong PAM nhanh tu CLI."""
+    python_exe = sys.executable
+    service = args.service or "sudo"
+    user = args.user or get_current_user()
+    client_script = os.path.join(BASE_DIR, "scripts", "faceid_pam_client.py")
+    print(f"[*] Dang gui request test PAM (User: '{user}', Service: '{service}')...")
+    res = subprocess.run([python_exe, client_script, user, service])
+    if res.returncode == 0:
+        print(f"[+] KET QUA TEST: PAM_SUCCESS (Exit code 0)")
+    else:
+        print(f"[-] KET QUA TEST: FALLBACK PASSWORD (Exit code {res.returncode})")
+
+
+def cmd_logs(args):
+    """Xem log kiem toan audit log tu systemd journal hoac log file."""
+    if sys.platform != "win32":
+        lines = args.lines or 30
+        print(f"[*] Dang trich xuat {lines} dong log tu systemd journal...")
+        subprocess.run(["journalctl", "-u", "faceid-auth.service", "-n", str(lines), "--no-pager"])
+    else:
+        print("==================================================")
+        print("  FACEID AUDIT LOGS (Windows Dev)")
+        print("==================================================")
+        print("  • Cac log xac thuc duoc xuat truc tiep tai terminal chay daemon.py")
+        print("  • Thu nghiem ket noi toi Daemon de kiem tra tinh trang...")
+        from scripts.faceid_pam_client import query_daemon
+        res = query_daemon(get_current_user(), service="status")
+        print(f"  • Phan hoi trang thai tu Daemon: {res}")
+        print("  • Goi y: Khoi chay 'python daemon.py' o Terminal rieng de theo doi Audit Log thoi gian thuc.")
+
+
 def main():
     parser = argparse.ArgumentParser(prog="faceidctl", description="FaceID CLI Tool (Dual-Platform)")
     sub = parser.add_subparsers(dest="subcommand")
@@ -164,6 +196,13 @@ def main():
     p_rem = sub.add_parser("remove", help="Xoa template cua user")
     p_rem.add_argument("user", help="Username can xoa")
 
+    p_test = sub.add_parser("test", help="Kiem thu nhanh luong PAM")
+    p_test.add_argument("user", nargs="?", default="", help="Username can test")
+    p_test.add_argument("--service", "-s", default="sudo", help="PAM Service (sudo, screensaver, etc.)")
+
+    p_log = sub.add_parser("logs", help="Xem audit log cua he thong")
+    p_log.add_argument("-n", "--lines", type=int, default=30, help="So dong log can xem")
+
     args = parser.parse_args()
     if not args.subcommand:
         parser.print_help()
@@ -177,6 +216,8 @@ def main():
         "enroll": cmd_enroll,
         "verify": cmd_verify,
         "remove": cmd_remove,
+        "test": cmd_test,
+        "logs": cmd_logs,
     }
     dispatch[args.subcommand](args)
 
