@@ -38,7 +38,7 @@ class ArcFaceEmbedder:
     def __init__(self, model_path=None):
         if model_path is None:
             base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            model_path = os.path.join(base_dir, "models", "arcface.onnx")
+            model_path = os.path.join(base_dir, "models", "arc.onnx")
 
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"[-] Khong tim thay model ArcFace tai: {model_path}")

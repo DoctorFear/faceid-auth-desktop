@@ -15,7 +15,7 @@ def get_yunet_path():
             if f.endswith(".onnx") and "yunet" in f.lower():
                 return os.path.join(MODELS_DIR, f)
     # Mac dinh du phong
-    return os.path.join(MODELS_DIR, "face_detection_yunet.onnx")
+    return os.path.join(MODELS_DIR, "face_detection_yunet_2023mar.onnx")
 
 class YuNetDetector:
     def __init__(self, model_path: str = None, conf_threshold: float = 0.6, nms_threshold: float = 0.3):
