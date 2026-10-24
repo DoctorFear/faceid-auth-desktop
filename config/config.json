@@ -1,0 +1,47 @@
+{
+  "system": {
+    "name": "FaceID Hybrid (Ubuntu 24.04 / Windows Dual-Platform)",
+    "version": "2.1.0",
+    "enabled": true,
+    "mode": "standalone_test",
+    "debug": true,
+    "socket_path": "/run/faceid/faceid.sock",
+    "windows_port": 9876,
+    "verify_timeout_sec": 6.0
+  },
+  "security": {
+    "verify_model_sha256": true,
+    "model_hashes": {
+      "detector": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+      "anti_spoof": "d7b3cd9ba8a7ceb13baa8c4720902e27ca3112eff52f926c08804af6b6eecc7b",
+      "embedder": "ffe014a45c9488506719d37fd578ece6661bb385535b36e8039975fa5d4683db"
+    },
+    "rate_limiting": {
+      "max_consecutive_failures": 3,
+      "lockout_duration_sec": 45,
+      "flood_max_requests_per_sec": 5
+    },
+    "peer_credentials": {
+      "enforce_on_linux": true,
+      "allow_root": true,
+      "allow_same_user": true
+    }
+  },
+  "camera": {
+    "device_index": 0,
+    "v4l2_device": "/dev/video0",
+    "width": 640,
+    "height": 480,
+    "fps": 30,
+    "open_timeout_sec": 1.0,
+    "verify_timeout_sec": 6.0,
+    "auto_release_on_finish": true
+  },
+  "ai_pipeline": {
+    "detector_model": "models/face_detection_yunet.onnx",
+    "anti_spoof_model": "models/minifasnet_v2.onnx",
+    "embedder_model": "models/arcface.onnx",
+    "cohort_path": "data/cohort_lfw.npy",
+    "fusion_config": "config/fusion_model.json"
+  }
+}

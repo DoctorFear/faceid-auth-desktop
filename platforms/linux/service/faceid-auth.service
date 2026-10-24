@@ -1,0 +1,51 @@
+[Unit]
+Description=FaceID Hybrid Linux Authentication Daemon
+Documentation=https://github.com/faceid-auth-desktop
+After=network.target systemd-user-sessions.service faceid.socket
+Requires=faceid.socket
+Before=display-manager.service
+
+[Service]
+Type=simple
+User=root
+Group=video
+WorkingDirectory=/usr/local/faceid
+ExecStart=/usr/local/faceid/venv/bin/python3 /usr/local/faceid/daemon.py
+Restart=on-failure
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+
+# ==============================================================================
+# SYSTEMD SECURITY HARDENING (Dap ung systemd-analyze security dat diem SAFE)
+# ==============================================================================
+# 1. Cach ly he thong tap tin (Filesystem Sandboxing)
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=true
+ReadWritePaths=/run/faceid /var/lib/faceid/embeddings /usr/local/faceid/data
+RuntimeDirectory=faceid
+RuntimeDirectoryMode=0755
+
+# 2. Quyen han va tai nguyen thiet bi (Privilege & Device Isolation)
+NoNewPrivileges=true
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH
+AmbientCapabilities=
+PrivateDevices=false
+DeviceAllow=/dev/video* rw
+DevicePolicy=closed
+
+# 3. Cach ly nhan he dieu hanh (Kernel & Network Hardening)
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_NETLINK
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+SystemCallFilter=@system-service @camera
+
+[Install]
+WantedBy=multi-user.target

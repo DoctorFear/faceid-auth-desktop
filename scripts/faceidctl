@@ -1,0 +1,226 @@
+#!/usr/bin/env python3
+"""
+faceidctl - Command Line Interface quan ly he thong FaceID (Linux & Windows).
+Cac lenh ho tro:
+  faceidctl on                    : Bat FaceID
+  faceidctl off                   : Tat FaceID (fallback password 100%)
+  faceidctl status                : Kiem tra trang thai he thong (OS, Daemon, Camera)
+  faceidctl enroll [username]     : Dang ky khuon mat voi 5 Pose Prototypes
+  faceidctl verify [username]     : Kiem thu xac thuc 1:1 truc tiep
+  faceidctl list                  : Liet ke danh sach user da dang ky FaceID
+  faceidctl remove [username]     : Xoa template FaceID cua user
+"""
+
+import os
+import sys
+import json
+import argparse
+import subprocess
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
+from core.fhs import get_fhs_path
+
+CONFIG_FILE = get_fhs_path("config.json", category="config")
+EMB_DIR = get_fhs_path("embeddings", category="data")
+
+
+def get_current_user():
+    try:
+        import pwd
+        return pwd.getpwuid(os.getuid()).pw_name
+    except Exception:
+        return os.environ.get("USER", os.environ.get("USERNAME", "default"))
+
+
+def cmd_on(args):
+    """Bat tinh nang FaceID trong config.json."""
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            cfg = json.load(f)
+        cfg.setdefault("system", {})["enabled"] = True
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(cfg, f, indent=2)
+        print("[+] DA BAT FaceID: He thong se tu dong xac thuc khuon mat khi sudo / mo khoa.")
+    else:
+        print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
+
+
+def cmd_off(args):
+    """Tat FaceID trong config.json (chuyen sang fallback password 100%)."""
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            cfg = json.load(f)
+        cfg.setdefault("system", {})["enabled"] = False
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(cfg, f, indent=2)
+        print("[-] DA TAT FaceID: He thong se bo qua FaceID va hoi mat khau truyen thong.")
+    else:
+        print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
+
+
+def cmd_status(args):
+    os_name = "Windows (Dev Environment)" if sys.platform == "win32" else "Linux/Ubuntu 24.04 (Production)"
+    print("==================================================")
+    print(f"  TRANG THAI HE THONG FACEID ({os_name})")
+    print("==================================================")
+
+    # 1. Trang thai config
+    enabled = True
+    mode = "standalone_test"
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+                enabled = cfg.get("system", {}).get("enabled", True)
+                mode = cfg.get("system", {}).get("mode", "standalone_test")
+        except Exception:
+            pass
+
+    print(f"  • Cong tac FaceID  : {'[BAT / ENABLED]' if enabled else '[TAT / DISABLED (Bypass)]'}")
+    print(f"  • Che do van hanh  : {mode.upper()}")
+
+    # 2. Trang thai Daemon
+    from scripts.faceid_pam_client import query_daemon
+    res = query_daemon(get_current_user(), service="status")
+    if res.get("status") == "UNAVAILABLE":
+        print("  • Daemon Process   : [CHUA CHAY] (Chua co socket hoac daemon dang tat)")
+    else:
+        print(f"  • Daemon Process   : [DANG HOAT DONG] (Ket noi Socket OK)")
+
+    # 3. Kiem tra Camera
+    from platforms.linux.camera import LinuxCameraManager
+    cam_mgr = LinuxCameraManager()
+    is_cam_avail = cam_mgr.is_device_available()
+    print(f"  • Thiet bi Camera  : {'[SAN SANG]' if is_cam_avail else '[KHONG CO SAN / DANG BAN]'}")
+
+
+def cmd_list(args):
+    print("=== DANH SACH USER DA DANG KY FACEID ===")
+    if not os.path.exists(EMB_DIR):
+        print("  (Chua co thu muc data/embeddings)")
+        return
+    files = [f for f in os.listdir(EMB_DIR) if f.endswith(".npy")]
+    if not files:
+        print("  (Chua co user nao dang ky)")
+        return
+    import numpy as np
+    for f in sorted(files):
+        u = f[:-4]
+        path = os.path.join(EMB_DIR, f)
+        try:
+            arr = np.load(path, allow_pickle=False)
+            print(f"  - {u:<16} : {len(arr)} templates (512-D)")
+        except Exception as e:
+            print(f"  - {u:<16} : [Loi file: {e}]")
+
+
+def cmd_enroll(args):
+    user = args.user or get_current_user()
+    python_exe = sys.executable
+    script = os.path.join(BASE_DIR, "scripts", "enroll.py")
+    print(f"[*] Bat dau enroll cho user '{user}'...")
+    subprocess.run([python_exe, script, "--user", user])
+
+
+def cmd_verify(args):
+    user = args.user or get_current_user()
+    python_exe = sys.executable
+    script = os.path.join(BASE_DIR, "scripts", "verify_interactive.py")
+    print(f"[*] Bat dau verify cho user '{user}'...")
+    subprocess.run([python_exe, script, "--user", user])
+
+
+def cmd_remove(args):
+    user = args.user
+    if not user:
+        print("[-] Vui long chi dinh username can xoa: faceidctl remove <username>")
+        return
+    path = os.path.join(EMB_DIR, f"{user}.npy")
+    if os.path.exists(path):
+        os.remove(path)
+        print(f"[+] Da xoa thanh cong template FaceID cua user '{user}'.")
+    else:
+        print(f"[-] Khong tim thay template cua user '{user}'.")
+
+
+def cmd_test(args):
+    """Chay kiem thu mo phong PAM nhanh tu CLI."""
+    python_exe = sys.executable
+    service = args.service or "sudo"
+    user = args.user or get_current_user()
+    client_script = os.path.join(BASE_DIR, "scripts", "faceid_pam_client.py")
+    print(f"[*] Dang gui request test PAM (User: '{user}', Service: '{service}')...")
+    res = subprocess.run([python_exe, client_script, user, service])
+    if res.returncode == 0:
+        print(f"[+] KET QUA TEST: PAM_SUCCESS (Exit code 0)")
+    else:
+        print(f"[-] KET QUA TEST: FALLBACK PASSWORD (Exit code {res.returncode})")
+
+
+def cmd_logs(args):
+    """Xem log kiem toan audit log tu systemd journal hoac log file."""
+    if sys.platform != "win32":
+        lines = args.lines or 30
+        print(f"[*] Dang trich xuat {lines} dong log tu systemd journal...")
+        subprocess.run(["journalctl", "-u", "faceid-auth.service", "-n", str(lines), "--no-pager"])
+    else:
+        print("==================================================")
+        print("  FACEID AUDIT LOGS (Windows Dev)")
+        print("==================================================")
+        print("  • Cac log xac thuc duoc xuat truc tiep tai terminal chay daemon.py")
+        print("  • Thu nghiem ket noi toi Daemon de kiem tra tinh trang...")
+        from scripts.faceid_pam_client import query_daemon
+        res = query_daemon(get_current_user(), service="status")
+        print(f"  • Phan hoi trang thai tu Daemon: {res}")
+        print("  • Goi y: Khoi chay 'python daemon.py' o Terminal rieng de theo doi Audit Log thoi gian thuc.")
+
+
+def main():
+    parser = argparse.ArgumentParser(prog="faceidctl", description="FaceID CLI Tool (Dual-Platform)")
+    sub = parser.add_subparsers(dest="subcommand")
+
+    sub.add_parser("on", help="Bat FaceID")
+    sub.add_parser("off", help="Tat FaceID (chuyen sang dung mat khau)")
+    sub.add_parser("status", help="Kiem tra trang thai he thong")
+    sub.add_parser("list", help="Liet ke danh sach user")
+
+    p_enroll = sub.add_parser("enroll", help="Dang ky khuon mat")
+    p_enroll.add_argument("user", nargs="?", default="", help="Username can enroll")
+
+    p_verify = sub.add_parser("verify", help="Kiem thu xac thuc")
+    p_verify.add_argument("user", nargs="?", default="", help="Username can verify")
+
+    p_rem = sub.add_parser("remove", help="Xoa template cua user")
+    p_rem.add_argument("user", help="Username can xoa")
+
+    p_test = sub.add_parser("test", help="Kiem thu nhanh luong PAM")
+    p_test.add_argument("user", nargs="?", default="", help="Username can test")
+    p_test.add_argument("--service", "-s", default="sudo", help="PAM Service (sudo, screensaver, etc.)")
+
+    p_log = sub.add_parser("logs", help="Xem audit log cua he thong")
+    p_log.add_argument("-n", "--lines", type=int, default=30, help="So dong log can xem")
+
+    args = parser.parse_args()
+    if not args.subcommand:
+        parser.print_help()
+        return
+
+    dispatch = {
+        "on": cmd_on,
+        "off": cmd_off,
+        "status": cmd_status,
+        "list": cmd_list,
+        "enroll": cmd_enroll,
+        "verify": cmd_verify,
+        "remove": cmd_remove,
+        "test": cmd_test,
+        "logs": cmd_logs,
+    }
+    dispatch[args.subcommand](args)
+
+
+if __name__ == "__main__":
+    main()

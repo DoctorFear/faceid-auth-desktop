@@ -1,0 +1,74 @@
+{
+  "system": {
+    "enabled": true,
+    "description": "Tong cong tac an toan: Dat false de tam tat FaceID ngay lap tuc va fallback 100% sang password."
+  },
+  "contextual_policies": {
+    "sudo": {
+      "description": "Nang quyen quan tri he thong trong Terminal: Muc do bao mat cao nhat",
+      "decision_threshold": 0.75,
+      "sim_threshold": 0.65,
+      "require_active_liveness": true,
+      "active_timeout_sec": 5.0,
+      "max_failures_before_lock": 3,
+      "lockout_sec": 60,
+      "gnome_keyring_impact": "NONE"
+    },
+    "su": {
+      "description": "Chuyen doi user dang nhap: Muc do bao mat cao nhat",
+      "decision_threshold": 0.75,
+      "sim_threshold": 0.65,
+      "require_active_liveness": true,
+      "active_timeout_sec": 5.0,
+      "max_failures_before_lock": 3,
+      "lockout_sec": 60,
+      "gnome_keyring_impact": "NONE"
+    },
+    "polkit-1": {
+      "description": "Xac thuc do hoa cho cac tac vu can quyen root (vd: cai dat phan mem)",
+      "decision_threshold": 0.70,
+      "sim_threshold": 0.62,
+      "require_active_liveness": false,
+      "active_timeout_sec": 4.0,
+      "max_failures_before_lock": 3,
+      "lockout_sec": 45,
+      "gnome_keyring_impact": "NONE"
+    },
+    "gnome-screensaver": {
+      "description": "Mo khoa man hinh (Lock Screen): Uu tien mo khoa nhanh, tien loi",
+      "decision_threshold": 0.65,
+      "sim_threshold": 0.60,
+      "require_active_liveness": false,
+      "active_timeout_sec": 4.0,
+      "max_failures_before_lock": 5,
+      "lockout_sec": 30,
+      "gnome_keyring_impact": "NONE_KEYRING_ALREADY_UNLOCKED"
+    },
+    "gdm-password": {
+      "description": "Dang nhap khoi dong (Login Boot): Canh bao GNOME Keyring",
+      "decision_threshold": 0.72,
+      "sim_threshold": 0.62,
+      "require_active_liveness": true,
+      "active_timeout_sec": 6.0,
+      "max_failures_before_lock": 3,
+      "lockout_sec": 60,
+      "gnome_keyring_impact": "KEYRING_LOCKED_REQUIRES_PLAINTEXT_PASSWORD",
+      "recommended_action": "PASSWORD_PREFERRED"
+    },
+    "default": {
+      "description": "Chinh sach mac dinh neu service khong nam trong danh sach tren",
+      "decision_threshold": 0.70,
+      "sim_threshold": 0.62,
+      "require_active_liveness": false,
+      "active_timeout_sec": 5.0,
+      "max_failures_before_lock": 3,
+      "lockout_sec": 45
+    }
+  },
+  "privacy_compliance": {
+    "standard": "Decree 13/2023/ND-CP & GDPR Article 9",
+    "zero_image_retention": true,
+    "template_format": "ArcFace 512-D Normalized Vector",
+    "biometric_reversible": false
+  }
+}

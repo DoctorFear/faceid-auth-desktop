@@ -1,0 +1,20 @@
+{
+    "weights": [
+        7.7505,
+        10.0674,
+        2.9166,
+        4.2205
+    ],
+    "intercept": -19.2108,
+    "decision_threshold": 0.65,
+    "eer": 0.0,
+    "auc": 1.0,
+    "mean_accuracy": 1.0,
+    "features": [
+        "calib_passive",
+        "snorm_sim",
+        "fiqa_score",
+        "active_passed"
+    ],
+    "trained_at": "2026-10-16 17:09:37"
+}
