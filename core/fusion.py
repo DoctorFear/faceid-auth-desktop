@@ -113,8 +113,12 @@ class MultiModalFusionEngine:
         template_emb: np.ndarray | None,
         raw_cosine_sim: float,
         best_user: str | None,
-        fiqa_score: float = 1.0
+        fiqa_score: float = 1.0,
+        sim_threshold: float | None = None,
+        decision_threshold: float | None = None,
     ) -> FusionDecision:
+        eff_sim_thresh = sim_threshold if sim_threshold is not None else self.sim_threshold
+        eff_dec_thresh = decision_threshold if decision_threshold is not None else self.decision_threshold
         calib_passive = self.calibrate_passive_score(passive_score)
 
         if probe_emb is not None and template_emb is not None:
@@ -156,7 +160,7 @@ class MultiModalFusionEngine:
                 reason=f"Phat hien gia mao (Passive score: {calib_passive:.2f})"
             )
 
-        if raw_cosine_sim < self.sim_threshold:
+        if raw_cosine_sim < eff_sim_thresh:
             return FusionDecision(
                 success=False,
                 is_live=True,
@@ -165,10 +169,10 @@ class MultiModalFusionEngine:
                 calibrated_similarity=calib_sim,
                 calibrated_liveness_score=calib_passive,
                 confidence_score=confidence,
-                reason=f"Do tuong dong chua dat nguong ({raw_cosine_sim:.2f} < {self.sim_threshold:.2f})"
+                reason=f"Do tuong dong chua dat nguong ({raw_cosine_sim:.2f} < {eff_sim_thresh:.2f})"
             )
 
-        if confidence >= self.decision_threshold and best_user:
+        if confidence >= eff_dec_thresh and best_user:
             return FusionDecision(
                 success=True,
                 is_live=True,
@@ -188,5 +192,5 @@ class MultiModalFusionEngine:
             calibrated_similarity=calib_sim,
             calibrated_liveness_score=calib_passive,
             confidence_score=confidence,
-            reason=f"Diem tin cay tong hop chua dat nguong ({confidence:.2f} < {self.decision_threshold:.2f})"
+            reason=f"Diem tin cay tong hop chua dat nguong ({confidence:.2f} < {eff_dec_thresh:.2f})"
         )

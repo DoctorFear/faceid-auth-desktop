@@ -2,9 +2,14 @@
 """
 faceidctl - Command Line Interface quan ly he thong FaceID (Linux & Windows).
 Cac lenh ho tro:
-  faceidctl on                    : Bat FaceID
-  faceidctl off                   : Tat FaceID (fallback password 100%)
-  faceidctl status                : Kiem tra trang thai he thong (OS, Daemon, Camera)
+  faceidctl start [--foreground]  : Khoi dong tien trinh FaceID Daemon chay ngam
+  faceidctl stop                  : Dung tien trinh FaceID Daemon (giai phong RAM & Port)
+  faceidctl restart               : Khoi dong lai tien trinh FaceID Daemon
+  faceidctl on                    : Bat cong tac FaceID (Hot-reload ngay lap tuc)
+  faceidctl off                   : Tat cong tac FaceID (Bypass sang mat khau 100%)
+  faceidctl enable-autostart      : Bat tu dong chay ngam FaceID Daemon khi khoi dong may
+  faceidctl disable-autostart     : Tat tu dong chay ngam khi khoi dong may
+  faceidctl status                : Kiem tra trang thai he thong (OS, Daemon, Auto-Start, Camera)
   faceidctl enroll [username]     : Dang ky khuon mat voi 5 Pose Prototypes
   faceidctl verify [username]     : Kiem thu xac thuc 1:1 truc tiep
   faceidctl list                  : Liet ke danh sach user da dang ky FaceID
@@ -13,7 +18,9 @@ Cac lenh ho tro:
 
 import os
 import sys
+import time
 import json
+import signal
 import argparse
 import subprocess
 
@@ -22,9 +29,16 @@ if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
 from core.fhs import get_fhs_path
+from scripts.faceid_pam_client import query_daemon
 
 CONFIG_FILE = get_fhs_path("config.json", category="config")
 EMB_DIR = get_fhs_path("embeddings", category="data")
+PID_FILE = get_fhs_path("daemon.pid", category="data")
+LOG_FILE = get_fhs_path("daemon.log", category="data")
+
+WIN_TASK_NAME = "FaceID_Hybrid_Daemon"
+WIN_RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
+WIN_RUN_VAL = "FaceIDHybridDaemon"
 
 
 def get_current_user():
@@ -35,28 +49,267 @@ def get_current_user():
         return os.environ.get("USER", os.environ.get("USERNAME", "default"))
 
 
+def is_daemon_running():
+    """Kiem tra xem Daemon co dang phan hoi qua Socket hay khong."""
+    res = query_daemon(get_current_user(), service="status", action="status")
+    if res.get("status") == "OK":
+        return True, res
+    return False, res
+
+
+def check_autostart_status():
+    """Kiem tra xem che do Tu dong khoi dong cung OS (Boot/Logon Auto-Start) da bat chua."""
+    if sys.platform == "win32":
+        has_task = False
+        has_run = False
+        try:
+            r = subprocess.run(
+                ["schtasks", "/Query", "/TN", WIN_TASK_NAME],
+                capture_output=True, text=True
+            )
+            has_task = (r.returncode == 0)
+        except Exception:
+            pass
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, WIN_RUN_KEY, 0, winreg.KEY_READ) as k:
+                val, _ = winreg.QueryValueEx(k, WIN_RUN_VAL)
+                if val:
+                    has_run = True
+        except Exception:
+            pass
+        if has_task:
+            return True, "[BAT / ENABLED] (Task Scheduler ONSTART + Registry Run)"
+        elif has_run:
+            return True, "[BAT / ENABLED] (Windows Registry Run - Chay ngay khi Logon)"
+        else:
+            return False, "[TAT / DISABLED]"
+    else:
+        try:
+            r = subprocess.run(
+                ["systemctl", "is-enabled", "faceid-auth.service"],
+                capture_output=True, text=True
+            )
+            if r.returncode == 0 and "enabled" in r.stdout:
+                return True, "[BAT / ENABLED] (systemd faceid-auth.service)"
+        except Exception:
+            pass
+        return False, "[TAT / DISABLED]"
+
+
+def cmd_enable_autostart(args):
+    """Dang ky FaceID Daemon tu dong chay ngam khi khoi dong Windows / Linux."""
+    if sys.platform == "win32":
+        pythonw_exe = os.path.join(os.path.dirname(sys.executable), "pythonw.exe")
+        if not os.path.exists(pythonw_exe):
+            pythonw_exe = sys.executable
+        ctl_script = os.path.join(BASE_DIR, "scripts", "faceidctl")
+        daemon_script = os.path.join(BASE_DIR, "daemon.py")
+
+        # 1. Dang ky vao HKCU\...\Run (Khong can quyen Admin, dam bao chay ngam 100% khi vao Windows)
+        try:
+            import winreg
+            cmd_str = f'"{pythonw_exe}" "{ctl_script}" start'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, WIN_RUN_KEY, 0, winreg.KEY_SET_VALUE) as k:
+                winreg.SetValueEx(k, WIN_RUN_VAL, 0, winreg.REG_SZ, cmd_str)
+            print("[+] Da dang ky Auto-Start vao Windows Startup Registry (HKCU\\...\\Run).")
+        except Exception as e:
+            print(f"[-] Loi ghi Registry Run: {e}")
+
+        # 2. Thu dang ky Windows Scheduled Task ONSTART & ONLOGON (Chay ngay khi bat may truoc khi dang nhap neu co quyen Admin)
+        try:
+            r = subprocess.run(
+                [
+                    "schtasks", "/Create", "/TN", WIN_TASK_NAME,
+                    "/TR", f'"{pythonw_exe}" "{daemon_script}"',
+                    "/SC", "ONSTART", "/RU", "SYSTEM", "/RL", "HIGHEST", "/F"
+                ],
+                capture_output=True, text=True
+            )
+            if r.returncode == 0:
+                print(f"[+] Da dang ky Windows Task Scheduler '{WIN_TASK_NAME}' (Trigger: ONSTART / Khi vua bat nguon may tinh)!")
+            else:
+                print("[*] Luu y: De Daemon chay truoc ca man hinh Logon dau tien (ONSTART), ban co the chay '.\\install_win_lock.bat' (Co quyen Admin).")
+        except Exception:
+            pass
+
+        # Dam bao Daemon cung duoc bat ngay hien tai
+        cmd_start(args)
+    else:
+        print("[*] Dang kich hoat systemd service 'faceid-auth.service'...")
+        subprocess.run(["sudo", "systemctl", "enable", "--now", "faceid-auth.service"])
+
+
+def cmd_disable_autostart(args):
+    """Go bo tu dong chay ngam khi khoi dong Windows / Linux."""
+    if sys.platform == "win32":
+        # 1. Xoa khoi HKCU\...\Run
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, WIN_RUN_KEY, 0, winreg.KEY_SET_VALUE) as k:
+                winreg.DeleteValue(k, WIN_RUN_VAL)
+            print("[-] Da go bo Auto-Start khoi Windows Startup Registry.")
+        except FileNotFoundError:
+            pass
+        except Exception as e:
+            print(f"[-] Loi xoa Registry Run: {e}")
+
+        # 2. Xoa Scheduled Task neu co
+        try:
+            r = subprocess.run(
+                ["schtasks", "/Delete", "/TN", WIN_TASK_NAME, "/F"],
+                capture_output=True, text=True
+            )
+            if r.returncode == 0:
+                print(f"[-] Da xoa Windows Scheduled Task '{WIN_TASK_NAME}'.")
+        except Exception:
+            pass
+
+        print("[+] DA TAT che do tu dong khoi dong cung Windows.")
+    else:
+        subprocess.run(["sudo", "systemctl", "disable", "faceid-auth.service"])
+
+
+def cmd_start(args):
+    """Khoi dong tien trinh FaceID Daemon (chay ngam hoac foreground)."""
+    running, info = is_daemon_running()
+    if running:
+        pid = info.get("pid", "Unknown")
+        # Dam bao cong tac enabled cung duoc bat khi goi start
+        query_daemon(get_current_user(), service="status", action="enable")
+        print(f"[+] FaceID Daemon DA DANG CHAY san (PID: {pid}) va cong tac FaceID dang [BAT]!")
+        return
+
+    # Dam bao bat cong tac enabled trong config.json khi start daemon
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+            cfg.setdefault("system", {})["enabled"] = True
+            with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+                json.dump(cfg, f, indent=2)
+        except Exception:
+            pass
+
+    daemon_script = os.path.join(BASE_DIR, "daemon.py")
+    python_exe = sys.executable
+
+    if getattr(args, "foreground", False):
+        print("[*] Dang khoi chay FaceID Daemon o che do Foreground (Nhan Ctrl+C de dung)...")
+        subprocess.run([python_exe, daemon_script])
+        return
+
+    print("[*] Dang khoi dong FaceID Daemon chay ngam (Background Process)...")
+    os.makedirs(os.path.dirname(os.path.abspath(LOG_FILE)), exist_ok=True)
+    log_out = open(LOG_FILE, "a", encoding="utf-8")
+
+    if sys.platform == "win32":
+        creation_flags = subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS
+        proc = subprocess.Popen(
+            [python_exe, daemon_script],
+            cwd=BASE_DIR,
+            stdout=log_out,
+            stderr=log_out,
+            creationflags=creation_flags
+        )
+    else:
+        proc = subprocess.Popen(
+            [python_exe, daemon_script],
+            cwd=BASE_DIR,
+            stdout=log_out,
+            stderr=log_out,
+            start_new_session=True
+        )
+
+    # Doi daemon nap model AI (~0.5s - 2.5s) va kiem tra ket noi socket
+    for _ in range(15):
+        time.sleep(0.25)
+        running, info = is_daemon_running()
+        if running:
+            print(f"[+] DA BAT FaceID Daemon thanh cong! (PID: {info.get('pid', proc.pid)})")
+            print(f"    • Trang thai FaceID : [BAT / ENABLED]")
+            print(f"    • File nhat ky Log  : {LOG_FILE}")
+            return
+
+    print(f"[!] Da khoi tao tien trinh (PID: {proc.pid}), vui long kiem tra 'python scripts/faceidctl status'.")
+
+
+def cmd_stop(args):
+    """Dung tien trinh FaceID Daemon dang chay."""
+    running, info = is_daemon_running()
+    if running:
+        pid = info.get("pid")
+        print(f"[*] Dang gui lenh DUNG (STOP) toi FaceID Daemon (PID: {pid})...")
+        query_daemon(get_current_user(), service="status", action="stop")
+        for _ in range(10):
+            time.sleep(0.2)
+            still_running, _ = is_daemon_running()
+            if not still_running:
+                print("[+] DA TAT FaceID Daemon hoan toan (Da giai phong RAM & Port 9876).")
+                return
+
+    # Neu van con PID file hoac tien trinh treo, kill theo PID
+    if os.path.exists(PID_FILE):
+        try:
+            with open(PID_FILE, "r", encoding="utf-8") as f:
+                saved_pid = int(f.read().strip())
+            if sys.platform == "win32":
+                subprocess.run(["taskkill", "/F", "/PID", str(saved_pid)], capture_output=True)
+            else:
+                os.kill(saved_pid, signal.SIGTERM)
+            os.remove(PID_FILE)
+            print(f"[+] Da buoc dung tien trinh FaceID Daemon (PID: {saved_pid}).")
+            return
+        except Exception:
+            pass
+
+    print("[-] FaceID Daemon hien khong chay.")
+
+
+def cmd_restart(args):
+    """Khoi dong lai FaceID Daemon."""
+    print("[*] Dang khoi dong lai FaceID Daemon...")
+    cmd_stop(args)
+    time.sleep(0.4)
+    cmd_start(args)
+
+
 def cmd_on(args):
-    """Bat tinh nang FaceID trong config.json."""
+    """Bat tinh nang FaceID trong config.json va dong bo ngay voi Daemon neu dang chay."""
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
             cfg = json.load(f)
         cfg.setdefault("system", {})["enabled"] = True
         with open(CONFIG_FILE, "w", encoding="utf-8") as f:
             json.dump(cfg, f, indent=2)
-        print("[+] DA BAT FaceID: He thong se tu dong xac thuc khuon mat khi sudo / mo khoa.")
+
+        running, info = is_daemon_running()
+        if running:
+            query_daemon(get_current_user(), service="status", action="enable")
+            print(f"[+] DA BAT FaceID (Hot-Reload thanh cong tren Daemon PID {info.get('pid')})!")
+        else:
+            print("[+] DA BAT cong tac FaceID trong cau hinh.")
+            print("    (Goi y: Chay 'python scripts/faceidctl start' de khoi dong Daemon chay ngam)")
     else:
         print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
 
 
 def cmd_off(args):
-    """Tat FaceID trong config.json (chuyen sang fallback password 100%)."""
+    """Tat FaceID trong config.json va dong bo ngay voi Daemon (chuyen sang fallback password 100%)."""
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
             cfg = json.load(f)
         cfg.setdefault("system", {})["enabled"] = False
         with open(CONFIG_FILE, "w", encoding="utf-8") as f:
             json.dump(cfg, f, indent=2)
-        print("[-] DA TAT FaceID: He thong se bo qua FaceID va hoi mat khau truyen thong.")
+
+        running, info = is_daemon_running()
+        if running:
+            query_daemon(get_current_user(), service="status", action="disable")
+            print(f"[-] DA TAT FaceID (Daemon PID {info.get('pid')} da chuyen sang che do BYPASS -> Dung mat khau 100%).")
+            print("    (Neu muon tat han tien trinh ngam, chay: 'python scripts/faceidctl stop')")
+        else:
+            print("[-] DA TAT FaceID: He thong se bo qua FaceID va hoi mat khau truyen thong.")
     else:
         print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
 
@@ -79,22 +332,29 @@ def cmd_status(args):
         except Exception:
             pass
 
+    # 2. Trang thai Daemon
+    running, res = is_daemon_running()
+    if running:
+        enabled = res.get("enabled", enabled)
+        pid_str = f"PID: {res.get('pid', 'Unknown')}"
+        daemon_str = f"[DANG HOAT DONG] ({pid_str}, Ket noi Socket OK)"
+    else:
+        daemon_str = "[DA TAT / CHUA CHAY] (Chua co socket hoac daemon dang tat)"
+
+    # 3. Trang thai Auto-Start khi khoi dong may
+    _, autostart_str = check_autostart_status()
+
     print(f"  • Cong tac FaceID  : {'[BAT / ENABLED]' if enabled else '[TAT / DISABLED (Bypass)]'}")
     print(f"  • Che do van hanh  : {mode.upper()}")
+    print(f"  • Daemon Process   : {daemon_str}")
+    print(f"  • Auto-Start (Boot): {autostart_str}")
 
-    # 2. Trang thai Daemon
-    from scripts.faceid_pam_client import query_daemon
-    res = query_daemon(get_current_user(), service="status")
-    if res.get("status") == "UNAVAILABLE":
-        print("  • Daemon Process   : [CHUA CHAY] (Chua co socket hoac daemon dang tat)")
-    else:
-        print(f"  • Daemon Process   : [DANG HOAT DONG] (Ket noi Socket OK)")
-
-    # 3. Kiem tra Camera
+    # 4. Kiem tra Camera
     from platforms.linux.camera import LinuxCameraManager
     cam_mgr = LinuxCameraManager()
     is_cam_avail = cam_mgr.is_device_available()
     print(f"  • Thiet bi Camera  : {'[SAN SANG]' if is_cam_avail else '[KHONG CO SAN / DANG BAN]'}")
+    print("==================================================")
 
 
 def cmd_list(args):
@@ -122,7 +382,7 @@ def cmd_enroll(args):
     python_exe = sys.executable
     script = os.path.join(BASE_DIR, "scripts", "enroll.py")
     print(f"[*] Bat dau enroll cho user '{user}'...")
-    subprocess.run([python_exe, script, "--user", user])
+    subprocess.run([python_exe, script, user])
 
 
 def cmd_verify(args):
@@ -130,7 +390,7 @@ def cmd_verify(args):
     python_exe = sys.executable
     script = os.path.join(BASE_DIR, "scripts", "verify_interactive.py")
     print(f"[*] Bat dau verify cho user '{user}'...")
-    subprocess.run([python_exe, script, "--user", user])
+    subprocess.run([python_exe, script, user])
 
 
 def cmd_remove(args):
@@ -162,28 +422,41 @@ def cmd_test(args):
 
 def cmd_logs(args):
     """Xem log kiem toan audit log tu systemd journal hoac log file."""
-    if sys.platform != "win32":
-        lines = args.lines or 30
+    lines = args.lines or 30
+    if sys.platform != "win32" and not os.path.exists(LOG_FILE):
         print(f"[*] Dang trich xuat {lines} dong log tu systemd journal...")
         subprocess.run(["journalctl", "-u", "faceid-auth.service", "-n", str(lines), "--no-pager"])
     else:
         print("==================================================")
-        print("  FACEID AUDIT LOGS (Windows Dev)")
+        print("  FACEID AUDIT LOGS")
         print("==================================================")
-        print("  • Cac log xac thuc duoc xuat truc tiep tai terminal chay daemon.py")
-        print("  • Thu nghiem ket noi toi Daemon de kiem tra tinh trang...")
-        from scripts.faceid_pam_client import query_daemon
-        res = query_daemon(get_current_user(), service="status")
-        print(f"  • Phan hoi trang thai tu Daemon: {res}")
-        print("  • Goi y: Khoi chay 'python daemon.py' o Terminal rieng de theo doi Audit Log thoi gian thuc.")
+        if os.path.exists(LOG_FILE):
+            with open(LOG_FILE, "r", encoding="utf-8", errors="replace") as f:
+                all_lines = f.readlines()
+            for line in all_lines[-lines:]:
+                print(line, end="")
+        else:
+            print("  • Chua co file data/daemon.log (Daemon dang chay o Terminal rieng).")
+        running, res = is_daemon_running()
+        print(f"\n  • Trang thai Daemon hien tai: {res}")
 
 
 def main():
     parser = argparse.ArgumentParser(prog="faceidctl", description="FaceID CLI Tool (Dual-Platform)")
     sub = parser.add_subparsers(dest="subcommand")
 
-    sub.add_parser("on", help="Bat FaceID")
-    sub.add_parser("off", help="Tat FaceID (chuyen sang dung mat khau)")
+    p_start = sub.add_parser("start", help="Khoi dong tien trinh FaceID Daemon chay ngam")
+    p_start.add_argument("--foreground", "-f", action="store_true", help="Chay truc tiep tren Terminal hien tai")
+
+    sub.add_parser("stop", help="Dung tien trinh FaceID Daemon dang chay")
+    sub.add_parser("restart", help="Khoi dong lai tien trinh FaceID Daemon")
+
+    sub.add_parser("on", help="Bat cong tac FaceID (Hot-reload)")
+    sub.add_parser("off", help="Tat cong tac FaceID (Bypass sang mat khau)")
+
+    sub.add_parser("enable-autostart", help="Bat tu dong chay ngam Daemon khi khoi dong may")
+    sub.add_parser("disable-autostart", help="Tat tu dong chay ngam Daemon khi khoi dong may")
+
     sub.add_parser("status", help="Kiem tra trang thai he thong")
     sub.add_parser("list", help="Liet ke danh sach user")
 
@@ -198,7 +471,7 @@ def main():
 
     p_test = sub.add_parser("test", help="Kiem thu nhanh luong PAM")
     p_test.add_argument("user", nargs="?", default="", help="Username can test")
-    p_test.add_argument("--service", "-s", default="sudo", help="PAM Service (sudo, screensaver, etc.)")
+    p_test.add_argument("--service", "-s", default="sudo", help="PAM Service (sudo, screensaver, windows-unlock, etc.)")
 
     p_log = sub.add_parser("logs", help="Xem audit log cua he thong")
     p_log.add_argument("-n", "--lines", type=int, default=30, help="So dong log can xem")
@@ -209,8 +482,13 @@ def main():
         return
 
     dispatch = {
+        "start": cmd_start,
+        "stop": cmd_stop,
+        "restart": cmd_restart,
         "on": cmd_on,
         "off": cmd_off,
+        "enable-autostart": cmd_enable_autostart,
+        "disable-autostart": cmd_disable_autostart,
         "status": cmd_status,
         "list": cmd_list,
         "enroll": cmd_enroll,

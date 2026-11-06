@@ -44,6 +44,24 @@
       "lockout_sec": 30,
       "gnome_keyring_impact": "NONE_KEYRING_ALREADY_UNLOCKED"
     },
+    "windows-unlock": {
+      "description": "Mo khoa man hinh Windows (Win + L Credential Provider): Mo khoa nhanh, chong gia mao",
+      "decision_threshold": 0.68,
+      "sim_threshold": 0.62,
+      "require_active_liveness": false,
+      "active_timeout_sec": 5.0,
+      "max_failures_before_lock": 3,
+      "lockout_sec": 45
+    },
+    "windows-logon": {
+      "description": "Dang nhap Windows LogonUI: Bao mat cao kem thu thach Liveness",
+      "decision_threshold": 0.72,
+      "sim_threshold": 0.64,
+      "require_active_liveness": true,
+      "active_timeout_sec": 6.0,
+      "max_failures_before_lock": 3,
+      "lockout_sec": 60
+    },
     "gdm-password": {
       "description": "Dang nhap khoi dong (Login Boot): Canh bao GNOME Keyring",
       "decision_threshold": 0.72,

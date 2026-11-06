@@ -29,7 +29,7 @@ DEFAULT_EMBEDDINGS_DIR = os.environ.get(
     "FACEID_EMBEDDINGS_DIR", os.path.join(BASE_DIR, "data", "embeddings")
 )
 WINDOW = "FaceID Auto Enrollment (Hands-Free)"
-USERNAME_RE = re.compile(r"[a-z_][a-z0-9_-]{0,31}")
+USERNAME_RE = re.compile(r"[a-zA-Z_][a-zA-Z0-9_-]{0,31}")
 
 
 @dataclass(frozen=True)
@@ -431,6 +431,7 @@ def main() -> int:
 
     parser = argparse.ArgumentParser(description="Auto Enrollment")
     parser.add_argument("username", nargs="?", help="Username")
+    parser.add_argument("--user", dest="user_opt", default="", help="Username (tuy chon)")
     parser.add_argument("--camera", type=int, default=0)
     parser.add_argument("--data-dir", default=DEFAULT_EMBEDDINGS_DIR,
                         help="Thu muc luu embedding")
@@ -441,7 +442,7 @@ def main() -> int:
     parser.add_argument("--debug", action="store_true", help="In thong so chan doan")
     args = parser.parse_args()
 
-    username = (args.username or input("Username: ")).strip()
+    username = (args.username or args.user_opt or input("Username: ")).strip()
     if not USERNAME_RE.fullmatch(username):
         log.error("Username khong hop le.")
         return 1

@@ -10,7 +10,7 @@ from typing import Optional, Tuple
 
 from core.security import RateLimiter, LockoutStatus
 from core.fhs import validate_username, get_fhs_path
-from platforms.linux.camera import LinuxCameraManager, CameraBusyError, CameraDeviceError
+from platforms.linux.camera import LinuxCameraManager, CameraBusyError, CameraDeviceError, VirtualCameraDetectedError
 from core.detector import YuNetDetector
 from core.fiqa import FaceQualityAssessor
 from core.anti_spoof import MiniFASNetDetector
@@ -59,9 +59,10 @@ class FaceIDDaemon:
     1. Khoi dong thong minh: In banner thong tin he dieu hanh, socket/port dang hoat dong.
     2. Tamper Protection: Kiem tra checksum SHA-256 cua ca 3 models ONNX khi khoi dong.
     3. SO_PEERCRED: Kiem tra danh tinh process client goi den (chi root hoac cung user).
-    4. Anti-Path-Traversal: Validate username regex theo chuan POSIX.
-    5. Contextual Policy: Doc chinh sach rieng theo tung service PAM tu config/policy.json.
+    4. Anti-Path-Traversal: Validate username regex theo chuan POSIX / Windows.
+    5. Contextual Policy: Doc chinh sach rieng theo tung service PAM / Windows tu config/policy.json.
     6. Information Hiding: Client chi nhan FAILED, khong lo chi tiet bao mat ra ngoai.
+    7. Hot-Reload & Dynamic Control: Ho tro bat/tat (on/off) va dung daemon (stop) qua IPC tuc thi.
     """
 
     def __init__(
@@ -75,14 +76,9 @@ class FaceIDDaemon:
         self.os_type = "Windows (Dev Mode)" if sys.platform == "win32" else "Linux/Ubuntu 24.04 (Production Mode)"
         
         # Doc config tong
-        cfg_file = config_path or get_fhs_path("config.json", category="config")
+        self.cfg_file = config_path or get_fhs_path("config.json", category="config")
         self.config = {}
-        if os.path.exists(cfg_file):
-            try:
-                with open(cfg_file, "r", encoding="utf-8") as f:
-                    self.config = json.load(f)
-            except Exception as e:
-                logger.warning(f"[-] Khong the doc file config {cfg_file}: {e}")
+        self._reload_config()
 
         sys_cfg = self.config.get("system", {})
         sec_cfg = self.config.get("security", {})
@@ -94,6 +90,7 @@ class FaceIDDaemon:
         self.socket_path = socket_path or sys_cfg.get("socket_path", DEFAULT_SOCKET_PATH)
         self.windows_port = sys_cfg.get("windows_port", 9876)
         self.verify_timeout_sec = verify_timeout_sec if verify_timeout_sec is not None else sys_cfg.get("verify_timeout_sec", 6.0)
+        self.pid_file = get_fhs_path("daemon.pid", category="data")
 
         # Doc Contextual Policy
         self.policy = self._load_policy()
@@ -135,10 +132,36 @@ class FaceIDDaemon:
         logger.info(f"[+] Da nap thanh cong toan bo AI Models vao RAM trong {(time.time() - t0):.2f}s!")
 
         self.running = False
+        self._auth_lock = threading.Lock()
         self._server_sock: Optional[socket.socket] = None
 
+    def _reload_config(self):
+        """Doc lai config.json va policy.json de cap nhat trang thai enabled/policy tuc thi (Hot-Reload)."""
+        if os.path.exists(self.cfg_file):
+            try:
+                with open(self.cfg_file, "r", encoding="utf-8") as f:
+                    self.config = json.load(f)
+                sys_cfg = self.config.get("system", {})
+                self.enabled = sys_cfg.get("enabled", True)
+                self.mode = sys_cfg.get("mode", "standalone_test")
+            except Exception as e:
+                logger.warning(f"[-] Khong the doc file config {self.cfg_file}: {e}")
+
+    def _save_enabled_state(self, enabled_state: bool):
+        """Luu trang thai enabled vao config.json va cap nhat ngay trong RAM."""
+        self.enabled = enabled_state
+        if os.path.exists(self.cfg_file):
+            try:
+                with open(self.cfg_file, "r", encoding="utf-8") as f:
+                    cfg = json.load(f)
+                cfg.setdefault("system", {})["enabled"] = enabled_state
+                with open(self.cfg_file, "w", encoding="utf-8") as f:
+                    json.dump(cfg, f, indent=2)
+            except Exception as e:
+                logger.warning(f"[-] Khong the luu trang thai enabled vao {self.cfg_file}: {e}")
+
     def _load_policy(self) -> dict:
-        """Nap file policy theo ngu canh dich vu (sudo, screensaver, gdm...)."""
+        """Nap file policy theo ngu canh dich vu (sudo, screensaver, gdm, windows-unlock...)."""
         policy_file = get_fhs_path("policy.json", category="config")
         if os.path.exists(policy_file):
             try:
@@ -182,7 +205,11 @@ class FaceIDDaemon:
                     raise RuntimeError(f"Tamper Detection: Model {name} hash mismatch!")
 
     def authenticate_user(self, user: str, service: str = "sudo", peer_pid: int = 0, peer_uid: int = 0, client_conn: Optional[socket.socket] = None) -> dict:
-        """Thuc hien xac thuc 1:1 voi Policy theo tung dich vu PAM."""
+        """Thuc hien xac thuc 1:1 voi Policy theo tung dich vu PAM / Windows Credential Provider."""
+        # 0. Hot-reload trang thai enabled va policy tu file config
+        self._reload_config()
+        self.policy = self._load_policy()
+
         # 1. Kiem tra cong tac tong
         if not self.enabled:
             logger.info(f"[*] FaceID dang o trang thai DISABLED -> Chuyen thang sang Password.")
@@ -223,8 +250,13 @@ class FaceIDDaemon:
                 except Exception:
                     pass
 
-        # 6. Mo camera an toan
+        # 6. Mo camera an toan voi Non-blocking Lock chong tranh chap giua cac thread
+        if not self._auth_lock.acquire(blocking=False):
+            logger.warning(f"[AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID {peer_pid}).")
+            return {"status": "CAMERA_BUSY", "fallback": "PASSWORD"}
+
         try:
+            self.anti_spoof.reset()
             with self.camera_mgr.acquire() as cap:
                 logger.info(f"[*] Camera BAT thanh cong. Tien hanh quet khuon mat...")
                 send_progress("Camera da bat. Vui long nhin thang vao camera...")
@@ -293,15 +325,17 @@ class FaceIDDaemon:
                             template_emb=best_t,
                             raw_cosine_sim=effective_sim,
                             best_user=user,
-                            fiqa_score=fiqa_weight
+                            fiqa_score=fiqa_weight,
+                            sim_threshold=sim_thresh,
+                            decision_threshold=decision_thresh,
                         )
 
-                        if decision.confidence_score >= decision_thresh:
+                        if decision.success and decision.confidence_score >= decision_thresh:
                             best_decision = decision
                             break
 
                 # Ket qua xac thuc
-                if best_decision and best_decision.confidence_score >= decision_thresh:
+                if best_decision and best_decision.success and best_decision.confidence_score >= decision_thresh:
                     self.rate_limiter.record_success(user)
                     logger.info(f"[AUDIT] AUTH_SUCCESS user='{user}' svc='{service}' conf={best_decision.confidence_score:.3f}")
                     return {
@@ -318,16 +352,22 @@ class FaceIDDaemon:
                         "fallback": "PASSWORD"
                     }
 
+        except VirtualCameraDetectedError as e:
+            logger.error(f"[AUDIT] VIRTUAL_CAMERA_BLOCKED tu PID {peer_pid}: {e}")
+            return {"status": "FAILED", "fallback": "PASSWORD"}
         except CameraBusyError as e:
             logger.warning(f"[AUDIT] CAMERA_BUSY tu PID {peer_pid}: {e}. Fallback password ngay.")
             return {"status": "CAMERA_BUSY", "fallback": "PASSWORD"}
         except Exception as e:
             logger.error(f"[AUDIT] System Error: {e}")
             return {"status": "FAILED", "fallback": "PASSWORD"}
+        finally:
+            self._auth_lock.release()
 
     def handle_client(self, conn: socket.socket):
         """Xu ly mot phien ket noi IPC tu PAM module kem kiem tra SO_PEERCRED."""
         peer_pid, peer_uid, peer_gid = 0, 0, 0
+        should_stop_daemon = False
         try:
             conn.settimeout(10.0)
             
@@ -346,8 +386,7 @@ class FaceIDDaemon:
             # Kiem tra SO_PEERCRED:
             # Tren Linux, tien trinh gui AUTH chi duoc phep la root (UID 0 tu PAM)
             # hoac chinh la process cua user do dang chay.
-            if sys.platform != "win32" and peer_uid != 0:
-                # Kiem tra xem peer_uid co khop voi username yeu cau khong
+            if sys.platform != "win32" and peer_uid != 0 and action == "auth":
                 import pwd
                 try:
                     caller_name = pwd.getpwuid(peer_uid).pw_name
@@ -358,13 +397,37 @@ class FaceIDDaemon:
                 except Exception:
                     pass
 
-            # Kiem tra DoS Flood Attack
-            if self.rate_limiter.check_flood_attack():
+            # Xu ly cac lenh quan tri (status, enable, disable, reload, stop)
+            if action == "status":
+                self._reload_config()
+                resp = {
+                    "status": "OK",
+                    "pid": os.getpid(),
+                    "os": self.os_type,
+                    "enabled": self.enabled,
+                    "mode": self.mode
+                }
+            elif action == "enable":
+                self._save_enabled_state(True)
+                logger.info(f"[AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: {peer_pid}).")
+                resp = {"status": "OK", "enabled": True, "message": "FaceID ENABLED"}
+            elif action == "disable":
+                self._save_enabled_state(False)
+                logger.info(f"[AUDIT] Cong tac FaceID da duoc TAT (DISABLED/BYPASS) qua IPC (PID: {peer_pid}).")
+                resp = {"status": "OK", "enabled": False, "message": "FaceID DISABLED"}
+            elif action == "reload":
+                self._reload_config()
+                self.policy = self._load_policy()
+                logger.info(f"[AUDIT] Da tai lai cau hinh config.json & policy.json (enabled={self.enabled}).")
+                resp = {"status": "OK", "enabled": self.enabled}
+            elif action == "stop":
+                logger.info(f"[AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: {peer_pid}).")
+                resp = {"status": "STOPPING", "pid": os.getpid(), "message": "FaceID Daemon dang dung..."}
+                should_stop_daemon = True
+            elif self.rate_limiter.check_flood_attack():
                 resp = {"status": "RATE_LIMITED", "fallback": "PASSWORD"}
             elif action == "auth" and user:
                 resp = self.authenticate_user(user, service=service, peer_pid=peer_pid, peer_uid=peer_uid, client_conn=conn)
-            elif action == "status":
-                resp = {"status": "OK", "os": self.os_type, "enabled": self.enabled, "mode": self.mode}
             else:
                 resp = {"status": "FAILED", "fallback": "PASSWORD"}
 
@@ -377,11 +440,21 @@ class FaceIDDaemon:
                 pass
         finally:
             conn.close()
+            if should_stop_daemon:
+                threading.Thread(target=self.stop, daemon=True).start()
 
     def start(self):
-        """Khoi chay Server Socket."""
+        """Khoi chay Server Socket va luu PID."""
         sock_dir = os.path.dirname(os.path.abspath(self.socket_path))
         os.makedirs(sock_dir, exist_ok=True)
+
+        # Luu PID file de faceidctl quan ly
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(self.pid_file)), exist_ok=True)
+            with open(self.pid_file, "w", encoding="utf-8") as f:
+                f.write(str(os.getpid()))
+        except Exception as e:
+            logger.warning(f"[-] Khong the ghi PID file {self.pid_file}: {e}")
 
         if os.path.exists(self.socket_path) and sys.platform != "win32":
             try:
@@ -413,13 +486,21 @@ class FaceIDDaemon:
                     logger.error(f"Loi chap nhan ket noi: {e}")
 
     def stop(self):
-        """Dung daemon va don dep socket."""
+        """Dung daemon va don dep socket / PID file."""
         self.running = False
         if self._server_sock:
-            self._server_sock.close()
+            try:
+                self._server_sock.close()
+            except Exception:
+                pass
         if os.path.exists(self.socket_path) and sys.platform != "win32":
             try:
                 os.remove(self.socket_path)
+            except OSError:
+                pass
+        if os.path.exists(self.pid_file):
+            try:
+                os.remove(self.pid_file)
             except OSError:
                 pass
         logger.info("[*] FaceID Daemon da dung an toan.")

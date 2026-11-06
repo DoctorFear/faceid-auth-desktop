@@ -1,0 +1,86 @@
+2026-10-28 01:07:58,139 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-10-28 01:07:58,139 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-10-28 01:07:58,141 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-10-28 01:07:58,250 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-10-28 01:07:58,250 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-10-28 01:07:58,604 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.35s!
+2026-10-28 01:07:58,605 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-10-28 01:07:59,324 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc TAT (DISABLED/BYPASS) qua IPC (PID: 3804).
+2026-10-28 01:07:59,740 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 3804).
+2026-10-28 01:57:09,268 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-10-28 01:57:09,291 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-10-28 01:57:09,377 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-10-28 01:57:09,511 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-10-28 01:57:09,511 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-10-28 01:57:09,817 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.31s!
+2026-10-28 01:57:09,818 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-10-28 02:41:40,948 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-10-28 02:41:40,948 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-10-28 02:41:40,951 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-10-28 02:41:41,049 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-10-28 02:41:41,049 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-10-28 02:41:41,317 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.27s!
+2026-10-28 02:41:41,318 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-10-28 02:41:46,348 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=4192, Thresh=0.68)
+2026-10-28 02:41:48,593 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-10-28 02:41:48,776 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.934
+2026-10-28 02:42:55,543 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-10-28 02:42:55,543 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-10-28 02:42:55,543 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-10-28 02:42:55,859 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-10-28 02:42:55,859 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-10-28 02:42:56,244 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.39s!
+2026-10-28 02:42:56,244 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-10-28 08:48:35,414 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-10-28 08:48:35,430 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-10-28 08:48:35,436 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-10-28 08:48:35,744 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-10-28 08:48:35,744 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-10-28 08:48:36,118 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.37s!
+2026-10-28 08:48:36,120 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-10-28 09:07:52,861 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 6664).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 6664)...
+2026-10-29 17:28:23,181 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-10-29 17:28:23,201 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-10-29 17:28:23,229 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-10-29 17:28:23,386 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-10-29 17:28:23,386 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-10-29 17:28:23,717 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.33s!
+2026-10-29 17:28:23,718 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-10-29 17:28:27,978 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 21076).
+2026-10-29 17:28:34,554 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21076, Thresh=0.68)
+2026-10-29 17:28:36,607 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-10-29 17:28:41,625 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-10-29 17:28:48,794 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21076, Thresh=0.68)
+2026-10-29 17:28:50,003 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-10-29 17:28:55,034 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 1 lan)
+2026-10-29 17:28:59,907 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21076, Thresh=0.68)
+2026-10-29 17:29:01,079 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-10-29 17:29:06,110 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 0 lan)
+2026-10-29 17:29:18,394 [WARNING] [FaceID-Daemon] [AUDIT] Tu choi do Lockout: User 'ADMIN' con 32.7s (PID: 21076).
+2026-10-29 17:29:28,256 [WARNING] [FaceID-Daemon] [AUDIT] Tu choi do Lockout: User 'ADMIN' con 22.9s (PID: 21076).
+2026-10-29 17:29:39,955 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 21076).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 21076)...
+2026-10-29 17:29:39,955 [INFO] [FaceID-Daemon] [*] FaceID Daemon da dung an toan.

@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Regex kiem tra tinh hop le cua username theo chuan POSIX/Linux
 # Chi cho phep chu cai thuong, so, gach duoi, gach ngang (toi da 32 ky tu)
 # Ngan chan tuyet doi tan cong Path Traversal (vi du: "../../etc/passwd")
-USERNAME_REGEX = re.compile(r"^[a-z_][a-z0-9_-]{0,31}$")
+USERNAME_REGEX = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_-]{0,31}$")
 
 
 def validate_username(username: str) -> bool:
