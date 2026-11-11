@@ -23,6 +23,8 @@
 #include "dll.h"
 #include "resource.h"
 
+class CSampleProvider;
+
 class CSampleCredential : public ICredentialProviderCredential2, ICredentialProviderCredentialWithFieldOptions
 {
 public:
@@ -101,6 +103,17 @@ public:
                        _In_ ICredentialProviderUser *pcpUser);
     CSampleCredential();
 
+    void SetProvider(CSampleProvider *pProvider)
+    {
+        _pProvider = pProvider;
+    }
+
+    void StartWorkerThread();
+    void StopWorkerThread();
+    void UpdateStatusText(PCWSTR pszText);
+    void OnFaceIDSuccess();
+    bool IsStopRequested();
+
   private:
 
     virtual ~CSampleCredential();
@@ -117,4 +130,12 @@ public:
     DWORD                                   _dwComboIndex;                                  // Tracks the current index of our combobox.
     bool                                    _fShowControls;                                 // Tracks the state of our show/hide controls link.
     bool                                    _fIsLocalUser;                                  // If the cred prov is assosiating with a local user tile
+    HANDLE                                  _hWorkerThread;
+    HANDLE                                  _hStopEvent;
+    CRITICAL_SECTION                        _csLock;
+    volatile BOOL                           _fWorkerRunning;
+    CSampleProvider*                        _pProvider;
+
+    friend DWORD WINAPI FaceIDWorkerThread(LPVOID lpParam);
+    friend bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus, PWSTR pwzStatusOut, size_t cchStatusOut, HANDLE hStopEvent);
 };

@@ -7,12 +7,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //
 
+#pragma once
+
 #include "helpers.h"
 #include <windows.h>
 #include <strsafe.h>
 #include <new>
 
-#include "CSampleCredential.h"
+class CSampleCredential;
 
 class CSampleProvider : public ICredentialProvider,
                         public ICredentialProviderSetUserArray
@@ -63,6 +65,8 @@ class CSampleProvider : public ICredentialProvider,
 
     IFACEMETHODIMP SetUserArray(_In_ ICredentialProviderUserArray *users);
 
+    void TriggerAutoLogon();
+
     friend HRESULT CSample_CreateInstance(_In_ REFIID riid, _Outptr_ void** ppv);
 
   protected:
@@ -75,11 +79,13 @@ class CSampleProvider : public ICredentialProvider,
     HRESULT _EnumerateEmpty();
     HRESULT _EnumerateCredentials();
     HRESULT _EnumerateEmptyTileCredential();
-private:
-    long                                    _cRef;            // Used for reference counting.
-    CSampleCredential                       *_pCredential;    // SampleV2Credential
+  private:
+    long                                    _cRef;
+    CSampleCredential                       *_pCredential;
     bool                                    _fRecreateEnumeratedCredentials;
     CREDENTIAL_PROVIDER_USAGE_SCENARIO      _cpus;
     ICredentialProviderUserArray            *_pCredProviderUserArray;
-
+    ICredentialProviderEvents               *_pEvents;
+    UINT_PTR                                _upAdviseContext;
+    BOOL                                    _bAutoLogonReady;
 };
