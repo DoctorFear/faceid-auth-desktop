@@ -1,0 +1,7 @@
+2026-11-09 09:48:06,009 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 09:48:06,011 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 09:48:06,013 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 09:48:06,118 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 09:48:06,123 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 09:48:06,414 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.29s!
+2026-11-09 09:48:06,416 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)

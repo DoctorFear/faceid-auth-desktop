@@ -1,6 +1,7 @@
 $ErrorActionPreference = "Stop"
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$projectRoot = Split-Path -Parent (Split-Path -Parent $here)
+# Duong dan project goc: di len 3 cap (credential_provider -> windows -> platforms -> faceid-auth-desktop)
+$projectRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $here))
 
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "  CAI DAT WINDOWS CREDENTIAL PROVIDER & AUTO-START DAEMON " -ForegroundColor Cyan

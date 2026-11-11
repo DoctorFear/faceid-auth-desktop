@@ -38,7 +38,8 @@ class RateLimiter:
         self._user_states: Dict[str, dict] = {}
         # Global request timestamps for flood/DoS detection
         self._request_history: list[float] = []
-
+                
+    #Chặn đứng hành vi spam request làm lag / tràn CPU máy tính.
     def check_flood_attack(self) -> bool:
         """Kiem tra DoS Flood: Neu co qua nhieu request gui toi socket trong 1 giay -> Chan ngay."""
         now = time.time()

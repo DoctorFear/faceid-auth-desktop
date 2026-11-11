@@ -15,14 +15,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Ngan chan tuyet doi tan cong Path Traversal (vi du: "../../etc/passwd")
 USERNAME_REGEX = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_-]{0,31}$")
 
-
+# Chống tấn công Path Traversal
 def validate_username(username: str) -> bool:
     """Kiem tra username hop le theo chuan POSIX, ngan chan Path Traversal va ky tu doc hai."""
     if not username or not isinstance(username, str):
         return False
     return bool(USERNAME_REGEX.match(username))
 
-
+# Linh hoạt đường dẫn (FHS Linux vs Windows Dev)
 def get_fhs_path(sub_path: str, category: str = "data") -> str:
     """
     Anh xa duong dan linh hoat giua chuan FHS Linux (/etc, /var/lib, /run)

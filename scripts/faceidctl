@@ -204,13 +204,17 @@ def cmd_start(args):
     log_out = open(LOG_FILE, "a", encoding="utf-8")
 
     if sys.platform == "win32":
-        creation_flags = subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS
+        pythonw_candidate = os.path.join(os.path.dirname(python_exe), "pythonw.exe")
+        exe_to_run = pythonw_candidate if os.path.exists(pythonw_candidate) else python_exe
+        creation_flags = 0x00000008 | 0x00000200  # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
         proc = subprocess.Popen(
-            [python_exe, daemon_script],
+            [exe_to_run, daemon_script],
             cwd=BASE_DIR,
             stdout=log_out,
             stderr=log_out,
-            creationflags=creation_flags
+            stdin=subprocess.DEVNULL,
+            creationflags=creation_flags,
+            close_fds=True
         )
     else:
         proc = subprocess.Popen(

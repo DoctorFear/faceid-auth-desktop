@@ -230,6 +230,8 @@ class CameraMonitorThread(QThread):
 
             detections = detector.detect(frame)
             if len(detections) >= 1:
+                # Sap xep chon khuon mat chu the chinh lon nhat (gan webcam nhat)
+                detections.sort(key=lambda d: (d[0][2] - d[0][0]) * (d[0][1] - d[0][3]), reverse=True)
                 box, landmarks, _ = detections[0]
                 top, right, bottom, left = box
                 metrics["face_detected"] = True

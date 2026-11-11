@@ -310,6 +310,25 @@ HRESULT CSampleCredential::UnAdvise()
     return S_OK;
 }
 
+// Ham phu ban phim ao Enter vao LogonUI tren thread doc lap
+static DWORD WINAPI TriggerLogonSubmitThread(LPVOID)
+{
+    Sleep(120); // Nghi ngan de LogonUI cap nhat xong buffer mat khau
+    keybd_event(VK_RETURN, 0, 0, 0);
+    Sleep(30);
+    keybd_event(VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
+    return 0;
+}
+
+static void AutoSubmitLogon()
+{
+    HANDLE hThread = CreateThread(NULL, 0, TriggerLogonSubmitThread, NULL, 0, NULL);
+    if (hThread)
+    {
+        CloseHandle(hThread);
+    }
+}
+
 // Khi nguoi dung bam Win + L va o FaceID duoc chon, tu dong goi sang daemon.py (127.0.0.1:9876)
 HRESULT CSampleCredential::SetSelected(_Out_ BOOL *pbAutoLogon)
 {
@@ -326,6 +345,7 @@ HRESULT CSampleCredential::SetSelected(_Out_ BOOL *pbAutoLogon)
             CoTaskMemFree(_rgFieldStrings[SFI_PASSWORD]);
             SHStrDupW(FACEID_FALLBACK_PASSWORD, &_rgFieldStrings[SFI_PASSWORD]);
             *pbAutoLogon = TRUE;
+            AutoSubmitLogon();
         }
 
         if (szStatus[0] != L'\0')
@@ -573,8 +593,9 @@ HRESULT CSampleCredential::CommandLinkClicked(DWORD dwFieldID)
                 if (_pCredProvCredentialEvents)
                 {
                     _pCredProvCredentialEvents->SetFieldString(this, SFI_PASSWORD, _rgFieldStrings[SFI_PASSWORD]);
-                    _pCredProvCredentialEvents->SetFieldString(this, SFI_FULLNAME_TEXT, L"[FaceID] XAC THUC THANH CONG! Bam Enter de vao Windows!");
+                    _pCredProvCredentialEvents->SetFieldString(this, SFI_FULLNAME_TEXT, L"[FaceID] XAC THUC THANH CONG! Dang tu dong mo khoa...");
                 }
+                AutoSubmitLogon();
             }
             else
             {

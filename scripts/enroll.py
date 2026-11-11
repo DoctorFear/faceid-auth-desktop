@@ -76,7 +76,7 @@ STEPS = [
          target_yaw=(-14, 14), target_pitch=(-22, -6)),
 ]
 
-
+# chống in nhiều hơn 5 vector trong 1 khuôn mặt 1 file
 def consolidate_templates_to_k_prototypes(vectors: np.ndarray, k: int = 5) -> np.ndarray:
     """Gom cum va nen tap embedding ve dung k=5 vector dai dien (Spherical K-Means) de triet tieu FAR inflation."""
     norms = np.linalg.norm(vectors, axis=1, keepdims=True) + 1e-9
@@ -109,7 +109,7 @@ def consolidate_templates_to_k_prototypes(vectors: np.ndarray, k: int = 5) -> np
         centers = new_centers
     return centers.astype(np.float32)
 
-
+# chống nạp ảnh dang dở & chống lưu file embedding dạng pkl
 def save_user_embeddings_atomic(username: str, encodings: list[np.ndarray], out_dir: str,
                                 append: bool = False, max_vectors: int = 5) -> tuple[str, int]:
     """Ghi file an toan atomic, set quyen 0600, allow_pickle=False.
@@ -230,7 +230,7 @@ def open_camera(cfg: Config) -> cv2.VideoCapture:
         cap.read()
     return cap
 
-
+# ve thong bao dieu chinh khi chup hinh
 def draw_hud(img, step: Step, yaw: float, pitch: float, percent: int, in_range: bool,
              hold_frac: float, warning: str, flash: bool, box_mirrored: tuple | None):
     h, w = img.shape[:2]
@@ -265,7 +265,7 @@ def draw_hud(img, step: Step, yaw: float, pitch: float, percent: int, in_range: 
     if flash:
         cv2.putText(img, "DA CHUP!", (w // 2 - 90, h // 2), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
 
-
+# Chup anh + validate
 def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
     from core.fiqa import FaceQualityAssessor
 
@@ -425,7 +425,7 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
         cap.release()
         cv2.destroyAllWindows()
 
-
+# Nhận tên người dùng từ dòng lệnh (ví dụ: python scripts/enroll.py ADMIN).
 def main() -> int:
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 

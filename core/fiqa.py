@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import cv2
 import numpy as np
 
-
+# Là một dataclass trả về báo cáo chi tiết về khuôn mặt vừa quét:
 @dataclass
 class QualityMetrics:
     passed: bool
@@ -40,6 +40,7 @@ class FaceQualityAssessor:
         self.max_roll = max_roll
         self.moire_threshold = moire_threshold
 
+    # Phát hiện gian lận bằng điện thoại/màn hình)
     @staticmethod
     def detect_moire_fft(face_roi_gray: np.ndarray) -> float:
         """
@@ -98,18 +99,19 @@ class FaceQualityAssessor:
         moire_score = float(1.0 / (1.0 + np.exp(-(max_prominence - 8.0) / 1.5)))
         return float(np.clip(moire_score, 0.0, 1.0))
 
+    # đo độ nét
     @staticmethod
     def calculate_sharpness(gray_roi: np.ndarray) -> float:
         if gray_roi.size == 0:
             return 0.0
         return float(cv2.Laplacian(gray_roi, cv2.CV_64F).var())
-
+    # đo ánh sáng Đo ánh sáng
     @staticmethod
     def calculate_brightness(gray_roi: np.ndarray) -> float:
         if gray_roi.size == 0:
             return 0.0
         return float(np.mean(gray_roi))
-
+    # Ước lượng góc xoay 3D
     @staticmethod
     def estimate_pose(landmarks: np.ndarray, frame_w: int, frame_h: int, yaw_sign: int = 1, pitch_sign: int = -1) -> tuple[float, float, float]:
         re, le, nose, rm, lm = landmarks[:5]
@@ -129,7 +131,7 @@ class FaceQualityAssessor:
         pitch = float((actual_ratio - 0.42) * 110.0) * pitch_sign
 
         return yaw, pitch, roll
-
+    # tổng tài ra quyết định
     def evaluate_quality(
         self,
         frame_bgr: np.ndarray,

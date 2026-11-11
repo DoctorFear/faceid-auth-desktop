@@ -84,3 +84,853 @@
 [*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
 [*] Dang khoi dong FaceID Daemon (PID: 21076)...
 2026-10-29 17:29:39,955 [INFO] [FaceID-Daemon] [*] FaceID Daemon da dung an toan.
+2026-11-09 07:31:56,954 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 07:31:56,988 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 07:31:57,019 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 07:31:57,208 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 07:31:57,208 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 07:31:57,618 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.41s!
+2026-11-09 07:31:57,618 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 07:32:10,712 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=18536, Thresh=0.68)
+2026-11-09 07:32:12,943 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 07:32:13,486 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-09 07:32:29,008 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 18536).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 18536)...
+2026-11-09 09:44:51,567 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 09:44:51,570 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 09:44:51,575 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 09:44:51,728 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 09:44:51,728 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 09:44:52,198 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.47s!
+2026-11-09 09:44:52,200 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 09:45:29,585 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 09:45:29,586 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 09:45:29,587 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 09:45:29,688 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 09:45:29,688 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 09:45:30,020 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.33s!
+2026-11-09 09:45:30,021 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 09:46:29,601 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 09:46:29,601 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 09:46:29,603 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 09:46:29,693 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 09:46:29,693 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 09:46:29,961 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.27s!
+2026-11-09 09:46:29,962 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 09:49:15,531 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 09:49:15,531 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 09:49:15,533 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 09:49:15,623 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 09:49:15,623 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 09:49:15,881 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.26s!
+2026-11-09 09:49:15,883 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 09:50:05,066 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 09:50:05,067 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 09:50:05,068 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 09:50:05,158 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 09:50:05,158 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 09:50:05,418 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.26s!
+2026-11-09 09:50:05,419 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 11:17:12,024 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 11:17:12,025 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 11:17:12,034 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 11:17:12,127 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 11:17:12,127 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 11:17:12,390 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.26s!
+2026-11-09 11:17:12,392 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:13:36,450 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:13:36,450 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:13:36,450 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:13:36,563 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:13:36,563 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:13:36,800 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.24s!
+2026-11-09 20:13:36,800 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:13:37,236 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc TAT (DISABLED/BYPASS) qua IPC (PID: 15720).
+2026-11-09 20:13:38,300 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 15720).
+2026-11-09 20:14:18,139 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15720, Thresh=0.68)
+2026-11-09 20:14:20,048 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:14:20,275 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.991
+2026-11-09 20:14:31,723 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15720, Thresh=0.68)
+2026-11-09 20:14:33,692 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:14:33,826 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.965
+2026-11-09 20:15:01,128 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=15720, Thresh=0.72)
+2026-11-09 20:15:02,498 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:15:02,557 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-09 20:15:02,592 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-09 20:15:02,626 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-09 20:15:02,653 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-09 20:15:02,691 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-09 20:15:02,723 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-09 20:15:02,761 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-09 20:15:02,788 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-09 20:15:02,815 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.2 / < -9)
+2026-11-09 20:15:02,853 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.0 / < -9)
+2026-11-09 20:15:02,880 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.4 / < -9)
+2026-11-09 20:15:02,918 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.2 / < -9)
+2026-11-09 20:15:02,947 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.4 / < -9)
+2026-11-09 20:15:02,995 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.4 / < -9)
+2026-11-09 20:15:03,023 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.5 / < -9)
+2026-11-09 20:15:03,055 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.7 / < -9)
+2026-11-09 20:15:03,095 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.4 / < -9)
+2026-11-09 20:15:03,118 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.8 / < -9)
+2026-11-09 20:15:03,186 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.5 / < -9)
+2026-11-09 20:15:03,220 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.8 / < -9)
+2026-11-09 20:15:03,250 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.4 / < -9)
+2026-11-09 20:15:03,288 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.1 / < -9)
+2026-11-09 20:15:03,313 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.0 / < -9)
+2026-11-09 20:15:03,346 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.2 / < -9)
+2026-11-09 20:15:03,376 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-09 20:15:03,435 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.1 / < -9)
+2026-11-09 20:15:03,464 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.5 / < -9)
+2026-11-09 20:15:03,489 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.9 / < -9)
+2026-11-09 20:15:03,558 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-09 20:15:03,588 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.1 / < -9)
+2026-11-09 20:15:03,615 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.6 / < -9)
+2026-11-09 20:15:03,655 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.2 / < -9)
+2026-11-09 20:15:03,682 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.4 / < -9)
+2026-11-09 20:15:03,713 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.1 / < -9)
+2026-11-09 20:15:03,743 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.7 / < -9)
+2026-11-09 20:15:03,776 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.0 / < -9)
+2026-11-09 20:15:03,805 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.4 / < -9)
+2026-11-09 20:15:03,860 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.3 / < -9)
+2026-11-09 20:15:03,892 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.5 / < -9)
+2026-11-09 20:15:03,926 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.9 / < -9)
+2026-11-09 20:15:03,956 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.3 / < -9)
+2026-11-09 20:15:03,983 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.2 / < -9)
+2026-11-09 20:15:04,023 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.3 / < -9)
+2026-11-09 20:15:04,053 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.2 / < -9)
+2026-11-09 20:15:04,087 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.3 / < -9)
+2026-11-09 20:15:04,112 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.4 / < -9)
+2026-11-09 20:15:04,148 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.1 / < -9)
+2026-11-09 20:15:04,183 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.2 / < -9)
+2026-11-09 20:15:04,215 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.2 / < -9)
+2026-11-09 20:15:04,244 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.7 / < -9)
+2026-11-09 20:15:04,300 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.4 / < -9)
+2026-11-09 20:15:04,319 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.9 / < -9)
+2026-11-09 20:15:04,358 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.2 / < -9)
+2026-11-09 20:15:04,390 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.5 / < -9)
+2026-11-09 20:15:04,424 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.2 / < -9)
+2026-11-09 20:15:04,454 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.4 / < -9)
+2026-11-09 20:15:04,488 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.6 / < -9)
+2026-11-09 20:15:04,514 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.4 / < -9)
+2026-11-09 20:15:04,550 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.7 / < -9)
+2026-11-09 20:15:04,580 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.8 / < -9)
+2026-11-09 20:15:04,616 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-09 20:15:04,644 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.8 / < -9)
+2026-11-09 20:15:04,672 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.1 / < -9)
+2026-11-09 20:15:04,731 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.5 / < -9)
+2026-11-09 20:15:04,754 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-09 20:15:04,787 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.0 / < -9)
+2026-11-09 20:15:04,823 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-09 20:15:04,855 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.9 / < -9)
+2026-11-09 20:15:04,883 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.8 / < -9)
+2026-11-09 20:15:04,913 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.6 / < -9)
+2026-11-09 20:15:04,945 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.3 / < -9)
+2026-11-09 20:15:04,979 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.2 / < -9)
+2026-11-09 20:15:05,009 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.6 / < -9)
+2026-11-09 20:15:05,041 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.1 / < -9)
+2026-11-09 20:15:05,102 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.5 / < -9)
+2026-11-09 20:15:05,151 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.3 / < -9)
+2026-11-09 20:15:05,182 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.0 / < -9)
+2026-11-09 20:15:05,216 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.9 / < -9)
+2026-11-09 20:15:05,246 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.5 / < -9)
+2026-11-09 20:15:05,281 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.5 / < -9)
+2026-11-09 20:15:05,314 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-09 20:15:05,343 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.3 / < -9)
+2026-11-09 20:15:05,377 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.7 / < -9)
+2026-11-09 20:15:05,406 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.4 / < -9)
+2026-11-09 20:15:05,439 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.8 / < -9)
+2026-11-09 20:15:05,470 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:05,501 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.5 / < -9)
+2026-11-09 20:15:05,533 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-09 20:15:05,586 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:05,614 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.6 / < -9)
+2026-11-09 20:15:05,646 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.2 / < -9)
+2026-11-09 20:15:05,687 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-09 20:15:05,714 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-09 20:15:05,716 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 15720).
+2026-11-09 20:15:05,745 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.3 / < -9)
+2026-11-09 20:15:05,776 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.7 / < -9)
+2026-11-09 20:15:05,810 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.1 / < -9)
+2026-11-09 20:15:05,829 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 15720).
+2026-11-09 20:15:05,843 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-09 20:15:05,873 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.9 / < -9)
+2026-11-09 20:15:05,904 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-09 20:15:05,934 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-09 20:15:05,964 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-09 20:15:06,013 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.4 / < -9)
+2026-11-09 20:15:06,048 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-09 20:15:06,081 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.0 / < -9)
+2026-11-09 20:15:06,113 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.5 / < -9)
+2026-11-09 20:15:06,149 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.1 / < -9)
+2026-11-09 20:15:06,173 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.9 / < -9)
+2026-11-09 20:15:06,208 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.3 / < -9)
+2026-11-09 20:15:06,237 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.0 / < -9)
+2026-11-09 20:15:06,269 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.3 / < -9)
+2026-11-09 20:15:06,300 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:06,340 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.8 / < -9)
+2026-11-09 20:15:06,371 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-09 20:15:06,406 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.2 / < -9)
+2026-11-09 20:15:06,458 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.0 / < -9)
+2026-11-09 20:15:06,487 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-09 20:15:06,551 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.0 / < -9)
+2026-11-09 20:15:06,579 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:06,613 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.6 / < -9)
+2026-11-09 20:15:06,648 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.0 / < -9)
+2026-11-09 20:15:06,676 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.3 / < -9)
+2026-11-09 20:15:06,709 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:06,734 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.0 / < -9)
+2026-11-09 20:15:06,770 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.3 / < -9)
+2026-11-09 20:15:06,867 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.9 / < -9)
+2026-11-09 20:15:06,894 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.6 / < -9)
+2026-11-09 20:15:06,950 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-09 20:15:06,978 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.9 / < -9)
+2026-11-09 20:15:07,013 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:07,057 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.3 / < -9)
+2026-11-09 20:15:07,136 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:07,175 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.5 / < -9)
+2026-11-09 20:15:07,212 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:07,246 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.5 / < -9)
+2026-11-09 20:15:07,281 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.2 / < -9)
+2026-11-09 20:15:07,316 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.3 / < -9)
+2026-11-09 20:15:07,351 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.0 / < -9)
+2026-11-09 20:15:07,387 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.7 / < -9)
+2026-11-09 20:15:07,421 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.8 / < -9)
+2026-11-09 20:15:07,452 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.2 / < -9)
+2026-11-09 20:15:07,486 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-09 20:15:07,519 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.2 / < -9)
+2026-11-09 20:15:07,553 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.3 / < -9)
+2026-11-09 20:15:07,589 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.2 / < -9)
+2026-11-09 20:15:07,623 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.3 / < -9)
+2026-11-09 20:15:07,657 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.9 / < -9)
+2026-11-09 20:15:07,692 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.1 / < -9)
+2026-11-09 20:15:07,725 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-09 20:15:07,763 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.6 / < -9)
+2026-11-09 20:15:07,799 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.4 / < -9)
+2026-11-09 20:15:07,831 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.3 / < -9)
+2026-11-09 20:15:07,874 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.9 / < -9)
+2026-11-09 20:15:07,902 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-09 20:15:07,936 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-09 20:15:07,972 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.6 / < -9)
+2026-11-09 20:15:08,006 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.9 / < -9)
+2026-11-09 20:15:08,034 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.2 / < -9)
+2026-11-09 20:15:08,068 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.0 / < -9)
+2026-11-09 20:15:08,101 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.4 / < -9)
+2026-11-09 20:15:08,131 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.1 / < -9)
+2026-11-09 20:15:08,164 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.8 / < -9)
+2026-11-09 20:15:08,194 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.0 / < -9)
+2026-11-09 20:15:08,230 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.7 / < -9)
+2026-11-09 20:15:08,260 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.8 / < -9)
+2026-11-09 20:15:08,289 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.0 / < -9)
+2026-11-09 20:15:08,332 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.7 / < -9)
+2026-11-09 20:15:08,364 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.6 / < -9)
+2026-11-09 20:15:08,407 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-09 20:15:08,443 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.7 / < -9)
+2026-11-09 20:15:08,542 [INFO] [FaceID-Daemon] [*] Thu thach liveness: HET GIO! Nhan 'r' de thu thach moi
+2026-11-09 20:15:08,542 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 2 lan)
+2026-11-09 20:15:49,387 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=15720, Thresh=0.72)
+2026-11-09 20:15:50,827 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:15:59,749 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Hay dua ban tay vao khung hinh camera
+2026-11-09 20:15:59,749 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 1 lan)
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\faceid-auth-desktop\daemon.py", line 17, in <module>
+    from core.server import FaceIDDaemon, DEFAULT_SOCKET_PATH
+  File "C:\Users\ADMIN\faceid-auth-desktop\core\server.py", line 13, in <module>
+    from platforms.linux.camera import LinuxCameraManager, CameraBusyError, CameraDeviceError, VirtualCameraDetectedError
+  File "C:\Users\ADMIN\faceid-auth-desktop\platforms\linux\camera.py", line 7, in <module>
+    import cv2
+ModuleNotFoundError: No module named 'cv2'
+2026-11-09 20:21:10,824 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:21:10,839 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:21:10,873 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:21:11,031 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:21:11,031 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:21:11,441 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.41s!
+2026-11-09 20:21:11,443 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:21:57,677 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:21:57,677 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:21:57,680 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:21:57,781 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:21:57,781 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:21:58,058 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.28s!
+2026-11-09 20:21:58,059 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:23:31,669 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:23:31,669 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:23:31,669 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:23:31,758 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:23:31,758 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:23:32,034 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.28s!
+2026-11-09 20:23:32,035 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:28:12,684 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:28:12,684 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:28:12,684 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:28:12,774 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:28:12,774 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:28:13,051 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.28s!
+2026-11-09 20:28:13,051 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:28:31,237 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:28:31,237 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:28:31,237 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:28:31,327 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:28:31,327 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:28:31,621 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.29s!
+2026-11-09 20:28:31,625 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:35:43,568 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:35:43,568 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:35:43,568 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:35:43,647 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:35:43,647 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:35:43,897 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.25s!
+2026-11-09 20:35:43,899 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:36:48,840 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:36:48,843 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:36:48,875 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:36:49,035 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:36:49,035 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:36:49,407 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.37s!
+2026-11-09 20:36:49,407 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:37:43,273 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:37:43,273 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:37:43,285 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:37:43,625 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:37:43,625 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:37:43,988 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.36s!
+2026-11-09 20:37:43,990 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:37:51,970 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15644, Thresh=0.68)
+2026-11-09 20:37:53,624 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:37:54,061 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.992
+2026-11-09 20:38:03,509 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15644, Thresh=0.68)
+2026-11-09 20:38:04,883 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:38:05,139 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.995
+2026-11-09 20:38:28,893 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15644, Thresh=0.68)
+2026-11-09 20:38:31,019 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:38:31,146 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.992
+2026-11-09 20:53:27,779 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15644, Thresh=0.68)
+2026-11-09 20:53:30,837 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:53:33,306 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.834
+2026-11-09 20:54:13,054 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:54:13,054 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:54:13,054 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:54:13,227 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:54:13,227 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:54:13,557 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.33s!
+2026-11-09 20:54:13,557 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:54:41,866 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9560, Thresh=0.68)
+2026-11-09 20:54:43,568 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:54:44,206 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.971
+2026-11-09 20:55:54,767 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-09 20:55:54,779 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-09 20:55:54,812 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-09 20:55:55,005 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-09 20:55:55,005 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-09 20:55:55,376 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.37s!
+2026-11-09 20:55:55,378 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-09 20:55:55,847 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15764, Thresh=0.68)
+2026-11-09 20:55:57,503 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-09 20:55:57,976 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.833
+2026-11-09 20:56:20,441 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 15764).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 15764)...
+2026-11-11 13:24:10,715 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-11 13:24:10,752 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-11 13:24:10,818 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-11 13:24:11,008 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-11 13:24:11,008 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-11 13:24:11,394 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.39s!
+2026-11-11 13:24:11,395 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-11 13:24:14,697 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 18188).
+2026-11-11 13:24:19,002 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=18188, Thresh=0.68)
+2026-11-11 13:24:21,248 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:24:21,697 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.994
+2026-11-11 13:27:08,732 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc TAT (DISABLED/BYPASS) qua IPC (PID: 18188).
+2026-11-11 13:32:24,640 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 18188).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 18188)...
+2026-11-11 13:37:57,895 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-11 13:37:57,912 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-11 13:37:58,036 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-11 13:37:58,239 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-11 13:37:58,239 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-11 13:37:58,746 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.51s!
+2026-11-11 13:37:58,748 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-11 13:38:02,407 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 17612).
+2026-11-11 13:38:07,160 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=17612, Thresh=0.68)
+2026-11-11 13:38:09,752 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:38:10,405 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.994
+2026-11-11 13:42:54,189 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 17612).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 17612)...
+2026-11-11 13:44:18,374 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-11 13:44:18,374 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-11 13:44:18,381 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-11 13:44:18,477 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-11 13:44:18,478 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-11 13:44:18,818 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.34s!
+2026-11-11 13:44:18,822 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-11 13:44:19,360 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 17864).
+2026-11-11 13:44:19,450 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 17864).
+2026-11-11 13:45:57,177 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-11 13:45:57,177 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-11 13:45:57,184 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-11 13:45:57,281 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-11 13:45:57,281 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-11 13:45:57,621 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.34s!
+2026-11-11 13:45:57,621 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-11 13:46:08,612 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=1104, Thresh=0.72)
+2026-11-11 13:46:11,426 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:46:11,739 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-11 13:46:11,787 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-11 13:46:11,886 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-11 13:46:11,934 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-11 13:46:12,085 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-11 13:46:12,134 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-11 13:46:12,190 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-11 13:46:12,346 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-11 13:46:12,393 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.6 / < -9)
+2026-11-11 13:46:12,458 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.3 / < -9)
+2026-11-11 13:46:12,614 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-11 13:46:12,662 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.4 / < -9)
+2026-11-11 13:46:12,712 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.6 / < -9)
+2026-11-11 13:46:12,877 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.9 / < -9)
+2026-11-11 13:46:12,926 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.5 / < -9)
+2026-11-11 13:46:12,991 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-11 13:46:13,057 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.9 / < -9)
+2026-11-11 13:46:13,125 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.8 / < -9)
+2026-11-11 13:46:13,188 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.6 / < -9)
+2026-11-11 13:46:13,249 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.3 / < -9)
+2026-11-11 13:46:13,376 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.3 / < -9)
+2026-11-11 13:46:13,434 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-11 13:46:13,514 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.8 / < -9)
+2026-11-11 13:46:13,579 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.2 / < -9)
+2026-11-11 13:46:13,641 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.1 / < -9)
+2026-11-11 13:46:13,705 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.6 / < -9)
+2026-11-11 13:46:13,775 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.1 / < -9)
+2026-11-11 13:46:13,832 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.1 / < -9)
+2026-11-11 13:46:13,963 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.3 / < -9)
+2026-11-11 13:46:14,043 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.6 / < -9)
+2026-11-11 13:46:14,105 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.3 / < -9)
+2026-11-11 13:46:14,172 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.0 / < -9)
+2026-11-11 13:46:14,235 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.4 / < -9)
+2026-11-11 13:46:14,299 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.3 / < -9)
+2026-11-11 13:46:14,360 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.3 / < -9)
+2026-11-11 13:46:14,492 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.0 / < -9)
+2026-11-11 13:46:14,569 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.3 / < -9)
+2026-11-11 13:46:14,638 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.5 / < -9)
+2026-11-11 13:46:14,698 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.4 / < -9)
+2026-11-11 13:46:14,763 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.1 / < -9)
+2026-11-11 13:46:14,824 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.3 / < -9)
+2026-11-11 13:46:14,890 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.0 / < -9)
+2026-11-11 13:46:14,956 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.4 / < -9)
+2026-11-11 13:46:15,020 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.1 / < -9)
+2026-11-11 13:46:15,167 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.1 / < -9)
+2026-11-11 13:46:15,229 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.4 / < -9)
+2026-11-11 13:46:15,294 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.0 / < -9)
+2026-11-11 13:46:15,353 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +3.8 / < -9)
+2026-11-11 13:46:15,420 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.7 / < -9)
+2026-11-11 13:46:15,482 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.4 / < -9)
+2026-11-11 13:46:15,551 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.5 / < -9)
+2026-11-11 13:46:15,625 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.4 / < -9)
+2026-11-11 13:46:15,692 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.8 / < -9)
+2026-11-11 13:46:15,752 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.5 / < -9)
+2026-11-11 13:46:15,984 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.9 / < -9)
+2026-11-11 13:46:16,031 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.6 / < -9)
+2026-11-11 13:46:16,089 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.1 / < -9)
+2026-11-11 13:46:16,157 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.5 / < -9)
+2026-11-11 13:46:16,218 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.0 / < -9)
+2026-11-11 13:46:16,283 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.1 / < -9)
+2026-11-11 13:46:16,347 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.5 / < -9)
+2026-11-11 13:46:16,412 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.8 / < -9)
+2026-11-11 13:46:16,475 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.0 / < -9)
+2026-11-11 13:46:16,539 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.1 / < -9)
+2026-11-11 13:46:16,624 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.7 / < -9)
+2026-11-11 13:46:16,683 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.9 / < -9)
+2026-11-11 13:46:16,746 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.0 / < -9)
+2026-11-11 13:46:16,811 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.9 / < -9)
+2026-11-11 13:46:16,877 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.7 / < -9)
+2026-11-11 13:46:16,939 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.5 / < -9)
+2026-11-11 13:46:17,001 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.4 / < -9)
+2026-11-11 13:46:17,067 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.8 / < -9)
+2026-11-11 13:46:17,212 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.7 / < -9)
+2026-11-11 13:46:17,277 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.9 / < -9)
+2026-11-11 13:46:17,343 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.8 / < -9)
+2026-11-11 13:46:17,404 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.6 / < -9)
+2026-11-11 13:46:17,466 [INFO] [FaceID-Daemon] [*] Thu thach liveness: HET GIO! Nhan 'r' de thu thach moi
+2026-11-11 13:46:17,466 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 2 lan)
+2026-11-11 13:46:20,470 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=1104, Thresh=0.72)
+2026-11-11 13:46:22,670 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:46:22,802 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (1/6)
+2026-11-11 13:46:22,851 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (2/6)
+2026-11-11 13:46:22,907 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (3/6)
+2026-11-11 13:46:22,971 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (4/6)
+2026-11-11 13:46:23,032 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (5/6)
+2026-11-11 13:46:23,124 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay chop mat
+2026-11-11 13:46:23,181 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 95%)
+2026-11-11 13:46:23,242 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 89%)
+2026-11-11 13:46:23,310 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 85%)
+2026-11-11 13:46:23,370 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 89%)
+2026-11-11 13:46:23,432 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 88%)
+2026-11-11 13:46:23,496 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 92%)
+2026-11-11 13:46:23,561 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 86%)
+2026-11-11 13:46:23,624 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 90%)
+2026-11-11 13:46:23,713 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 89%)
+2026-11-11 13:46:23,771 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 80%)
+2026-11-11 13:46:23,835 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 91%)
+2026-11-11 13:46:23,899 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 81%)
+2026-11-11 13:46:23,963 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (MO 80%)
+2026-11-11 13:46:24,025 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (NHAM 78%)
+2026-11-11 13:46:24,090 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (NHAM 80%)
+2026-11-11 13:46:24,155 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (NHAM 76%)
+2026-11-11 13:46:24,297 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (NHAM 78%)
+2026-11-11 13:46:24,366 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/2 (NHAM 88%)
+2026-11-11 13:46:24,432 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 1/2 (MO 93%)
+2026-11-11 13:46:24,493 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 1/2 (MO 81%)
+2026-11-11 13:46:24,556 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 1/2 (NHAM 75%)
+2026-11-11 13:46:24,618 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 1/2 (NHAM 72%)
+2026-11-11 13:46:24,681 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 1/2 (NHAM 86%)
+2026-11-11 13:46:24,762 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da chop 2 lan!
+2026-11-11 13:46:24,762 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-11 13:46:28,714 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 1 lan)
+2026-11-11 13:46:35,250 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 1104).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 1104)...
+2026-11-11 13:46:43,311 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-11 13:46:43,311 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-11 13:46:43,313 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-11 13:46:43,402 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-11 13:46:43,402 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-11 13:46:43,656 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.25s!
+2026-11-11 13:46:43,656 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-11 13:46:45,111 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 14532).
+2026-11-11 13:46:49,104 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=14532, Thresh=0.72)
+2026-11-11 13:46:51,245 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:46:51,323 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-11 13:46:51,394 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-11 13:46:51,462 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-11 13:46:51,528 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-11 13:46:51,588 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-11 13:46:51,648 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-11 13:46:51,730 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-11 13:46:51,792 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-11 13:46:51,854 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.8 / > +8)
+2026-11-11 13:46:51,985 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.9 / > +8)
+2026-11-11 13:46:52,050 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.4 / > +8)
+2026-11-11 13:46:52,110 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.5 / > +8)
+2026-11-11 13:46:52,172 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.2 / > +8)
+2026-11-11 13:46:52,256 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.1 / > +8)
+2026-11-11 13:46:52,319 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-11 13:46:52,383 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-11 13:46:52,446 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-11 13:46:52,515 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.4 / > +8)
+2026-11-11 13:46:52,577 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.8 / > +8)
+2026-11-11 13:46:52,641 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.5 / > +8)
+2026-11-11 13:46:52,702 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.1 / > +8)
+2026-11-11 13:46:52,782 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.9 / > +8)
+2026-11-11 13:46:52,846 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.4 / > +8)
+2026-11-11 13:46:52,974 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-11 13:46:53,040 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-11 13:46:53,109 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.4 / > +8)
+2026-11-11 13:46:53,169 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-11 13:46:53,233 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-11 13:46:53,323 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-11 13:46:53,383 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.4 / > +8)
+2026-11-11 13:46:53,446 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.6 / > +8)
+2026-11-11 13:46:53,497 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-11 13:46:53,571 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.9 / > +8)
+2026-11-11 13:46:53,634 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-11 13:46:53,693 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.8 / > +8)
+2026-11-11 13:46:53,844 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.8 / > +8)
+2026-11-11 13:46:53,903 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.3 / > +8)
+2026-11-11 13:46:53,964 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.6 / > +8)
+2026-11-11 13:46:54,032 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-11 13:46:54,093 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.7 / > +8)
+2026-11-11 13:46:54,159 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-11 13:46:54,223 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.1 / > +8)
+2026-11-11 13:46:54,294 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-11 13:46:54,368 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.0 / > +8)
+2026-11-11 13:46:54,436 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-11 13:46:54,493 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.1 / > +8)
+2026-11-11 13:46:54,569 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.0 / > +8)
+2026-11-11 13:46:54,629 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.1 / > +8)
+2026-11-11 13:46:54,693 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.0 / > +8)
+2026-11-11 13:46:54,756 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.7 / > +8)
+2026-11-11 13:46:54,817 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.6 / > +8)
+2026-11-11 13:46:54,899 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.8 / > +8)
+2026-11-11 13:46:54,952 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.5 / > +8)
+2026-11-11 13:46:55,025 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.3 / > +8)
+2026-11-11 13:46:55,095 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.9 / > +8)
+2026-11-11 13:46:55,222 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.4 / > +8)
+2026-11-11 13:46:55,279 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.8 / > +8)
+2026-11-11 13:46:55,346 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.6 / > +8)
+2026-11-11 13:46:55,434 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.1 / > +8)
+2026-11-11 13:46:55,494 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-11 13:46:55,560 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-11 13:46:55,613 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.0 / > +8)
+2026-11-11 13:46:55,742 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.0 / > +8)
+2026-11-11 13:46:55,807 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-11 13:46:55,889 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-11 13:46:55,943 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.9 / > +8)
+2026-11-11 13:46:56,015 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.4 / > +8)
+2026-11-11 13:46:56,077 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.9 / > +8)
+2026-11-11 13:46:56,142 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.8 / > +8)
+2026-11-11 13:46:56,207 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-11 13:46:56,273 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-11 13:46:56,334 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.8 / > +8)
+2026-11-11 13:46:56,420 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-11 13:46:56,477 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-11 13:46:56,536 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.9 / > +8)
+2026-11-11 13:46:56,605 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.8 / > +8)
+2026-11-11 13:46:56,675 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.3 / > +8)
+2026-11-11 13:46:56,801 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.1 / > +8)
+2026-11-11 13:46:56,872 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.7 / > +8)
+2026-11-11 13:46:56,944 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.4 / > +8)
+2026-11-11 13:46:57,004 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-11 13:46:57,071 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-11 13:46:57,133 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-11 13:46:57,195 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.0 / > +8)
+2026-11-11 13:46:57,271 [INFO] [FaceID-Daemon] [*] Thu thach liveness: HET GIO! Nhan 'r' de thu thach moi
+2026-11-11 13:46:57,271 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 2 lan)
+2026-11-11 13:46:59,970 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=14532, Thresh=0.72)
+2026-11-11 13:47:01,438 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:47:01,510 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (1/6)
+2026-11-11 13:47:01,589 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (2/6)
+2026-11-11 13:47:01,659 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (3/6)
+2026-11-11 13:47:01,723 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (4/6)
+2026-11-11 13:47:01,778 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (5/6)
+2026-11-11 13:47:01,848 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay chop mat
+2026-11-11 13:47:01,924 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 96%)
+2026-11-11 13:47:01,983 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 97%)
+2026-11-11 13:47:02,040 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 96%)
+2026-11-11 13:47:02,116 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 95%)
+2026-11-11 13:47:02,177 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 82%)
+2026-11-11 13:47:02,242 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 94%)
+2026-11-11 13:47:02,305 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 82%)
+2026-11-11 13:47:02,368 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 90%)
+2026-11-11 13:47:02,453 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 79%)
+2026-11-11 13:47:02,507 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 73%)
+2026-11-11 13:47:02,572 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da chop 1 lan!
+2026-11-11 13:47:02,572 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-11 13:47:02,644 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.992
+2026-11-11 13:47:07,844 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=14532, Thresh=0.72)
+2026-11-11 13:47:09,409 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:47:09,650 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-11 13:47:09,673 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-11 13:47:09,696 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-11 13:47:09,849 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-11 13:47:09,873 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-11 13:47:09,885 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-11 13:47:10,042 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-11 13:47:10,061 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-11 13:47:10,074 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.2 / < -9)
+2026-11-11 13:47:10,152 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.1 / < -9)
+2026-11-11 13:47:10,301 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.9 / < -9)
+2026-11-11 13:47:10,322 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.2 / < -9)
+2026-11-11 13:47:10,338 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.6 / < -9)
+2026-11-11 13:47:10,415 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.8 / < -9)
+2026-11-11 13:47:10,569 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.0 / < -9)
+2026-11-11 13:47:10,589 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.5 / < -9)
+2026-11-11 13:47:10,601 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-11 13:47:10,677 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-11 13:47:10,839 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.7 / < -9)
+2026-11-11 13:47:10,853 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-11 13:47:10,869 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.8 / < -9)
+2026-11-11 13:47:10,948 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.1 / < -9)
+2026-11-11 13:47:11,096 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-11 13:47:11,114 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.5 / < -9)
+2026-11-11 13:47:11,131 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.5 / < -9)
+2026-11-11 13:47:11,203 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.7 / < -9)
+2026-11-11 13:47:11,357 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.9 / < -9)
+2026-11-11 13:47:11,381 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.5 / < -9)
+2026-11-11 13:47:11,397 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.6 / < -9)
+2026-11-11 13:47:11,472 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.3 / < -9)
+2026-11-11 13:47:11,631 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.7 / < -9)
+2026-11-11 13:47:11,648 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-11 13:47:11,662 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.7 / < -9)
+2026-11-11 13:47:11,717 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.5 / < -9)
+2026-11-11 13:47:11,880 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.7 / < -9)
+2026-11-11 13:47:11,913 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.9 / < -9)
+2026-11-11 13:47:12,078 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-11 13:47:12,090 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.7 / < -9)
+2026-11-11 13:47:12,116 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.3 / < -9)
+2026-11-11 13:47:12,185 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-11 13:47:12,250 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.4 / < -9)
+2026-11-11 13:47:12,310 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.9 / < -9)
+2026-11-11 13:47:12,374 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.4 / < -9)
+2026-11-11 13:47:12,451 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.5 / < -9)
+2026-11-11 13:47:12,545 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -7.5 / < -9)
+2026-11-11 13:47:12,610 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (1/3)...
+2026-11-11 13:47:12,647 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.6 / < -9)
+2026-11-11 13:47:12,720 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -6.5 / < -9)
+2026-11-11 13:47:12,786 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-11 13:47:12,846 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.5 / < -9)
+2026-11-11 13:47:12,909 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.0 / < -9)
+2026-11-11 13:47:12,981 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.3 / < -9)
+2026-11-11 13:47:13,051 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.2 / < -9)
+2026-11-11 13:47:13,120 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.9 / < -9)
+2026-11-11 13:47:13,180 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.5 / < -9)
+2026-11-11 13:47:13,257 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -8.2 / < -9)
+2026-11-11 13:47:13,308 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -8.7 / < -9)
+2026-11-11 13:47:13,388 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -6.1 / < -9)
+2026-11-11 13:47:13,511 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -6.0 / < -9)
+2026-11-11 13:47:13,598 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -6.1 / < -9)
+2026-11-11 13:47:13,655 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -7.0 / < -9)
+2026-11-11 13:47:13,724 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.4 / < -9)
+2026-11-11 13:47:13,784 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.5 / < -9)
+2026-11-11 13:47:13,847 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.0 / < -9)
+2026-11-11 13:47:13,908 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.6 / < -9)
+2026-11-11 13:47:13,977 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.8 / < -9)
+2026-11-11 13:47:14,054 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.1 / < -9)
+2026-11-11 13:47:14,115 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.3 / < -9)
+2026-11-11 13:47:14,180 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.0 / < -9)
+2026-11-11 13:47:14,246 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.1 / < -9)
+2026-11-11 13:47:14,319 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.5 / < -9)
+2026-11-11 13:47:14,379 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.0 / < -9)
+2026-11-11 13:47:14,438 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.9 / < -9)
+2026-11-11 13:47:14,514 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.1 / < -9)
+2026-11-11 13:47:14,586 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-11 13:47:14,657 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.8 / < -9)
+2026-11-11 13:47:14,709 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-11 13:47:14,777 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.7 / < -9)
+2026-11-11 13:47:14,827 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.5 / < -9)
+2026-11-11 13:47:14,910 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.6 / < -9)
+2026-11-11 13:47:14,973 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.6 / < -9)
+2026-11-11 13:47:15,035 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +2.1 / < -9)
+2026-11-11 13:47:15,108 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.7 / < -9)
+2026-11-11 13:47:15,168 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.2 / < -9)
+2026-11-11 13:47:15,234 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.0 / < -9)
+2026-11-11 13:47:15,299 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.4 / < -9)
+2026-11-11 13:47:15,369 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +1.3 / < -9)
+2026-11-11 13:47:15,429 [INFO] [FaceID-Daemon] [*] Thu thach liveness: HET GIO! Nhan 'r' de thu thach moi
+2026-11-11 13:47:15,429 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 2 lan)
+2026-11-11 13:47:18,153 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=14532, Thresh=0.72)
+2026-11-11 13:47:19,600 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:47:19,674 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu mat tu nhien, chua cuoi... (5)
+2026-11-11 13:47:19,750 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu mat tu nhien, chua cuoi... (4)
+2026-11-11 13:47:19,808 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu mat tu nhien, chua cuoi... (3)
+2026-11-11 13:47:19,884 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu mat tu nhien, chua cuoi... (2)
+2026-11-11 13:47:19,945 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu mat tu nhien, chua cuoi... (1)
+2026-11-11 13:47:20,013 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Bay gio hay cuoi mim hoac cuoi thay rang :D
+2026-11-11 13:47:20,081 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++0%)
+2026-11-11 13:47:20,153 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++1%)
+2026-11-11 13:47:20,669 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:20,800 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:20,995 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:21,066 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:21,139 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:21,200 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:21,260 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:21,661 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:22,050 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:22,257 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-2%)
+2026-11-11 13:47:22,388 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:22,449 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-2%)
+2026-11-11 13:47:22,577 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:22,718 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++1%)
+2026-11-11 13:47:22,847 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++0%)
+2026-11-11 13:47:23,043 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:23,171 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:23,374 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-2%)
+2026-11-11 13:47:23,499 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:23,841 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:23,971 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++0%)
+2026-11-11 13:47:24,160 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++1%)
+2026-11-11 13:47:24,304 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++0%)
+2026-11-11 13:47:24,432 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++1%)
+2026-11-11 13:47:24,552 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (++0%)
+2026-11-11 13:47:24,687 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:24,830 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:25,028 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:25,427 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-0%)
+2026-11-11 13:47:25,478 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Cuoi mim hoac cuoi thay rang :D (+-1%)
+2026-11-11 13:47:25,617 [INFO] [FaceID-Daemon] [*] Thu thach liveness: HET GIO! Nhan 'r' de thu thach moi
+2026-11-11 13:47:25,617 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 1 lan)
+2026-11-11 13:49:22,562 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-11 13:49:37,044 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 14532).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 14532)...
+2026-11-11 13:49:41,979 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-11 13:49:41,980 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-11 13:49:41,981 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-11 13:49:42,082 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-11 13:49:42,082 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-11 13:49:42,360 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.28s!
+2026-11-11 13:49:42,360 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-11 13:51:20,676 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-11 13:51:20,676 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: detector (face_detection_yunet.onnx)
+2026-11-11 13:51:20,681 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: anti_spoof (minifasnet_v2.onnx)
+2026-11-11 13:51:20,761 [INFO] [FaceID-Daemon] [+] SHA-256 Integrity Verified OK: embedder (arcface.onnx)
+2026-11-11 13:51:20,761 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-11 13:51:21,014 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.25s!
+2026-11-11 13:51:21,014 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-11 13:51:43,425 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=7928, Thresh=0.68)
+2026-11-11 13:51:46,023 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:51:46,486 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.995
+2026-11-11 13:51:50,826 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=7928, Thresh=0.68)
+2026-11-11 13:51:53,061 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:51:53,483 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.994
+2026-11-11 13:51:57,293 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=7928, Thresh=0.68)
+2026-11-11 13:51:59,637 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:52:00,046 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.992
+2026-11-11 13:53:41,310 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=7928, Thresh=0.68)
+2026-11-11 13:53:43,945 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-11 13:53:44,424 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.992

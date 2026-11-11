@@ -212,6 +212,12 @@ def main():
                     last_face_box = None
 
             elif len(detections) > 1:
+                # Tu dong chon mat chu the chinh lon nhat (gan camera nhat), bo qua nguoi o phia sau
+                detections.sort(key=lambda d: (d[0][2] - d[0][0]) * (d[0][1] - d[0][3]), reverse=True)
+                box, landmarks, _ = detections[0]
+                top, right, bottom, left = box
+                box_mirrored = (w - right, top, w - left, bottom)
+                detail_text = f"Phat hien {len(detections)} mat -> Uu tien chu the chinh gan nhat"
                 if active_success:
                     active_success = False
                     active_success_time = 0.0

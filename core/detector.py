@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 
 # Tat hoan toan dong log [ WARN:0@... Targets are not supported ... ]
+#tìm các khuôn mặt có trong khung ảnh và chấm 5 điểm trên khuôn mặt bằng AI
 cv2.utils.logging.setLogLevel(cv2.utils.logging.LOG_LEVEL_ERROR)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
