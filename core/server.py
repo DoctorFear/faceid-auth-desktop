@@ -422,13 +422,13 @@ class FaceIDDaemon:
             service = req.get("service", "sudo").strip()
 
             # Kiem tra SO_PEERCRED:
-            # Tren Linux, tien trinh gui AUTH chi duoc phep la root (UID 0 tu PAM)
-            # hoac chinh la process cua user do dang chay.
-            if sys.platform != "win32" and peer_uid != 0 and action == "auth":
+            # Tren Linux, tien trinh gui AUTH chi duoc phep la root (UID 0 tu PAM),
+            # cung UID voi tien trinh Daemon, hoac chinh la process cua user do dang chay.
+            if sys.platform != "win32" and peer_uid not in (0, os.getuid()) and action == "auth":
                 import pwd
                 try:
                     caller_name = pwd.getpwuid(peer_uid).pw_name
-                    if caller_name != user:
+                    if caller_name.lower() != user.lower():
                         logger.warning(f"[SECURITY] Process PID {peer_pid} (UID {peer_uid}:{caller_name}) co tinh goi AUTH cho user '{user}'! BI CHAN.")
                         conn.sendall(json.dumps({"status": "PERMISSION_DENIED", "fallback": "PASSWORD"}).encode("utf-8") + b"\n")
                         return
@@ -481,56 +481,91 @@ class FaceIDDaemon:
             if should_stop_daemon:
                 threading.Thread(target=self.stop, daemon=True).start()
 
-    def start(self):
-        """Khoi chay Server Socket va luu PID."""
-        sock_dir = os.path.dirname(os.path.abspath(self.socket_path))
-        os.makedirs(sock_dir, exist_ok=True)
-
-        # Luu PID file de faceidctl quan ly
-        try:
-            os.makedirs(os.path.dirname(os.path.abspath(self.pid_file)), exist_ok=True)
-            with open(self.pid_file, "w", encoding="utf-8") as f:
-                f.write(str(os.getpid()))
-        except Exception as e:
-            logger.warning(f"[-] Khong the ghi PID file {self.pid_file}: {e}")
-
-        if os.path.exists(self.socket_path) and sys.platform != "win32":
-            try:
-                os.remove(self.socket_path)
-            except OSError:
-                pass
-
-        if hasattr(socket, "AF_UNIX") and sys.platform != "win32":
-            self._server_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            self._server_sock.bind(self.socket_path)
-            os.chmod(self.socket_path, 0o660)
-            logger.info(f"[+] Lang nghe Unix Socket tai: {self.socket_path}")
-        else:
-            self._server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self._server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self._server_sock.bind(("127.0.0.1", self.windows_port))
-            logger.info(f"[+] Lang nghe TCP Socket tai: 127.0.0.1:{self.windows_port} (Windows Dev Mode)")
-
-        self._server_sock.listen(16)
-        self.running = True
-
+    def _accept_loop(self, sock: socket.socket):
         while self.running:
             try:
-                conn, _ = self._server_sock.accept()
+                conn, _ = sock.accept()
                 client_thread = threading.Thread(target=self.handle_client, args=(conn,), daemon=True)
                 client_thread.start()
             except Exception as e:
                 if self.running:
                     logger.error(f"Loi chap nhan ket noi: {e}")
 
+    def start(self):
+        """Khoi chay Server Socket va luu PID."""
+        # Luu PID file de faceidctl quan ly
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(self.pid_file)), exist_ok=True)
+            with open(self.pid_file, "w", encoding="utf-8") as f:
+                f.write(str(os.getpid()))
+            if sys.platform != "win32":
+                try:
+                    os.chmod(self.pid_file, 0o666)
+                except OSError:
+                    pass
+        except Exception as e:
+            logger.warning(f"[-] Khong the ghi PID file {self.pid_file}: {e}")
+
+        self._tcp_sock: Optional[socket.socket] = None
+
+        if hasattr(socket, "AF_UNIX") and sys.platform != "win32":
+            sock_dir = os.path.dirname(os.path.abspath(self.socket_path))
+            try:
+                os.makedirs(sock_dir, exist_ok=True)
+                if os.path.exists(self.socket_path):
+                    os.remove(self.socket_path)
+                self._server_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                self._server_sock.bind(self.socket_path)
+                os.chmod(self.socket_path, 0o666)
+            except (PermissionError, OSError):
+                # Fallback sang /tmp/faceid.sock neu chay bang user thuong khong co quyen ghi /run/faceid
+                self.socket_path = "/tmp/faceid.sock"
+                if os.path.exists(self.socket_path):
+                    try:
+                        os.remove(self.socket_path)
+                    except OSError:
+                        pass
+                self._server_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                self._server_sock.bind(self.socket_path)
+                try:
+                    os.chmod(self.socket_path, 0o666)
+                except OSError:
+                    pass
+            self._server_sock.listen(16)
+            logger.info(f"[+] Lang nghe Unix Socket tai: {self.socket_path}")
+
+            # Mo them cong TCP loopback 127.0.0.1:9876 tren Linux de ho tro GUI / Fuzz test / Dual-mode
+            try:
+                self._tcp_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self._tcp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                self._tcp_sock.bind(("127.0.0.1", self.windows_port))
+                self._tcp_sock.listen(16)
+                logger.info(f"[+] Lang nghe song song TCP Loopback tai: 127.0.0.1:{self.windows_port}")
+            except Exception as e:
+                logger.warning(f"[-] Khong the mo cong TCP phu {self.windows_port}: {e}")
+                self._tcp_sock = None
+        else:
+            self._server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self._server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self._server_sock.bind(("127.0.0.1", self.windows_port))
+            self._server_sock.listen(16)
+            logger.info(f"[+] Lang nghe TCP Socket tai: 127.0.0.1:{self.windows_port} (Windows Dev Mode)")
+
+        self.running = True
+        if self._tcp_sock is not None:
+            threading.Thread(target=self._accept_loop, args=(self._tcp_sock,), daemon=True).start()
+
+        self._accept_loop(self._server_sock)
+
     def stop(self):
         """Dung daemon va don dep socket / PID file."""
         self.running = False
-        if self._server_sock:
-            try:
-                self._server_sock.close()
-            except Exception:
-                pass
+        for s in (self._server_sock, getattr(self, "_tcp_sock", None)):
+            if s:
+                try:
+                    s.close()
+                except Exception:
+                    pass
         if os.path.exists(self.socket_path) and sys.platform != "win32":
             try:
                 os.remove(self.socket_path)

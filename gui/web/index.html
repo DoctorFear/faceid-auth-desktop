@@ -981,7 +981,12 @@
         const isIns = await window.pywebview.api.check_winlock_status();
         if (isIns) {
           clearInterval(timer);
-          updateUIState({ winlock_installed: true });
+          const init = await window.pywebview.api.get_initial_data();
+          if (init && init.status) {
+            updateUIState(init.status);
+          } else {
+            updateUIState({ winlock_installed: true });
+          }
           document.getElementById('onboardingModal').classList.add('hidden');
         } else if (attempts >= 35) {
           clearInterval(timer);

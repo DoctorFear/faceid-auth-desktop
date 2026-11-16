@@ -25,16 +25,29 @@ DEFAULT_SOCKET_PATH = "/run/faceid/faceid.sock"
 
 
 def communicate_daemon(user: str, service: str = "sudo", socket_path: str = DEFAULT_SOCKET_PATH) -> dict:
-    """Gui lenh xac thuc toi FaceID Daemon qua Unix Domain Socket."""
+    """Gui lenh xac thuc toi FaceID Daemon qua Unix Domain Socket hoac TCP Loopback."""
+    import os
     try:
+        s = None
         if hasattr(socket, "AF_UNIX") and sys.platform != "win32":
-            s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            s.connect(socket_path)
-        else:
+            for sp in (socket_path, "/tmp/faceid.sock"):
+                if os.path.exists(sp):
+                    try:
+                        cand = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                        cand.settimeout(12.0)
+                        cand.connect(sp)
+                        s = cand
+                        break
+                    except Exception:
+                        try:
+                            cand.close()
+                        except Exception:
+                            pass
+        if s is None:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(12.0)
             s.connect(("127.0.0.1", 9876))
 
-        s.settimeout(12.0)
         req = {"action": "auth", "user": user, "service": service}
         s.sendall((json.dumps(req) + "\n").encode("utf-8"))
 

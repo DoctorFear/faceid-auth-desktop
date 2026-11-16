@@ -39,6 +39,7 @@ LOG_FILE = get_fhs_path("daemon.log", category="data")
 WIN_TASK_NAME = "FaceID_Hybrid_Daemon"
 WIN_RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
 WIN_RUN_VAL = "FaceIDHybridDaemon"
+LINUX_AUTOSTART_FILE = os.path.expanduser("~/.config/autostart/faceid-daemon.desktop")
 
 
 def get_current_user():
@@ -85,15 +86,23 @@ def check_autostart_status():
         else:
             return False, "[TAT / DISABLED]"
     else:
+        has_xdg = os.path.exists(LINUX_AUTOSTART_FILE)
+        has_sysd = False
         try:
             r = subprocess.run(
                 ["systemctl", "is-enabled", "faceid-auth.service"],
                 capture_output=True, text=True
             )
             if r.returncode == 0 and "enabled" in r.stdout:
-                return True, "[BAT / ENABLED] (systemd faceid-auth.service)"
+                has_sysd = True
         except Exception:
             pass
+        if has_sysd and has_xdg:
+            return True, "[BAT / ENABLED] (systemd + XDG Autostart)"
+        elif has_sysd:
+            return True, "[BAT / ENABLED] (systemd faceid-auth.service)"
+        elif has_xdg:
+            return True, "[BAT / ENABLED] (Ubuntu XDG Autostart ~/.config/autostart)"
         return False, "[TAT / DISABLED]"
 
 
@@ -119,8 +128,30 @@ def cmd_enable_autostart(args):
         # Dam bao Daemon cung duoc bat ngay hien tai
         cmd_start(args)
     else:
-        print("[*] Dang kich hoat systemd service 'faceid-auth.service'...")
-        subprocess.run(["sudo", "systemctl", "enable", "--now", "faceid-auth.service"])
+        ctl_script = os.path.join(BASE_DIR, "scripts", "faceidctl")
+        try:
+            os.makedirs(os.path.dirname(LINUX_AUTOSTART_FILE), exist_ok=True)
+            desktop_content = (
+                "[Desktop Entry]\n"
+                "Type=Application\n"
+                "Name=FaceID Hybrid Daemon\n"
+                "Comment=Auto-start FaceID Hybrid Biometric Daemon\n"
+                f'Exec="{sys.executable}" "{ctl_script}" start\n'
+                "Terminal=false\n"
+                "Hidden=false\n"
+                "X-GNOME-Autostart-enabled=true\n"
+            )
+            with open(LINUX_AUTOSTART_FILE, "w", encoding="utf-8") as f:
+                f.write(desktop_content)
+            print(f"[+] Da dang ky Auto-Start vao Ubuntu XDG Autostart ({LINUX_AUTOSTART_FILE}).")
+        except Exception as e:
+            print(f"[-] Loi ghi XDG Autostart: {e}")
+
+        if os.geteuid() == 0 and os.path.exists("/etc/systemd/system/faceid-auth.service"):
+            subprocess.run(["systemctl", "enable", "--now", "faceid-auth.service"], capture_output=True)
+
+        # Dam bao Daemon cung duoc bat ngay hien tai
+        cmd_start(args)
 
 
 def cmd_disable_autostart(args):
@@ -150,7 +181,15 @@ def cmd_disable_autostart(args):
 
         print("[+] DA TAT che do tu dong khoi dong cung Windows.")
     else:
-        subprocess.run(["sudo", "systemctl", "disable", "faceid-auth.service"])
+        if os.path.exists(LINUX_AUTOSTART_FILE):
+            try:
+                os.remove(LINUX_AUTOSTART_FILE)
+                print("[-] Da go bo Auto-Start khoi Ubuntu XDG Autostart.")
+            except Exception as e:
+                print(f"[-] Loi xoa XDG Autostart: {e}")
+        if os.geteuid() == 0 and os.path.exists("/etc/systemd/system/faceid-auth.service"):
+            subprocess.run(["systemctl", "disable", "faceid-auth.service"], capture_output=True)
+        print("[+] DA TAT che do tu dong khoi dong cung Ubuntu.")
 
 
 def cmd_start(args):
@@ -243,8 +282,12 @@ def cmd_stop(args):
             if sys.platform == "win32":
                 subprocess.run(["taskkill", "/F", "/PID", str(saved_pid)], capture_output=True)
             else:
-                os.kill(saved_pid, signal.SIGTERM)
-            os.remove(PID_FILE)
+                try:
+                    os.kill(saved_pid, signal.SIGTERM)
+                except PermissionError:
+                    pass
+            if os.path.exists(PID_FILE):
+                os.remove(PID_FILE)
             print(f"[+] Da buoc dung tien trinh FaceID Daemon (PID: {saved_pid}).")
             return
         except Exception:
@@ -369,7 +412,7 @@ def cmd_enroll(args):
     python_exe = sys.executable
     script = os.path.join(BASE_DIR, "scripts", "enroll.py")
     print(f"[*] Bat dau enroll cho user '{user}'...")
-    subprocess.run([python_exe, script, user])
+    subprocess.run([python_exe, script, "--user", user])
 
 
 def cmd_verify(args):
@@ -377,7 +420,7 @@ def cmd_verify(args):
     python_exe = sys.executable
     script = os.path.join(BASE_DIR, "scripts", "verify_interactive.py")
     print(f"[*] Bat dau verify cho user '{user}'...")
-    subprocess.run([python_exe, script, user])
+    subprocess.run([python_exe, script, "--user", user])
 
 
 def cmd_remove(args):

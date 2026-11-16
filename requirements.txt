@@ -23,6 +23,9 @@ protobuf==4.25.8
 pycparser==3.0
 pyparsing==3.3.3
 PyQt6>=6.6.0
+PyQt6-WebEngine
+pywebview
+qtpy
 python-dateutil==2.9.0.post0
 scikit-learn>=1.5.0
 scipy==1.17.1

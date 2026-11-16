@@ -2490,3 +2490,37 @@ NameError: name 'cam_cfg' is not defined
 2026-11-16 09:51:29,975 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
 2026-11-16 09:51:30,044 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.952)
 2026-11-16 09:51:30,044 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.952
+2026-11-16 05:39:25,618 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Linux/Ubuntu 24.04 (Production Mode) (Mode: standalone_test)
+2026-11-16 05:39:25,618 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 05:39:26,435 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.82s!
+2026-11-16 05:39:26,436 [INFO] [FaceID-Daemon] [+] Lang nghe Unix Socket tai: /run/faceid/faceid.sock
+2026-11-16 05:39:33,008 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13685).
+2026-11-16 05:53:42,904 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Linux/Ubuntu 24.04 (Production Mode) (Mode: standalone_test)
+2026-11-16 05:53:42,904 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 05:53:43,606 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.70s!
+2026-11-16 05:53:43,606 [INFO] [FaceID-Daemon] [+] Lang nghe Unix Socket tai: /tmp/faceid.sock
+2026-11-16 05:53:43,607 [INFO] [FaceID-Daemon] [+] Lang nghe song song TCP Loopback tai: 127.0.0.1:9876
+2026-11-16 05:53:43,760 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13851).
+2026-11-16 05:53:44,004 [ERROR] [FaceID-Daemon] Loi xu ly client IPC: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2026-11-16 05:53:44,006 [WARNING] [FaceID-Daemon] [AUDIT] Phat hien username KHONG HOP LE tu PID 0: '../../../../etc/passwd'! Tu choi ngay.
+2026-11-16 05:53:44,008 [WARNING] [FaceID-Daemon] [AUDIT] Phat hien username KHONG HOP LE tu PID 0: 'admin; rm -rf /; `whoami`'! Tu choi ngay.
+2026-11-16 05:53:44,009 [ERROR] [FaceID-Daemon] Loi xu ly client IPC: Unterminated string starting at: line 1 column 28 (char 27)
+2026-11-16 05:53:44,010 [ERROR] [FaceID-Daemon] Loi xu ly client IPC: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+2026-11-16 05:53:44,011 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='test' (Service='sudo', PID=0, Thresh=0.75)
+2026-11-16 05:53:44,011 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 05:53:44,011 [ERROR] [FaceID-Daemon] [SECURITY ALERT] Chan truy cap Camera Ao: Tu choi Camera Ao 'VirtualBox Webcam - ACER HD Use' (Khop tu khoa cam: 'virtual')
+2026-11-16 05:53:44,011 [ERROR] [FaceID-Daemon] [AUDIT] VIRTUAL_CAMERA_BLOCKED tu PID 0: Tu choi Camera Ao 'VirtualBox Webcam - ACER HD Use' (Khop tu khoa cam: 'virtual')
+2026-11-16 05:53:44,012 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='test' (Service='sudo', PID=0, Thresh=0.75)
+2026-11-16 05:53:44,013 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 05:53:44,014 [ERROR] [FaceID-Daemon] [SECURITY ALERT] Chan truy cap Camera Ao: Tu choi Camera Ao 'VirtualBox Webcam - ACER HD Use' (Khop tu khoa cam: 'virtual')
+2026-11-16 05:53:44,014 [ERROR] [FaceID-Daemon] [AUDIT] VIRTUAL_CAMERA_BLOCKED tu PID 0: Tu choi Camera Ao 'VirtualBox Webcam - ACER HD Use' (Khop tu khoa cam: 'virtual')
+2026-11-16 05:53:44,015 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='test' (Service='sudo', PID=0, Thresh=0.75)
+2026-11-16 05:53:44,015 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 05:53:44,015 [ERROR] [FaceID-Daemon] [SECURITY ALERT] Chan truy cap Camera Ao: Tu choi Camera Ao 'VirtualBox Webcam - ACER HD Use' (Khop tu khoa cam: 'virtual')
+2026-11-16 05:53:44,015 [ERROR] [FaceID-Daemon] [AUDIT] VIRTUAL_CAMERA_BLOCKED tu PID 0: Tu choi Camera Ao 'VirtualBox Webcam - ACER HD Use' (Khop tu khoa cam: 'virtual')
+2026-11-16 06:05:05,033 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 14223).
+2026-11-16 06:05:05,091 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 14210).
+2026-11-16 06:05:39,848 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 14454).
+2026-11-16 06:05:39,850 [INFO] [FaceID-Daemon] [*] FaceID Daemon da dung an toan.
+2026-11-16 06:21:19,885 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 14988).
+2026-11-16 06:21:19,886 [INFO] [FaceID-Daemon] [*] FaceID Daemon da dung an toan.

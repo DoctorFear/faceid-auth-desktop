@@ -92,10 +92,11 @@ def check_box_continuity(prev_box: tuple, curr_box: tuple, max_disp_ratio: float
 
 def main():
     parser = argparse.ArgumentParser(description="Kiem thu FaceID Pipeline xac thuc 1:1 (PAM Model)")
+    parser.add_argument("username_pos", nargs="?", default="", help="Username can xac minh 1:1")
     parser.add_argument("--user", type=str, default="", help="Username can xac minh 1:1")
     args = parser.parse_args()
 
-    target_user = args.user.strip()
+    target_user = (args.user or args.username_pos).strip()
     if not target_user:
         if os.path.exists(EMB_DIR):
             users = [f[:-4] for f in os.listdir(EMB_DIR) if f.endswith(".npy")]
@@ -115,7 +116,11 @@ def main():
     print(f"[*] Che do xac minh 1:1 cho user: '{target_user}' ({len(user_templates)} vectors)")
 
     try:
-        cap = cv2.VideoCapture(0)
+        cam_backend = cv2.CAP_DSHOW if sys.platform == "win32" else cv2.CAP_V4L2
+        cap = cv2.VideoCapture(0, cam_backend)
+        if not cap.isOpened():
+            cap.release()
+            cap = cv2.VideoCapture(0)
         if not cap.isOpened():
             print("[-] LOI: Khong the mo webcam.")
             return

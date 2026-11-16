@@ -40,18 +40,31 @@ def get_pam_environment():
     return user, service
 
 
+def _connect_daemon_socket(timeout: float = 12.0) -> socket.socket:
+    if hasattr(socket, "AF_UNIX") and sys.platform != "win32":
+        for sock_path in (DEFAULT_SOCKET_PATH, "/tmp/faceid.sock"):
+            if os.path.exists(sock_path):
+                try:
+                    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                    s.settimeout(timeout)
+                    s.connect(sock_path)
+                    return s
+                except Exception:
+                    try:
+                        s.close()
+                    except Exception:
+                        pass
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(timeout)
+    s.connect(("127.0.0.1", DEFAULT_TCP_PORT))
+    return s
+
+
 def query_daemon(user: str, service: str = "sudo", action: str = "auth") -> dict:
     """Ket noi toi Daemon va lang nghe ca su kien huong dan liveness theo thoi gian thuc."""
     s = None
     try:
-        if hasattr(socket, "AF_UNIX") and sys.platform != "win32" and os.path.exists(DEFAULT_SOCKET_PATH):
-            s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            s.connect(DEFAULT_SOCKET_PATH)
-        else:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect(("127.0.0.1", DEFAULT_TCP_PORT))
-
-        s.settimeout(12.0)
+        s = _connect_daemon_socket(timeout=12.0)
         req = {"action": action, "user": user, "service": service}
         s.sendall((json.dumps(req) + "\n").encode("utf-8"))
 
@@ -63,7 +76,7 @@ def query_daemon(user: str, service: str = "sudo", action: str = "auth") -> dict
             msg_obj = json.loads(line)
             # Neu la su kien tien do hoac thu thach liveness, in ra man hinh ngay
             if msg_obj.get("event") == "progress":
-                print(f"[FaceID] {msg_obj.get('message')}", file=sys.stderr)
+                print(f"[FaceID] {msg_obj.get('message')}", flush=True)
             elif "status" in msg_obj:
                 return msg_obj
 

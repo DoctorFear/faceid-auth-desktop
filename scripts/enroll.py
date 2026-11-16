@@ -231,7 +231,8 @@ def sharpness(frame_bgr: np.ndarray, box: tuple) -> float:
 
 
 def open_camera(cfg: Config) -> cv2.VideoCapture:
-    cap = cv2.VideoCapture(cfg.cam_index, cv2.CAP_V4L2)
+    cam_backend = cv2.CAP_DSHOW if sys.platform == "win32" else cv2.CAP_V4L2
+    cap = cv2.VideoCapture(cfg.cam_index, cam_backend)
     if not cap.isOpened():
         cap.release()
         cap = cv2.VideoCapture(cfg.cam_index)
@@ -504,16 +505,23 @@ def main() -> int:
         print(f"    He thong tu choi luu them ban ghi moi '{username}' de tranh trung lap.")
         print("="*60 + "\n")
         try:
-            import ctypes
-            ctypes.windll.user32.MessageBoxW(
-                0,
-                f"Khuôn mặt này ĐÃ ĐƯỢC ĐĂNG KÝ trước đó với tên: '{matched_existing_user}'!\n"
-                f"(Độ khớp nhận diện: {highest_sim*100:.1f}%)\n\n"
-                "Hệ thống sẽ không lưu thêm bản ghi mới để tránh trùng lặp dữ liệu.\n"
-                "Nếu muốn đổi tên, vui lòng xóa bản ghi cũ trước.",
-                "Phát hiện khuôn mặt trùng lặp",
-                0x00000030 | 0x00010000  # MB_ICONWARNING | MB_SETFOREGROUND
-            )
+            if sys.platform == "win32":
+                import ctypes
+                ctypes.windll.user32.MessageBoxW(
+                    0,
+                    f"Khuôn mặt này ĐÃ ĐƯỢC ĐĂNG KÝ trước đó với tên: '{matched_existing_user}'!\n"
+                    f"(Độ khớp nhận diện: {highest_sim*100:.1f}%)\n\n"
+                    "Hệ thống sẽ không lưu thêm bản ghi mới để tránh trùng lặp dữ liệu.\n"
+                    "Nếu muốn đổi tên, vui lòng xóa bản ghi cũ trước.",
+                    "Phát hiện khuôn mặt trùng lặp",
+                    0x00000030 | 0x00010000  # MB_ICONWARNING | MB_SETFOREGROUND
+                )
+            else:
+                import subprocess
+                subprocess.Popen([
+                    "notify-send", "Phát hiện khuôn mặt trùng lặp",
+                    f"Khuôn mặt này đã đăng ký dưới tên '{matched_existing_user}' ({highest_sim*100:.1f}%)."
+                ])
         except Exception:
             pass
         return 2
@@ -522,14 +530,21 @@ def main() -> int:
                                           append=args.append, max_vectors=args.max_vectors)
     log.info("[OK] THANH CONG: file %s hien co %d vector ArcFace", path, n)
     try:
-        import ctypes
-        ctypes.windll.user32.MessageBoxW(
-            0,
-            f"Đã đăng ký thành công 5 góc mặt cho: '{username}'!\n"
-            "Dữ liệu đã sẵn sàng để mở khóa màn hình Windows.",
-            "Đăng ký FaceID thành công",
-            0x00000040 | 0x00010000  # MB_ICONINFORMATION | MB_SETFOREGROUND
-        )
+        if sys.platform == "win32":
+            import ctypes
+            ctypes.windll.user32.MessageBoxW(
+                0,
+                f"Đã đăng ký thành công 5 góc mặt cho: '{username}'!\n"
+                "Dữ liệu đã sẵn sàng để mở khóa màn hình Windows.",
+                "Đăng ký FaceID thành công",
+                0x00000040 | 0x00010000  # MB_ICONINFORMATION | MB_SETFOREGROUND
+            )
+        else:
+            import subprocess
+            subprocess.Popen([
+                "notify-send", "Đăng ký FaceID thành công",
+                f"Đã đăng ký thành công 5 góc mặt cho '{username}'!"
+            ])
     except Exception:
         pass
     return 0

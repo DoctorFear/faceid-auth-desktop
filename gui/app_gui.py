@@ -45,11 +45,21 @@ def fast_query_daemon(action: str = "status", timeout: float = 0.20) -> dict:
     """Ping Daemon voi timeout cuc ngan (200ms) de khong bao gio gay tre giao dien."""
     s = None
     try:
-        if hasattr(socket, "AF_UNIX") and sys.platform != "win32" and os.path.exists(DEFAULT_SOCKET_PATH):
-            s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            s.settimeout(timeout)
-            s.connect(DEFAULT_SOCKET_PATH)
-        else:
+        if hasattr(socket, "AF_UNIX") and sys.platform != "win32":
+            for sp in (DEFAULT_SOCKET_PATH, "/tmp/faceid.sock"):
+                if os.path.exists(sp):
+                    try:
+                        cand = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                        cand.settimeout(timeout)
+                        cand.connect(sp)
+                        s = cand
+                        break
+                    except Exception:
+                        try:
+                            cand.close()
+                        except Exception:
+                            pass
+        if s is None:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.settimeout(timeout)
             s.connect(("127.0.0.1", DEFAULT_TCP_PORT))
@@ -86,13 +96,16 @@ def check_autostart_fast() -> bool:
             pass
         return False
     else:
-        return os.path.exists("/etc/systemd/system/multi-user.target.wants/faceid-auth.service")
+        return (
+            os.path.exists(os.path.expanduser("~/.config/autostart/faceid-daemon.desktop"))
+            or os.path.exists("/etc/systemd/system/multi-user.target.wants/faceid-auth.service")
+        )
 
 
 def check_win_credential_provider_fast() -> bool:
     """Kiem tra DLL & Registry Win+L cuc nhanh (< 0.1ms)."""
     if sys.platform != "win32":
-        return False
+        return os.path.exists("/etc/faceid/pam_installed")
     if not os.path.exists(r"C:\Windows\System32\SampleV2CredentialProvider.dll"):
         return False
     try:
@@ -202,8 +215,9 @@ class CameraMonitorThread(QThread):
             except Exception:
                 cam_idx = 0
 
-        # Thu mo bang DSHOW truoc tren Windows, fallback ve mac dinh
-        cap = cv2.VideoCapture(cam_idx, cv2.CAP_DSHOW)
+        # Thu mo bang DSHOW tren Windows hoac V4L2 tren Linux, fallback ve mac dinh
+        cam_backend = cv2.CAP_DSHOW if sys.platform == "win32" else cv2.CAP_V4L2
+        cap = cv2.VideoCapture(cam_idx, cam_backend)
         if not cap.isOpened():
             cap.release()
             cap = cv2.VideoCapture(cam_idx)
@@ -881,17 +895,19 @@ class FaceIDAdminWindow(QMainWindow):
                     data = json.load(f)
                 pol = data.setdefault("contextual_policies", {})
 
-                u_cfg = pol.setdefault("windows-unlock", {})
-                u_cfg["require_active_liveness"] = u_req_liveness
-                u_cfg["decision_threshold"] = dec_thresh
-                u_cfg["sim_threshold"] = sim_thresh
-                u_cfg["active_timeout_sec"] = tout_sec
+                for svc_unlock in ("windows-unlock", "gnome-screensaver", "polkit-1"):
+                    u_cfg = pol.setdefault(svc_unlock, {})
+                    u_cfg["require_active_liveness"] = u_req_liveness
+                    u_cfg["decision_threshold"] = dec_thresh
+                    u_cfg["sim_threshold"] = sim_thresh
+                    u_cfg["active_timeout_sec"] = tout_sec
 
-                l_cfg = pol.setdefault("windows-logon", {})
-                l_cfg["require_active_liveness"] = l_req_liveness
-                l_cfg["decision_threshold"] = dec_thresh
-                l_cfg["sim_threshold"] = sim_thresh
-                l_cfg["active_timeout_sec"] = tout_sec
+                for svc_logon in ("windows-logon", "gdm-password", "sudo", "su"):
+                    l_cfg = pol.setdefault(svc_logon, {})
+                    l_cfg["require_active_liveness"] = l_req_liveness
+                    l_cfg["decision_threshold"] = dec_thresh
+                    l_cfg["sim_threshold"] = sim_thresh
+                    l_cfg["active_timeout_sec"] = tout_sec
 
                 with open(POLICY_FILE, "w", encoding="utf-8") as f:
                     json.dump(data, f, indent=2)
@@ -905,18 +921,20 @@ class FaceIDAdminWindow(QMainWindow):
                 rl = cfg.setdefault("security", {}).setdefault("rate_limiting", {})
                 rl["max_consecutive_failures"] = self.spn_max_fail.value()
                 rl["lockout_duration_sec"] = self.spn_lockout_sec.value()
+                cfg.setdefault("security", {})["fallback_password"] = new_pw
 
                 cfg.setdefault("camera", {})["device_index"] = new_cam_idx
                 with open(CONFIG_FILE, "w", encoding="utf-8") as f:
                     json.dump(cfg, f, indent=2)
 
-            # Luu mat khau vao Registry Windows HKLM\SOFTWARE\FaceIDHybrid
-            try:
-                import winreg
-                with winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\FaceIDHybrid") as k:
-                    winreg.SetValueEx(k, "FallbackPassword", 0, winreg.REG_SZ, new_pw)
-            except Exception as e:
-                self.log_message(f"[-] Luu Registry mat khau yeu cau quyen Admin: {e}")
+            if sys.platform == "win32":
+                # Luu mat khau vao Registry Windows HKLM\SOFTWARE\FaceIDHybrid
+                try:
+                    import winreg
+                    with winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\FaceIDHybrid") as k:
+                        winreg.SetValueEx(k, "FallbackPassword", 0, winreg.REG_SZ, new_pw)
+                except Exception as e:
+                    self.log_message(f"[-] Luu Registry mat khau yeu cau quyen Admin: {e}")
 
             fast_query_daemon(action="reload", timeout=0.18)
             self.log_message("[CẤU HÌNH] Đã lưu và Hot-Reload cấu hình thành công!")
@@ -928,6 +946,14 @@ class FaceIDAdminWindow(QMainWindow):
             QMessageBox.critical(self, "Lỗi", f"Không thể lưu cấu hình: {e}")
 
     def install_windows_provider(self):
+        if sys.platform != "win32":
+            sh_path = os.path.join(BASE_DIR, "install_ubuntu_lock.sh")
+            if os.path.exists(sh_path):
+                subprocess.Popen(["bash", sh_path], cwd=BASE_DIR)
+                self.log_message("[UBUNTU] Đã kích hoạt trình cài đặt PAM Lock (install_ubuntu_lock.sh).")
+            else:
+                QMessageBox.warning(self, "Không tìm thấy", f"Không tìm thấy file {sh_path}")
+            return
         bat_path = os.path.join(BASE_DIR, "install_win_lock.bat")
         if os.path.exists(bat_path):
             subprocess.Popen(["cmd.exe", "/c", "start", "", bat_path], cwd=BASE_DIR)
@@ -936,6 +962,14 @@ class FaceIDAdminWindow(QMainWindow):
             QMessageBox.warning(self, "Không tìm thấy", f"Không tìm thấy file {bat_path}")
 
     def uninstall_windows_provider(self):
+        if sys.platform != "win32":
+            sh_path = os.path.join(BASE_DIR, "uninstall_ubuntu_lock.sh")
+            if os.path.exists(sh_path):
+                subprocess.Popen(["bash", sh_path], cwd=BASE_DIR)
+                self.log_message("[UBUNTU] Đã kích hoạt trình gỡ cài đặt PAM Lock (uninstall_ubuntu_lock.sh).")
+            else:
+                QMessageBox.warning(self, "Không tìm thấy", f"Không tìm thấy file {sh_path}")
+            return
         bat_path = os.path.join(BASE_DIR, "uninstall_win_lock.bat")
         if os.path.exists(bat_path):
             subprocess.Popen(["cmd.exe", "/c", "start", "", bat_path], cwd=BASE_DIR)
@@ -968,7 +1002,7 @@ class FaceIDAdminWindow(QMainWindow):
     def enroll_new_user(self):
         if self.cam_thread and self.cam_thread.isRunning():
             self.stop_camera_monitor()
-        default_user = os.environ.get("USERNAME", "ADMIN")
+        default_user = os.environ.get("USERNAME", os.environ.get("USER", "ADMIN"))
         user, ok = QInputDialog.getText(
             self, "Đăng Ký Khuôn Mặt Mới (5 Góc)",
             "Nhập tên gợi nhớ (Ví dụ: Tôi, Hà Thái Sơn, Người Thân):",
@@ -992,7 +1026,7 @@ class FaceIDAdminWindow(QMainWindow):
         if self.cam_thread and self.cam_thread.isRunning():
             self.stop_camera_monitor()
         curr_row = self.user_table.currentRow()
-        user = os.environ.get("USERNAME", "ADMIN")
+        user = os.environ.get("USERNAME", os.environ.get("USER", "ADMIN"))
         if curr_row >= 0:
             user = self.user_table.item(curr_row, 0).text()
         script = os.path.join(BASE_DIR, "scripts", "verify_interactive.py")
@@ -1021,7 +1055,7 @@ class FaceIDAdminWindow(QMainWindow):
         if self.cam_thread and self.cam_thread.isRunning():
             self.stop_camera_monitor()
         curr_row = self.user_table.currentRow()
-        user = os.environ.get("USERNAME", "ADMIN")
+        user = os.environ.get("USERNAME", os.environ.get("USER", "ADMIN"))
         if curr_row >= 0:
             user = self.user_table.item(curr_row, 0).text()
 
@@ -1041,7 +1075,7 @@ class FaceIDAdminWindow(QMainWindow):
         if self.cam_thread and self.cam_thread.isRunning():
             return
         curr_row = self.user_table.currentRow()
-        user = os.environ.get("USERNAME", "ADMIN")
+        user = os.environ.get("USERNAME", os.environ.get("USER", "ADMIN"))
         if curr_row >= 0:
             user = self.user_table.item(curr_row, 0).text()
 

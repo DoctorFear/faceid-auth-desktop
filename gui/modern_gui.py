@@ -39,11 +39,21 @@ DEFAULT_TCP_PORT = 9876
 def fast_query_daemon(action: str = "status", timeout: float = 0.20) -> dict:
     s = None
     try:
-        if hasattr(socket, "AF_UNIX") and sys.platform != "win32" and os.path.exists(DEFAULT_SOCKET_PATH):
-            s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            s.settimeout(timeout)
-            s.connect(DEFAULT_SOCKET_PATH)
-        else:
+        if hasattr(socket, "AF_UNIX") and sys.platform != "win32":
+            for sp in (DEFAULT_SOCKET_PATH, "/tmp/faceid.sock"):
+                if os.path.exists(sp):
+                    try:
+                        cand = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                        cand.settimeout(timeout)
+                        cand.connect(sp)
+                        s = cand
+                        break
+                    except Exception:
+                        try:
+                            cand.close()
+                        except Exception:
+                            pass
+        if s is None:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.settimeout(timeout)
             s.connect(("127.0.0.1", DEFAULT_TCP_PORT))
@@ -246,6 +256,8 @@ class FaceIDApi:
                     winlock_installed = True
             except Exception:
                 pass
+        elif sys.platform != "win32":
+            winlock_installed = os.path.exists("/etc/faceid/pam_installed")
 
         return {
             "status": {
@@ -282,14 +294,23 @@ class FaceIDApi:
 
     def daemon_ctl(self, action):
         ctl = os.path.join(BASE_DIR, "scripts", "faceidctl")
-        flags = getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000)
-        if action == "start":
-            subprocess.run([sys.executable, ctl, "enable-autostart"], capture_output=True, creationflags=flags)
-        elif action == "stop":
-            subprocess.run([sys.executable, ctl, "disable-autostart"], capture_output=True, creationflags=flags)
-            subprocess.run([sys.executable, ctl, "stop"], capture_output=True, creationflags=flags)
+        if sys.platform == "win32":
+            run_kw = {"capture_output": True, "creationflags": getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000)}
+            if action == "start":
+                subprocess.run([sys.executable, ctl, "enable-autostart"], **run_kw)
+            elif action == "stop":
+                subprocess.run([sys.executable, ctl, "disable-autostart"], **run_kw)
+                subprocess.run([sys.executable, ctl, "stop"], **run_kw)
+            else:
+                subprocess.run([sys.executable, ctl, action], **run_kw)
         else:
-            subprocess.run([sys.executable, ctl, action], capture_output=True, creationflags=flags)
+            if action == "start":
+                subprocess.run([sys.executable, ctl, "enable-autostart"], capture_output=True)
+            elif action == "stop":
+                subprocess.run([sys.executable, ctl, "disable-autostart"], capture_output=True)
+                subprocess.run([sys.executable, ctl, "stop"], capture_output=True)
+            else:
+                subprocess.run([sys.executable, ctl, action], capture_output=True)
         time.sleep(0.3)
         st = fast_query_daemon("status")
 
@@ -302,6 +323,8 @@ class FaceIDApi:
                     winlock_installed = True
             except Exception:
                 pass
+        elif sys.platform != "win32":
+            winlock_installed = os.path.exists("/etc/faceid/pam_installed")
 
         return {
             "daemon_running": bool(st.get("pid")),
@@ -330,19 +353,21 @@ class FaceIDApi:
                     pol = json.load(f)
                 cp = pol.setdefault("contextual_policies", {})
 
-                u_cfg = cp.setdefault("windows-unlock", {})
-                u_cfg["auto_scan"] = u_instant
-                u_cfg["require_active_liveness"] = u_live
-                u_cfg["decision_threshold"] = dec_thresh
-                u_cfg["sim_threshold"] = sim_thresh
-                u_cfg["active_timeout_sec"] = tout
+                for svc_unlock in ("windows-unlock", "gnome-screensaver", "polkit-1"):
+                    u_cfg = cp.setdefault(svc_unlock, {})
+                    u_cfg["auto_scan"] = u_instant
+                    u_cfg["require_active_liveness"] = u_live
+                    u_cfg["decision_threshold"] = dec_thresh
+                    u_cfg["sim_threshold"] = sim_thresh
+                    u_cfg["active_timeout_sec"] = tout
 
-                l_cfg = cp.setdefault("windows-logon", {})
-                l_cfg["auto_scan"] = l_instant
-                l_cfg["require_active_liveness"] = l_live
-                l_cfg["decision_threshold"] = dec_thresh
-                l_cfg["sim_threshold"] = sim_thresh
-                l_cfg["active_timeout_sec"] = tout
+                for svc_logon in ("windows-logon", "gdm-password", "sudo", "su"):
+                    l_cfg = cp.setdefault(svc_logon, {})
+                    l_cfg["auto_scan"] = l_instant
+                    l_cfg["require_active_liveness"] = l_live
+                    l_cfg["decision_threshold"] = dec_thresh
+                    l_cfg["sim_threshold"] = sim_thresh
+                    l_cfg["active_timeout_sec"] = tout
 
                 with open(POLICY_FILE, "w", encoding="utf-8") as f:
                     json.dump(pol, f, indent=2)
@@ -428,6 +453,13 @@ class FaceIDApi:
             if sys.platform == "win32":
                 if not self._write_fallback_pw_registry(new_pw):
                     return {"ok": False, "msg": "Bạn đã hủy hoặc không cấp quyền Administrator!"}
+            else:
+                if os.path.exists(CONFIG_FILE):
+                    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                        cfg = json.load(f)
+                    cfg.setdefault("security", {})["fallback_password"] = new_pw
+                    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+                        json.dump(cfg, f, indent=2)
             return {"ok": True, "msg": "Đã thiết lập mật khẩu dự phòng!"}
         except Exception as e:
             return {"ok": False, "msg": f"Lỗi: {e}"}
@@ -458,11 +490,29 @@ class FaceIDApi:
 
                 if not self._write_fallback_pw_registry(new_pw):
                     return {"ok": False, "msg": "Bạn đã hủy hoặc không cấp quyền Administrator!"}
+            else:
+                if os.path.exists(CONFIG_FILE):
+                    try:
+                        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                            cfg = json.load(f)
+                        current_pw = str(cfg.get("security", {}).get("fallback_password", "123456"))
+                    except Exception:
+                        pass
+                if old_pw != current_pw:
+                    return {"ok": False, "msg": "Mật khẩu hiện tại không đúng!"}
+                if os.path.exists(CONFIG_FILE):
+                    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                        cfg = json.load(f)
+                    cfg.setdefault("security", {})["fallback_password"] = new_pw
+                    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+                        json.dump(cfg, f, indent=2)
             return {"ok": True, "msg": "Đã đổi mật khẩu dự phòng thành công!"}
         except Exception as e:
             return {"ok": False, "msg": f"Lỗi: {e}"}
 
     def check_winlock_status(self):
+        if sys.platform != "win32":
+            return os.path.exists("/etc/faceid/pam_installed")
         if sys.platform == "win32" and os.path.exists(r"C:\Windows\System32\SampleV2CredentialProvider.dll"):
             try:
                 import winreg
@@ -474,53 +524,85 @@ class FaceIDApi:
         return False
 
     def _run_bat_hidden(self, bat_path):
-        import ctypes
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe", f'/c "{bat_path}"', BASE_DIR, 0)
+        if sys.platform == "win32":
+            import ctypes
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe", f'/c "{bat_path}"', BASE_DIR, 0)
+            return True
+        return False
 
     def install_windows_lock(self):
-        bat = os.path.join(BASE_DIR, "install_win_lock.bat")
-        if os.path.exists(bat):
-            self._run_bat_hidden(bat)
-            return True
-        return False
+        if sys.platform == "win32":
+            bat = os.path.join(BASE_DIR, "install_win_lock.bat")
+            if os.path.exists(bat):
+                self._run_bat_hidden(bat)
+                return True
+            return False
+        else:
+            sh = os.path.abspath(os.path.join(BASE_DIR, "install_ubuntu_lock.sh"))
+            if os.path.exists(sh):
+                subprocess.Popen(["bash", sh], cwd=BASE_DIR, start_new_session=True)
+                return True
+            return False
 
     def uninstall_windows_lock(self):
-        bat = os.path.join(BASE_DIR, "uninstall_win_lock.bat")
-        if os.path.exists(bat):
-            self._run_bat_hidden(bat)
-            try:
-                if webview.windows:
-                    webview.windows[0].hide()
-            except Exception:
-                pass
-            def _stop_and_exit():
+        if sys.platform == "win32":
+            bat = os.path.join(BASE_DIR, "uninstall_win_lock.bat")
+            if os.path.exists(bat):
+                self._run_bat_hidden(bat)
                 try:
-                    self.daemon_ctl("stop")
+                    if webview.windows:
+                        webview.windows[0].hide()
                 except Exception:
                     pass
-                os._exit(0)
-            threading.Timer(1.0, _stop_and_exit).start()
-            return True
-        return False
+                def _stop_and_exit():
+                    try:
+                        self.daemon_ctl("stop")
+                    except Exception:
+                        pass
+                    os._exit(0)
+                threading.Timer(1.0, _stop_and_exit).start()
+                return True
+            return False
+        else:
+            sh = os.path.abspath(os.path.join(BASE_DIR, "uninstall_ubuntu_lock.sh"))
+            if os.path.exists(sh):
+                subprocess.Popen(["bash", sh], cwd=BASE_DIR, start_new_session=True)
+                return True
+            return False
+
+    def _get_emb_dirs(self):
+        dirs = [EMB_DIR]
+        local_emb = os.path.join(BASE_DIR, "data", "embeddings")
+        if os.path.abspath(local_emb) != os.path.abspath(EMB_DIR):
+            dirs.append(local_emb)
+        return dirs
 
     def get_users(self):
         res = []
-        if os.path.exists(EMB_DIR):
-            for f in sorted(os.listdir(EMB_DIR)):
-                if f.endswith(".npy"):
-                    name = f[:-4]
-                    p = os.path.join(EMB_DIR, f)
-                    try:
-                        arr = np.load(p, allow_pickle=False)
-                        cnt = len(arr)
-                    except Exception:
-                        cnt = 0
-                    res.append({"name": name, "count": cnt})
+        seen = set()
+        for d in self._get_emb_dirs():
+            if os.path.exists(d):
+                for f in sorted(os.listdir(d)):
+                    if f.endswith(".npy"):
+                        name = f[:-4]
+                        if name in seen:
+                            continue
+                        seen.add(name)
+                        p = os.path.join(d, f)
+                        try:
+                            arr = np.load(p, allow_pickle=False)
+                            cnt = len(arr)
+                        except Exception:
+                            cnt = 0
+                        res.append({"name": name, "count": cnt})
         return res
 
     def enroll_face(self, name):
         script = os.path.join(BASE_DIR, "scripts", "enroll.py")
-        subprocess.Popen([sys.executable, script, "--user", name], cwd=BASE_DIR, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000))
+        popen_kw = {"cwd": BASE_DIR}
+        if sys.platform == "win32":
+            popen_kw["creationflags"] = getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000)
+        subprocess.Popen([sys.executable, script, "--user", name], **popen_kw)
         return True
 
     def verify_interactive(self, name):
@@ -530,24 +612,41 @@ class FaceIDApi:
         cmd = [sys.executable, script]
         if name:
             cmd += ["--user", name]
-        subprocess.Popen(cmd, cwd=BASE_DIR, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000))
+        popen_kw = {"cwd": BASE_DIR}
+        if sys.platform == "win32":
+            popen_kw["creationflags"] = getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000)
+        subprocess.Popen(cmd, **popen_kw)
         return True
 
     def delete_face(self, name):
-        p = os.path.join(EMB_DIR, f"{name}.npy")
-        if os.path.exists(p):
-            os.remove(p)
-            return True
-        return False
+        deleted = False
+        for d in self._get_emb_dirs():
+            p = os.path.join(d, f"{name}.npy")
+            if os.path.exists(p):
+                os.remove(p)
+                deleted = True
+        return deleted
 
     def get_logs(self):
-        if os.path.exists(LOG_FILE):
+        if sys.platform != "win32":
             try:
-                with open(LOG_FILE, "r", encoding="utf-8", errors="replace") as f:
-                    lines = f.readlines()
-                return "".join(lines[-60:])
+                r = subprocess.run(
+                    ["journalctl", "-u", "faceid-auth.service", "-n", "60", "--no-pager"],
+                    capture_output=True, text=True, timeout=2
+                )
+                if r.returncode == 0 and r.stdout.strip():
+                    return r.stdout
             except Exception:
                 pass
+        for lf in (LOG_FILE, os.path.join(BASE_DIR, "data", "daemon.log")):
+            if os.path.exists(lf):
+                try:
+                    with open(lf, "r", encoding="utf-8", errors="replace") as f:
+                        lines = f.readlines()
+                    if lines:
+                        return "".join(lines[-60:])
+                except Exception:
+                    pass
         return "Không có dữ liệu nhật ký."
 
     def start_cam(self):
@@ -580,7 +679,8 @@ class FaceIDApi:
         self.reset_challenge()
         all_templates = load_all_enrolled_templates()
 
-        cap = cv2.VideoCapture(cam_idx, cv2.CAP_DSHOW)
+        cam_backend = cv2.CAP_DSHOW if sys.platform == "win32" else cv2.CAP_V4L2
+        cap = cv2.VideoCapture(cam_idx, cam_backend)
         if not cap.isOpened():
             cap.release()
             cap = cv2.VideoCapture(cam_idx)
@@ -812,7 +912,7 @@ def main():
         background_color="#f0f7ff"
     )
     api.set_window(window)
-    webview.start(gui="edgechromium", debug=False)
+    webview.start(gui="edgechromium" if sys.platform == "win32" else None, debug=False)
 
 
 if __name__ == "__main__":

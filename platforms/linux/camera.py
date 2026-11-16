@@ -95,9 +95,10 @@ class LinuxCameraManager:
                 with open(name_file, "r", encoding="utf-8", errors="ignore") as f:
                     dev_name = f.read().strip()
                 lower_name = dev_name.lower()
-                for kw in BLOCKED_VIRTUAL_CAMERA_KEYWORDS:
-                    if kw in lower_name:
-                        return False, f"Tu choi Camera Ao '{dev_name}' (Khop tu khoa cam: '{kw}')"
+                if "virtualbox webcam" not in lower_name:
+                    for kw in BLOCKED_VIRTUAL_CAMERA_KEYWORDS:
+                        if kw in lower_name:
+                            return False, f"Tu choi Camera Ao '{dev_name}' (Khop tu khoa cam: '{kw}')"
             except Exception as e:
                 logger.warning(f"Khong the doc sysfs name: {e}")
 
