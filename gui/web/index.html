@@ -195,19 +195,13 @@
             </div>
             <div class="space-y-2 text-xs">
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_unlock" id="unlock_instant" class="w-4 h-4 text-sky-600 focus:ring-0" onchange="onStyleChanged()">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500"></i> Tự Động Quét Ngay (0.5s tức thì)</span>
+                <input type="radio" name="style_unlock" id="unlock_instant" checked class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-keyboard text-amber-500"></i> Bấm Enter Để Nhận Diện Nhanh</span>
               </label>
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_unlock" id="unlock_enter" checked class="w-4 h-4 text-sky-600 focus:ring-0" onchange="onStyleChanged()">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-keyboard text-sky-600"></i> Bấm Enter Mới Quét (Chủ động)</span>
+                <input type="radio" name="style_unlock" id="unlock_enter" class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử Thách Liveness (Chớp mắt / Quay đầu)</span>
               </label>
-              <div class="pl-7 pt-1">
-                <label id="lbl_unlock_liveness" class="flex items-center space-x-2 text-slate-700 font-semibold cursor-pointer">
-                  <input type="checkbox" id="chk_unlock_liveness" class="w-4 h-4 rounded text-sky-600 focus:ring-0">
-                  <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử thách Liveness (Quay/Chớp mắt)</span>
-                </label>
-              </div>
             </div>
           </div>
 
@@ -218,19 +212,13 @@
             </div>
             <div class="space-y-2 text-xs">
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_logon" id="logon_instant" class="w-4 h-4 text-sky-600 focus:ring-0" onchange="onStyleChanged()">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500"></i> Tự Động Quét Ngay (0.5s tức thì)</span>
+                <input type="radio" name="style_logon" id="logon_instant" checked class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-keyboard text-amber-500"></i> Bấm Enter Để Nhận Diện Nhanh</span>
               </label>
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_logon" id="logon_enter" checked class="w-4 h-4 text-sky-600 focus:ring-0" onchange="onStyleChanged()">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-keyboard text-sky-600"></i> Bấm Enter Mới Quét (Chủ động)</span>
+                <input type="radio" name="style_logon" id="logon_enter" class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử Thách Liveness (Chớp mắt / Quay đầu)</span>
               </label>
-              <div class="pl-7 pt-1">
-                <label id="lbl_logon_liveness" class="flex items-center space-x-2 text-slate-700 font-semibold cursor-pointer">
-                  <input type="checkbox" id="chk_logon_liveness" checked class="w-4 h-4 rounded text-sky-600 focus:ring-0">
-                  <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử thách Liveness (Quay/Chớp mắt)</span>
-                </label>
-              </div>
             </div>
           </div>
 
@@ -541,6 +529,7 @@
     }
 
     function onStyleChanged() {
+      if (!document.getElementById('chk_unlock_liveness')) return;
       const uInstant = document.getElementById('unlock_instant').checked;
       const chkU = document.getElementById('chk_unlock_liveness');
       if (uInstant) {
@@ -602,10 +591,10 @@
 
     async function saveSettings() {
       const payload = {
-        unlock_liveness: document.getElementById('chk_unlock_liveness').checked,
-        logon_liveness: document.getElementById('chk_logon_liveness').checked,
-        unlock_instant: document.getElementById('unlock_instant').checked,
-        logon_instant: document.getElementById('logon_instant').checked,
+        unlock_liveness: document.getElementById('unlock_enter').checked,
+        logon_liveness: document.getElementById('logon_enter').checked,
+        unlock_instant: false,
+        logon_instant: false,
         camera_idx: parseInt(document.getElementById('selCameraIdx').value),
         security_level: parseInt(document.getElementById('selSecurityLevel').value),
         timeout_sec: parseInt(document.getElementById('numTimeout').value)
@@ -1025,13 +1014,13 @@
             document.getElementById('numTimeout').value = init.config.timeout_sec;
             document.getElementById('selSecurityLevel').value = init.config.security_level;
 
-            document.getElementById('unlock_instant').checked = init.config.unlock_instant;
-            document.getElementById('unlock_enter').checked = !init.config.unlock_instant;
-            document.getElementById('chk_unlock_liveness').checked = init.config.unlock_liveness;
+            document.getElementById('unlock_instant').checked = !init.config.unlock_liveness;
+            document.getElementById('unlock_enter').checked = init.config.unlock_liveness;
+            document.getElementById('unlock_enter').checked = init.config.unlock_liveness;
 
-            document.getElementById('logon_instant').checked = init.config.logon_instant;
-            document.getElementById('logon_enter').checked = !init.config.logon_instant;
-            document.getElementById('chk_logon_liveness').checked = init.config.logon_liveness;
+            document.getElementById('logon_instant').checked = !init.config.logon_liveness;
+            document.getElementById('logon_enter').checked = init.config.logon_liveness;
+            document.getElementById('logon_enter').checked = init.config.logon_liveness;
             onStyleChanged();
           }
         }

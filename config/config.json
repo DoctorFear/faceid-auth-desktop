@@ -28,7 +28,7 @@
     }
   },
   "camera": {
-    "device_index": 1,
+    "device_index": 0,
     "v4l2_device": "/dev/video0",
     "width": 640,
     "height": 480,

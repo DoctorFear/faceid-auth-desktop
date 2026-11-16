@@ -2524,3 +2524,56 @@ NameError: name 'cam_cfg' is not defined
 2026-11-16 06:05:39,850 [INFO] [FaceID-Daemon] [*] FaceID Daemon da dung an toan.
 2026-11-16 06:21:19,885 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 14988).
 2026-11-16 06:21:19,886 [INFO] [FaceID-Daemon] [*] FaceID Daemon da dung an toan.
+2026-11-16 14:34:42,885 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 14:34:42,886 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 14:34:43,456 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.57s!
+2026-11-16 14:34:43,459 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 14:34:54,216 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:34:54,222 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:34:54,239 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.02s (co the dang bi chiem dung).
+2026-11-16 14:34:54,239 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:34:58,811 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:34:58,812 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:34:58,818 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.01s (co the dang bi chiem dung).
+2026-11-16 14:34:58,818 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:34:59,342 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:34:59,342 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:34:59,347 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.00s (co the dang bi chiem dung).
+2026-11-16 14:34:59,348 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:34:59,507 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:34:59,507 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:34:59,514 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.01s (co the dang bi chiem dung).
+2026-11-16 14:34:59,514 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:34:59,654 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:34:59,655 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:34:59,657 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.00s (co the dang bi chiem dung).
+2026-11-16 14:34:59,657 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:34:59,794 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:34:59,795 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:34:59,798 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.00s (co the dang bi chiem dung).
+2026-11-16 14:34:59,799 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:34:59,942 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:34:59,943 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:34:59,947 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.00s (co the dang bi chiem dung).
+2026-11-16 14:34:59,948 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:35:39,349 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:35:39,349 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:35:39,357 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.01s (co the dang bi chiem dung).
+2026-11-16 14:35:39,357 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:35:50,989 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-16 14:36:02,591 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:36:02,593 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:36:02,599 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.00s (co the dang bi chiem dung).
+2026-11-16 14:36:02,599 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:36:04,112 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:36:04,119 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:36:04,126 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.01s (co the dang bi chiem dung).
+2026-11-16 14:36:04,126 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:36:04,606 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:36:04,606 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:36:04,613 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.01s (co the dang bi chiem dung).
+2026-11-16 14:36:04,613 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
+2026-11-16 14:38:25,672 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9108, Thresh=0.68)
+2026-11-16 14:38:25,672 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 14:38:25,679 [WARNING] [FaceID-Daemon] Camera 1 khong the mo sau 0.01s (co the dang bi chiem dung).
+2026-11-16 14:38:25,679 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY tu PID 9108: Camera /dev/video1 dang ban hoac bi khoa boi ung dung khac.. Fallback password ngay.
