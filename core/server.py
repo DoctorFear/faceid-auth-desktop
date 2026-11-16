@@ -17,7 +17,7 @@ from core.anti_spoof import MiniFASNetDetector
 from core.embedder import ArcFaceEmbedder
 from core.liveness import ChallengeResponseDetector
 from core.fusion import MultiModalFusionEngine
-from scripts.enroll import load_user_templates
+from scripts.enroll import load_user_templates, load_all_enrolled_templates
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] [FaceID-Daemon] %(message)s")
 logger = logging.getLogger("faceid.daemon")
@@ -78,7 +78,12 @@ class FaceIDDaemon:
         # Doc config tong
         self.cfg_file = config_path or get_fhs_path("config.json", category="config")
         self.config = {}
-        self._reload_config()
+        if os.path.exists(self.cfg_file):
+            try:
+                with open(self.cfg_file, "r", encoding="utf-8") as f:
+                    self.config = json.load(f)
+            except Exception:
+                self.config = {}
 
         sys_cfg = self.config.get("system", {})
         sec_cfg = self.config.get("security", {})
@@ -144,6 +149,13 @@ class FaceIDDaemon:
                 sys_cfg = self.config.get("system", {})
                 self.enabled = sys_cfg.get("enabled", True)
                 self.mode = sys_cfg.get("mode", "standalone_test")
+
+                # Hot-reload camera device_index
+                cam_cfg = self.config.get("camera", {})
+                new_dev_idx = cam_cfg.get("device_index", 0)
+                if hasattr(self.camera_mgr, "device_index") and self.camera_mgr.device_index != new_dev_idx:
+                    logger.info(f"[*] Hot-Reload: Cap nhat Camera Device Index: {self.camera_mgr.device_index} -> {new_dev_idx}")
+                    self.camera_mgr.device_index = new_dev_idx
             except Exception as e:
                 logger.warning(f"[-] Khong the doc file config {self.cfg_file}: {e}")
 
@@ -235,11 +247,23 @@ class FaceIDDaemon:
 
         logger.info(f"[AUDIT] Yeu cau xac thuc user='{user}' (Service='{service}', PID={peer_pid}, Thresh={decision_thresh})")
 
-        # 5. Kiem tra template
-        templates = load_user_templates(user)
-        if templates is None or len(templates) == 0:
-            logger.warning(f"[AUDIT] User '{user}' chua dang ky FaceID (Chua enroll).")
+        # 5. Kiem tra template: Ho tro che do 1:N thong minh
+        # Uu tien template cua dung user do; neu user chua co (hoac may doi ten),
+        # tu dong nap toan bo tat ca cac template khuon mat da luu trong may
+        all_templates = load_all_enrolled_templates()
+        if not all_templates:
+            logger.warning(f"[AUDIT] He thong chua dang ky bat ky khuon mat nao.")
             return {"status": "NOT_ENROLLED", "fallback": "PASSWORD"}
+
+        # Xac dinh danh sach mau so khop
+        user_specific = [item for item in all_templates if item[0].lower() == user.lower()]
+        if user_specific:
+            # Uu tien nguoi dung hien tai truoc, tiep theo la cac khuon mat khac trong may
+            match_candidates = user_specific + [item for item in all_templates if item[0].lower() != user.lower()]
+        else:
+            match_candidates = all_templates
+
+        logger.info(f"[*] San sang so khop 1:N voi {len(match_candidates)} khuon mat da luu trong may.")
 
         def send_progress(msg: str):
             """Gui huong dan truc tiep ve terminal cua client."""
@@ -298,7 +322,7 @@ class FaceIDDaemon:
                         p, hint, _ = challenge.check_action(frame, pose, landmarks, box)
                         if hint and hint != last_hint_sent:
                             logger.info(f"[*] Thu thach liveness: {hint}")
-                            send_progress(f"[*] YEU CAU LIVENESS: {hint}")
+                            send_progress(f"[{chosen_action.value}] {hint}")
                             last_hint_sent = hint
                         if p:
                             active_passed = True
@@ -311,36 +335,41 @@ class FaceIDDaemon:
                         is_real, passive_score, _ = self.anti_spoof.predict_smoothed(frame, box)
                         emb = self.embedder.extract(frame, box, landmarks=landmarks)
                         
-                        # So khop voi 5 Pose Prototypes (Top-2 Regularized)
-                        sim_pairs = []
-                        for t in templates:
-                            d = self.embedder.compute_distance(emb, t)
-                            sim_pairs.append((float(1.0 - d), t))
-                        sim_pairs.sort(key=lambda x: x[0], reverse=True)
-                        best_sim, best_t = sim_pairs[0]
-
-                        if len(sim_pairs) >= 2:
-                            effective_sim = 0.70 * best_sim + 0.30 * sim_pairs[1][0]
-                        else:
-                            effective_sim = best_sim
-
                         effective_passive = passive_score if quality.is_live_fft else (passive_score * 0.82)
                         fiqa_weight = (1.0 if quality.passed else 0.4) * (1.0 if quality.is_live_fft else 0.85)
 
-                        decision = self.fusion.evaluate_fused(
-                            passive_score=effective_passive,
-                            active_passed=True,
-                            probe_emb=emb,
-                            template_emb=best_t,
-                            raw_cosine_sim=effective_sim,
-                            best_user=user,
-                            fiqa_score=fiqa_weight,
-                            sim_threshold=sim_thresh,
-                            decision_threshold=decision_thresh,
-                        )
+                        # Duyet qua tat ca cac ung vien khuon mat hop le trong may (1:N Smart Matching)
+                        for cand_name, cand_templates in match_candidates:
+                            sim_pairs = []
+                            for t in cand_templates:
+                                d = self.embedder.compute_distance(emb, t)
+                                sim_pairs.append((float(1.0 - d), t))
+                            sim_pairs.sort(key=lambda x: x[0], reverse=True)
+                            best_sim, best_t = sim_pairs[0]
 
-                        if decision.success and decision.confidence_score >= decision_thresh:
-                            best_decision = decision
+                            if len(sim_pairs) >= 2:
+                                effective_sim = 0.70 * best_sim + 0.30 * sim_pairs[1][0]
+                            else:
+                                effective_sim = best_sim
+
+                            decision = self.fusion.evaluate_fused(
+                                passive_score=effective_passive,
+                                active_passed=True,
+                                probe_emb=emb,
+                                template_emb=best_t,
+                                raw_cosine_sim=effective_sim,
+                                best_user=cand_name,
+                                fiqa_score=fiqa_weight,
+                                sim_threshold=sim_thresh,
+                                decision_threshold=decision_thresh,
+                            )
+
+                            if decision.success and decision.confidence_score >= decision_thresh:
+                                best_decision = decision
+                                logger.info(f"[+] Khop thanh cong voi khuon mat: '{cand_name}' (conf={decision.confidence_score:.3f})")
+                                break
+
+                        if best_decision and best_decision.success:
                             break
 
                 # Ket qua xac thuc

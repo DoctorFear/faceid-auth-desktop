@@ -116,23 +116,6 @@ def cmd_enable_autostart(args):
         except Exception as e:
             print(f"[-] Loi ghi Registry Run: {e}")
 
-        # 2. Thu dang ky Windows Scheduled Task ONSTART & ONLOGON (Chay ngay khi bat may truoc khi dang nhap neu co quyen Admin)
-        try:
-            r = subprocess.run(
-                [
-                    "schtasks", "/Create", "/TN", WIN_TASK_NAME,
-                    "/TR", f'"{pythonw_exe}" "{daemon_script}"',
-                    "/SC", "ONSTART", "/RU", "SYSTEM", "/RL", "HIGHEST", "/F"
-                ],
-                capture_output=True, text=True
-            )
-            if r.returncode == 0:
-                print(f"[+] Da dang ky Windows Task Scheduler '{WIN_TASK_NAME}' (Trigger: ONSTART / Khi vua bat nguon may tinh)!")
-            else:
-                print("[*] Luu y: De Daemon chay truoc ca man hinh Logon dau tien (ONSTART), ban co the chay '.\\install_win_lock.bat' (Co quyen Admin).")
-        except Exception:
-            pass
-
         # Dam bao Daemon cung duoc bat ngay hien tai
         cmd_start(args)
     else:

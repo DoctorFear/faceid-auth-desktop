@@ -23,25 +23,5 @@ $regFile = Join-Path $here "register.reg"
 Write-Host "[3/4] Dang dang ky Registry (register.reg) voi Windows LogonUI..." -ForegroundColor Yellow
 reg import $regFile
 
-# 4. Dang ky Windows Task Scheduler ONSTART + Startup Registry de Daemon tu chay ngam khi bat may
-Write-Host "[4/4] Dang dang ky Auto-Start cho FaceID Daemon khi khoi dong Windows (ONSTART & ONLOGON)..." -ForegroundColor Yellow
-$pythonwExe = Join-Path $projectRoot "venv\Scripts\pythonw.exe"
-$pythonExe = Join-Path $projectRoot "venv\Scripts\python.exe"
-$daemonScript = Join-Path $projectRoot "daemon.py"
-$ctlScript = Join-Path $projectRoot "scripts\faceidctl"
-
-# Dang ky Task Scheduler chay ngay khi Windows Boot (truoc ca man hinh Logon dau tien)
-$action = New-ScheduledTaskAction -Execute $pythonwExe -Argument "`"$daemonScript`"" -WorkingDirectory $projectRoot
-$triggerBoot = New-ScheduledTaskTrigger -AtStartup
-$triggerLogon = New-ScheduledTaskTrigger -AtLogOn
-$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit ([TimeSpan]::Zero)
-Register-ScheduledTask -TaskName "FaceID_Hybrid_Daemon" -Action $action -Trigger @($triggerBoot, $triggerLogon) -User "SYSTEM" -RunLevel Highest -Settings $settings -Force | Out-Null
-
-# Dang ky them vao HKCU Run va khoi dong Daemon ngay lap tuc
-& $pythonExe $ctlScript enable-autostart
-
-Write-Host "`n[+] HOAN TAT CAI DAT & AUTO-START THANH CONG!" -ForegroundColor Green
-Write-Host "    • FaceID Daemon se TU DONG CHAY NGAM ngay khi ban bat nguon Windows (kể cả sau khi Shut down)." -ForegroundColor Green
-Write-Host "    • Man hinh Win + L: Mo khoa sieu toc (Passive Liveness)" -ForegroundColor Green
-Write-Host "    • Man hinh Bat may (Logon): Mo khoa kem thu thach Active Liveness" -ForegroundColor Green
-Start-Sleep -Seconds 2
+Write-Host "`n[+] HOAN TAT CAI DAT WINDOWS CREDENTIAL PROVIDER!" -ForegroundColor Green
+Start-Sleep -Seconds 1

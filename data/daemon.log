@@ -934,3 +934,1559 @@ ModuleNotFoundError: No module named 'cv2'
 2026-11-11 13:53:41,310 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=7928, Thresh=0.68)
 2026-11-11 13:53:43,945 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
 2026-11-11 13:53:44,424 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.992
+2026-11-15 10:25:09,415 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 10:25:09,415 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 10:25:09,732 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.32s!
+2026-11-15 10:25:09,734 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 10:37:43,591 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 15320).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 15320)...
+2026-11-15 10:51:53,029 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 10:51:53,029 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 10:51:53,320 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.29s!
+2026-11-15 10:51:53,322 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 10:51:55,489 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 13064).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 13064)...
+2026-11-15 10:52:03,431 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 10:52:03,431 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 10:52:03,693 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.26s!
+2026-11-15 10:52:03,696 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 10:52:04,885 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 19416).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 19416)...
+2026-11-15 10:52:09,843 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 10:52:09,843 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 10:52:10,097 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.25s!
+2026-11-15 10:52:10,098 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 12:36:15,759 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=7016, Thresh=0.68)
+2026-11-15 12:36:17,397 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 12:36:17,606 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-15 12:36:17,629 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-15 12:36:17,647 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu dau yen, nhin thang...
+2026-11-15 12:36:17,739 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-15 12:36:17,759 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-15 12:36:17,778 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-15 12:36:17,804 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-15 12:36:17,835 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-15 12:36:17,884 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-15 12:36:17,972 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-15 12:36:17,990 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-15 12:36:18,012 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.4 / < -9)
+2026-11-15 12:36:18,044 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.9 / < -9)
+2026-11-15 12:36:18,077 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.1 / < -9)
+2026-11-15 12:36:18,111 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.9 / < -9)
+2026-11-15 12:36:18,140 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.3 / < -9)
+2026-11-15 12:36:18,172 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.6 / < -9)
+2026-11-15 12:36:18,203 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.1 / < -9)
+2026-11-15 12:36:18,235 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.9 / < -9)
+2026-11-15 12:36:18,267 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.6 / < -9)
+2026-11-15 12:36:18,317 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-15 12:36:18,380 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.1 / < -9)
+2026-11-15 12:36:18,411 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.5 / < -9)
+2026-11-15 12:36:18,443 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-15 12:36:18,475 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.6 / < -9)
+2026-11-15 12:36:18,507 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.1 / < -9)
+2026-11-15 12:36:18,540 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.6 / < -9)
+2026-11-15 12:36:18,573 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.8 / < -9)
+2026-11-15 12:36:18,604 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -8.7 / < -9)
+2026-11-15 12:36:18,636 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (1/3)...
+2026-11-15 12:36:18,692 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (2/3)...
+2026-11-15 12:36:18,710 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da lam dung huong!
+2026-11-15 12:36:18,711 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-15 12:36:19,253 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.936
+2026-11-15 12:46:05,585 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 7016).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 7016)...
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\faceid-auth-desktop\daemon.py", line 17, in <module>
+    from core.server import FaceIDDaemon, DEFAULT_SOCKET_PATH
+  File "C:\Users\ADMIN\faceid-auth-desktop\core\server.py", line 13, in <module>
+    from platforms.linux.camera import LinuxCameraManager, CameraBusyError, CameraDeviceError, VirtualCameraDetectedError
+  File "C:\Users\ADMIN\faceid-auth-desktop\platforms\linux\camera.py", line 7, in <module>
+    import cv2
+ModuleNotFoundError: No module named 'cv2'
+2026-11-15 12:47:09,895 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 12:47:09,895 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 12:47:10,185 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.29s!
+2026-11-15 12:47:10,185 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 12:48:01,925 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=19016, Thresh=0.68)
+2026-11-15 12:48:01,925 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 2 khuon mat da luu trong may.
+2026-11-15 12:48:03,243 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 12:48:03,322 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-15 12:48:03,341 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-15 12:48:03,375 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-15 12:48:03,402 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-15 12:48:03,436 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-15 12:48:03,470 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-15 12:48:03,507 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-15 12:48:03,532 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-15 12:48:03,559 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.7 / < -9)
+2026-11-15 12:48:03,593 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.8 / < -9)
+2026-11-15 12:48:03,627 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.1 / < -9)
+2026-11-15 12:48:03,654 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.3 / < -9)
+2026-11-15 12:48:03,686 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-15 12:48:03,745 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.3 / < -9)
+2026-11-15 12:48:03,773 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.1 / < -9)
+2026-11-15 12:48:03,799 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.9 / < -9)
+2026-11-15 12:48:03,834 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.5 / < -9)
+2026-11-15 12:48:03,867 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.8 / < -9)
+2026-11-15 12:48:03,897 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -3.0 / < -9)
+2026-11-15 12:48:03,937 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -4.7 / < -9)
+2026-11-15 12:48:03,975 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -6.4 / < -9)
+2026-11-15 12:48:03,996 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -8.1 / < -9)
+2026-11-15 12:48:04,035 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (1/3)...
+2026-11-15 12:48:04,066 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (2/3)...
+2026-11-15 12:48:04,098 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da lam dung huong!
+2026-11-15 12:48:04,098 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-15 12:48:04,326 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'son' (conf=0.996)
+2026-11-15 12:48:04,326 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 12:56:49,828 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 19016).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 19016)...
+2026-11-15 12:56:54,788 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 12:56:54,788 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 12:56:55,038 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.25s!
+2026-11-15 12:56:55,043 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 13:43:17,865 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13012, Thresh=0.68)
+2026-11-15 13:43:17,865 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 13:43:19,850 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 13:43:20,041 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (1/6)
+2026-11-15 13:43:20,075 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (2/6)
+2026-11-15 13:43:20,105 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (3/6)
+2026-11-15 13:43:20,145 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (4/6)
+2026-11-15 13:43:20,185 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin tu nhien de lay mau... (5/6)
+2026-11-15 13:43:20,225 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay chop mat
+2026-11-15 13:43:20,248 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 97%)
+2026-11-15 13:43:20,280 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 85%)
+2026-11-15 13:43:20,315 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 97%)
+2026-11-15 13:43:20,355 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 94%)
+2026-11-15 13:43:20,388 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 81%)
+2026-11-15 13:43:20,418 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 94%)
+2026-11-15 13:43:20,445 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 89%)
+2026-11-15 13:43:20,478 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 76%)
+2026-11-15 13:43:20,515 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 86%)
+2026-11-15 13:43:20,545 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 89%)
+2026-11-15 13:43:20,575 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 92%)
+2026-11-15 13:43:20,608 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 95%)
+2026-11-15 13:43:20,639 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 91%)
+2026-11-15 13:43:20,668 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 89%)
+2026-11-15 13:43:20,715 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 85%)
+2026-11-15 13:43:20,745 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 95%)
+2026-11-15 13:43:20,798 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 92%)
+2026-11-15 13:43:20,845 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 90%)
+2026-11-15 13:43:20,876 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 89%)
+2026-11-15 13:43:20,906 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 92%)
+2026-11-15 13:43:20,935 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 93%)
+2026-11-15 13:43:20,966 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 89%)
+2026-11-15 13:43:20,995 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 93%)
+2026-11-15 13:43:21,025 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 88%)
+2026-11-15 13:43:21,050 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 98%)
+2026-11-15 13:43:21,085 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 88%)
+2026-11-15 13:43:21,110 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 98%)
+2026-11-15 13:43:21,142 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 96%)
+2026-11-15 13:43:21,165 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 87%)
+2026-11-15 13:43:21,225 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 92%)
+2026-11-15 13:43:21,255 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 99%)
+2026-11-15 13:43:21,316 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 90%)
+2026-11-15 13:43:21,376 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 97%)
+2026-11-15 13:43:21,405 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 94%)
+2026-11-15 13:43:21,442 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 95%)
+2026-11-15 13:43:21,476 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 90%)
+2026-11-15 13:43:21,506 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 93%)
+2026-11-15 13:43:21,539 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (MO 96%)
+2026-11-15 13:43:21,569 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 69%)
+2026-11-15 13:43:21,601 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 38%)
+2026-11-15 13:43:21,727 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 39%)
+2026-11-15 13:43:21,778 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 41%)
+2026-11-15 13:43:21,826 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 58%)
+2026-11-15 13:43:21,858 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Da chop: 0/1 (NHAM 77%)
+2026-11-15 13:43:21,915 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da chop 1 lan!
+2026-11-15 13:43:21,915 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-15 13:43:22,128 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'ADMIN' (conf=0.997)
+2026-11-15 13:43:22,128 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.997
+2026-11-15 13:52:39,842 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 13012).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 13012)...
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\faceid-auth-desktop\daemon.py", line 17, in <module>
+    from core.server import FaceIDDaemon, DEFAULT_SOCKET_PATH
+  File "C:\Users\ADMIN\faceid-auth-desktop\core\server.py", line 13, in <module>
+    from platforms.linux.camera import LinuxCameraManager, CameraBusyError, CameraDeviceError, VirtualCameraDetectedError
+  File "C:\Users\ADMIN\faceid-auth-desktop\platforms\linux\camera.py", line 7, in <module>
+    import cv2
+ModuleNotFoundError: No module named 'cv2'
+2026-11-15 13:53:56,889 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 13:53:56,889 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 13:53:56,889 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 13:53:57,138 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.25s!
+2026-11-15 13:53:57,140 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 13:55:14,749 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 17260).
+2026-11-15 14:05:46,865 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 14:05:58,946 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=17260, Thresh=0.68)
+2026-11-15 14:05:58,948 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 14:06:01,210 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 14:06:01,714 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'ADMIN' (conf=0.997)
+2026-11-15 14:06:01,714 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.997
+2026-11-15 14:06:18,499 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=17260, Thresh=0.68)
+2026-11-15 14:06:18,501 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 14:06:20,296 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 14:06:20,671 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'ADMIN' (conf=0.996)
+2026-11-15 14:06:20,672 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 14:08:28,089 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 17260).
+2026-11-15 16:03:39,722 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 16:03:39,731 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 16:03:39,731 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 16:03:40,137 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.41s!
+2026-11-15 16:03:40,152 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 16:14:11,586 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 2840).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 2840)...
+2026-11-15 16:14:25,224 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 16:14:25,224 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 16:14:25,224 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 16:14:25,543 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.32s!
+2026-11-15 16:14:25,543 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 16:19:07,169 [INFO] [FaceID-Daemon] [*] Hot-Reload: Cap nhat Camera Device Index: 0 -> 1
+2026-11-15 16:19:07,169 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 16:19:25,794 [INFO] [FaceID-Daemon] [*] Hot-Reload: Cap nhat Camera Device Index: 1 -> 0
+2026-11-15 16:19:25,796 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 16:20:39,883 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 16:20:47,729 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=2020, Thresh=0.68)
+2026-11-15 16:20:47,729 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 16:20:50,219 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 16:20:58,364 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-logon' (Con lai 2 lan)
+2026-11-15 16:21:02,439 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=2020, Thresh=0.68)
+2026-11-15 16:21:02,439 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 16:21:04,939 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 16:21:05,421 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'ADMIN' (conf=0.993)
+2026-11-15 16:21:05,421 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.993
+2026-11-15 16:21:16,743 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=2020, Thresh=0.68)
+2026-11-15 16:21:16,759 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 16:21:19,267 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 16:21:25,135 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'ADMIN' (conf=0.991)
+2026-11-15 16:21:25,135 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.991
+2026-11-15 16:27:07,312 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 2020).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 2020)...
+2026-11-15 16:27:12,228 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 16:27:12,228 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 16:27:12,228 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 16:27:12,506 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.28s!
+2026-11-15 16:27:12,508 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 17:24:15,428 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13520).
+2026-11-15 18:04:46,362 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 13520).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 13520)...
+2026-11-15 18:04:54,614 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 18:04:54,614 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 18:04:54,614 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 18:04:55,022 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.41s!
+2026-11-15 18:04:55,028 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 18:11:09,708 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13696).
+2026-11-15 18:11:21,125 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13696).
+2026-11-15 18:16:35,033 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 18:16:41,119 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13696, Thresh=0.68)
+2026-11-15 18:16:41,119 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 18:16:42,709 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 18:16:43,162 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 18:16:43,162 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 18:16:52,400 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 13696).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 13696)...
+2026-11-15 18:16:58,352 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 18:16:58,352 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 18:16:58,352 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 18:16:58,653 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.30s!
+2026-11-15 18:16:58,655 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 18:17:11,582 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 18:19:16,830 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=12788, Thresh=0.68)
+2026-11-15 18:19:16,830 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 18:19:18,772 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 18:19:19,033 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 18:19:19,033 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-15 18:19:36,809 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 12788).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 12788)...
+2026-11-15 18:19:41,875 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 18:19:41,893 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 18:19:41,893 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 18:19:42,217 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.32s!
+2026-11-15 18:19:42,219 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 18:20:25,113 [WARNING] [FaceID-Daemon] [-] Khong the doc file config C:\Users\ADMIN\faceid-auth-desktop\config\config.json: 'FaceIDDaemon' object has no attribute 'camera_mgr'
+2026-11-15 18:20:25,113 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 18:20:25,113 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 18:20:25,465 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.35s!
+2026-11-15 18:20:25,467 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\faceid-auth-desktop\daemon.py", line 49, in <module>
+    main()
+  File "C:\Users\ADMIN\faceid-auth-desktop\daemon.py", line 28, in main
+    daemon = FaceIDDaemon(
+             ^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\faceid-auth-desktop\core\server.py", line 83, in __init__
+    device_index=cam_cfg.get("device_index", 0),
+                 ^^^^^^^
+NameError: name 'cam_cfg' is not defined
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\faceid-auth-desktop\daemon.py", line 49, in <module>
+    main()
+  File "C:\Users\ADMIN\faceid-auth-desktop\daemon.py", line 28, in main
+    daemon = FaceIDDaemon(
+             ^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\faceid-auth-desktop\core\server.py", line 83, in __init__
+    device_index=cam_cfg.get("device_index", 0),
+                 ^^^^^^^
+NameError: name 'cam_cfg' is not defined
+2026-11-15 18:22:55,534 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 18:22:55,534 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 18:22:55,807 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.27s!
+2026-11-15 18:22:55,809 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 19:21:29,559 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 19:21:29,564 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 19:21:30,001 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.44s!
+2026-11-15 19:21:30,004 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 19:21:39,385 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:21:52,325 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:21:52,332 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:21:54,792 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:21:54,979 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.995)
+2026-11-15 19:21:54,979 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.995
+2026-11-15 19:23:08,308 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:23:08,309 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:23:11,052 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:23:15,617 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:23:15,617 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:28:39,904 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:28:49,624 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:28:49,624 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:28:52,007 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:28:57,740 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:28:57,741 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:29:14,287 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 19:29:18,546 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:29:18,546 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:29:21,709 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:29:22,775 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:29:22,775 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:34:14,075 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:34:43,056 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:34:43,058 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:34:45,807 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:34:46,555 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:34:46,555 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:39:03,821 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:39:03,822 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:39:06,519 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:39:11,538 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:39:11,539 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:39:27,480 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:39:32,975 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:39:32,977 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:39:35,543 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:39:36,244 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.995)
+2026-11-15 19:39:36,244 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.995
+2026-11-15 19:43:16,279 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:43:16,284 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:43:18,990 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:43:19,363 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:43:19,363 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:43:24,928 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:43:29,248 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:43:29,252 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:43:32,056 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:43:32,449 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.997)
+2026-11-15 19:43:32,449 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.997
+2026-11-15 19:46:03,856 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:46:18,161 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:46:18,161 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:46:20,553 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:46:20,929 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:46:20,930 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:47:52,366 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:47:58,970 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:47:58,972 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:48:01,658 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:48:03,718 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:48:03,719 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:48:16,643 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 19:48:28,108 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:48:28,110 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:48:30,700 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:48:33,849 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:48:33,849 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:54:45,305 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:54:45,309 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:54:48,032 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:54:51,078 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:54:51,079 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:55:05,821 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 19:55:10,634 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:55:10,637 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:55:12,881 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:55:13,281 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:55:13,282 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:55:32,683 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 19:55:44,183 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 19:55:53,176 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:55:53,176 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:55:56,026 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:55:56,403 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.997)
+2026-11-15 19:55:56,403 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.997
+2026-11-15 19:55:59,223 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 19:56:08,794 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:56:08,794 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:56:11,337 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:56:13,468 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:56:13,468 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 19:57:00,626 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 19:57:00,626 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 19:57:03,180 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 19:57:03,565 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 19:57:03,565 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 20:05:27,666 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 20:05:35,430 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 20:05:35,430 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:05:38,246 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:05:42,650 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.952)
+2026-11-15 20:05:42,651 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.952
+2026-11-15 20:05:56,510 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:06:00,716 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 20:06:00,716 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:06:03,358 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:06:11,188 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:06:11,188 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 20:07:11,771 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:07:16,966 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 20:07:16,968 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:07:19,884 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:07:23,290 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.990)
+2026-11-15 20:07:23,291 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.990
+2026-11-15 20:07:23,588 [ERROR] [FaceID-Daemon] Loi xu ly client IPC: [WinError 10054] An existing connection was forcibly closed by the remote host
+2026-11-15 20:09:15,459 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 13996).
+2026-11-15 20:09:30,998 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=13996, Thresh=0.68)
+2026-11-15 20:09:30,998 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:09:33,741 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:09:34,102 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.952)
+2026-11-15 20:09:34,103 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.952
+2026-11-15 20:09:41,306 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 13996).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 13996)...
+2026-11-15 20:09:46,343 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 20:09:46,343 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 20:09:46,777 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.43s!
+2026-11-15 20:09:46,777 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 20:09:49,823 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:09:54,747 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=21800, Thresh=0.68)
+2026-11-15 20:09:54,749 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:09:57,042 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:09:57,308 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.995)
+2026-11-15 20:09:57,309 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.995
+2026-11-15 20:18:05,080 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 21800).
+2026-11-15 20:18:43,257 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=21800, Thresh=0.68)
+2026-11-15 20:18:43,259 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:18:45,879 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:18:46,282 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:18:46,282 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 20:19:00,192 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:19:04,685 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=21800, Thresh=0.68)
+2026-11-15 20:19:04,685 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:19:07,356 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:19:07,766 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:19:07,766 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 20:19:10,681 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:19:14,820 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-logon', PID=21800, Thresh=0.68)
+2026-11-15 20:19:14,822 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:19:17,432 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:19:17,814 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:19:17,814 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-logon' conf=0.996
+2026-11-15 20:24:03,145 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 21800).
+2026-11-15 20:24:17,378 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21800, Thresh=0.68)
+2026-11-15 20:24:17,381 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:24:21,128 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:24:21,573 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:24:21,573 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-15 20:24:24,536 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:24:28,528 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21800, Thresh=0.68)
+2026-11-15 20:24:28,528 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:24:32,035 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:24:40,070 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-11-15 20:24:41,567 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21800, Thresh=0.68)
+2026-11-15 20:24:41,572 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:24:44,507 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21800, Thresh=0.68)
+2026-11-15 20:24:44,516 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:24:44,516 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 21800).
+2026-11-15 20:24:45,031 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:24:45,560 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:24:45,562 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-15 20:24:49,906 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21800, Thresh=0.68)
+2026-11-15 20:24:49,912 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:24:53,582 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:24:56,703 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:24:56,703 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-15 20:25:05,700 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:25:11,395 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=21800, Thresh=0.68)
+2026-11-15 20:25:11,395 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:25:14,488 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:25:14,591 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-15 20:25:14,695 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-15 20:25:14,751 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-15 20:25:14,801 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-15 20:25:14,854 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-15 20:25:14,921 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-15 20:25:15,019 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-15 20:25:15,073 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-15 20:25:15,125 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.6 / > +8)
+2026-11-15 20:25:15,201 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.1 / > +8)
+2026-11-15 20:25:15,255 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.8 / > +8)
+2026-11-15 20:25:15,321 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.1 / > +8)
+2026-11-15 20:25:15,373 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.7 / > +8)
+2026-11-15 20:25:15,467 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.8 / > +8)
+2026-11-15 20:25:15,528 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.9 / > +8)
+2026-11-15 20:25:15,593 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.7 / > +8)
+2026-11-15 20:25:15,655 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-15 20:25:15,726 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.2 / > +8)
+2026-11-15 20:25:15,783 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.7 / > +8)
+2026-11-15 20:25:15,843 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.9 / > +8)
+2026-11-15 20:25:15,918 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.0 / > +8)
+2026-11-15 20:25:15,972 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-15 20:25:16,070 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-15 20:25:16,127 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-15 20:25:16,242 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.7 / > +8)
+2026-11-15 20:25:16,312 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.7 / > +8)
+2026-11-15 20:25:16,382 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.1 / > +8)
+2026-11-15 20:25:16,438 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (1/3)...
+2026-11-15 20:25:16,497 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (2/3)...
+2026-11-15 20:25:16,602 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da lam dung huong!
+2026-11-15 20:25:16,602 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-15 20:25:16,902 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.957)
+2026-11-15 20:25:16,902 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.957
+2026-11-15 20:28:38,562 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:29:03,071 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-15 20:59:08,069 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-15 20:59:08,069 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-15 20:59:08,461 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.39s!
+2026-11-15 20:59:08,461 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-15 20:59:08,871 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=19120, Thresh=0.68)
+2026-11-15 20:59:08,903 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-15 20:59:10,745 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-15 20:59:11,473 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.996)
+2026-11-15 20:59:11,473 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-16 06:31:57,157 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 06:31:57,159 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 06:31:57,825 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.67s!
+2026-11-16 06:31:57,825 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 06:32:06,672 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22332, Thresh=0.68)
+2026-11-16 06:32:06,678 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 06:32:08,532 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 06:32:16,559 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-11-16 06:32:25,405 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22332, Thresh=0.68)
+2026-11-16 06:32:25,405 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 06:32:26,834 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 06:32:28,407 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'hathaison' (conf=0.995)
+2026-11-16 06:32:28,407 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.995
+2026-11-16 06:52:04,674 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 06:52:04,675 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 06:52:05,388 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.71s!
+2026-11-16 06:52:05,392 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 06:53:42,140 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 19716).
+2026-11-16 06:53:46,286 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-16 06:53:59,193 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 19716).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 19716)...
+2026-11-16 06:54:12,747 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 06:54:12,748 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 06:54:13,220 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.47s!
+2026-11-16 06:54:13,221 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 06:54:19,965 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 11624).
+2026-11-16 06:54:25,087 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 11624).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 11624)...
+2026-11-16 06:54:33,268 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 06:54:33,268 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 06:54:33,832 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.56s!
+2026-11-16 06:54:33,838 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 06:54:36,180 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 16616).
+2026-11-16 06:54:40,260 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 16616).
+2026-11-16 06:54:45,581 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 16616).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 16616)...
+2026-11-16 06:54:49,956 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 06:54:49,956 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 06:54:50,567 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.61s!
+2026-11-16 06:54:50,570 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 06:57:30,337 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 06:57:30,338 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 06:57:30,732 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.39s!
+2026-11-16 06:57:30,734 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 06:57:39,157 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 22436).
+2026-11-16 06:57:44,526 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 22436).
+2026-11-16 06:57:52,463 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 22436).
+2026-11-16 06:58:19,737 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 22436).
+2026-11-16 06:59:48,354 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 06:59:48,354 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 06:59:48,816 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.46s!
+2026-11-16 06:59:48,817 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 06:59:54,345 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 9204).
+2026-11-16 07:02:25,186 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 9204).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 9204)...
+2026-11-16 07:03:27,616 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:03:27,616 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:03:28,077 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.46s!
+2026-11-16 07:03:28,079 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:03:31,520 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 17496).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 17496)...
+2026-11-16 07:19:39,887 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:19:39,892 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:19:40,313 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.42s!
+2026-11-16 07:19:40,315 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:19:43,705 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 13496).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 13496)...
+2026-11-16 07:20:56,446 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:20:56,446 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:20:56,796 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.35s!
+2026-11-16 07:20:56,798 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:21:03,030 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 11344).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 11344)...
+2026-11-16 07:23:14,485 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:23:14,487 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:23:14,918 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.43s!
+2026-11-16 07:23:14,919 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:23:20,027 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9344, Thresh=0.68)
+2026-11-16 07:23:20,028 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 07:23:22,117 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 07:23:22,355 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.990)
+2026-11-16 07:23:22,355 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.990
+2026-11-16 07:23:40,648 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 9344).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 9344)...
+2026-11-16 07:29:02,163 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:29:02,164 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:29:02,660 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.50s!
+2026-11-16 07:29:02,661 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:29:12,575 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 8400).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 8400)...
+2026-11-16 07:31:57,650 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:31:57,650 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:31:58,203 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.55s!
+2026-11-16 07:31:58,204 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:31:59,720 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=20928, Thresh=0.68)
+2026-11-16 07:31:59,722 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 07:32:01,853 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 07:32:02,110 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.946)
+2026-11-16 07:32:02,110 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.946
+2026-11-16 07:32:14,442 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 20928).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 20928)...
+2026-11-16 07:32:44,929 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:32:44,929 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:32:45,563 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.63s!
+2026-11-16 07:32:45,565 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:32:49,932 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=17804, Thresh=0.68)
+2026-11-16 07:32:49,934 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 07:32:52,183 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 07:32:52,518 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.993)
+2026-11-16 07:32:52,518 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.993
+2026-11-16 07:33:51,963 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-16 07:34:01,192 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=17804, Thresh=0.68)
+2026-11-16 07:34:01,193 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 07:34:02,984 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 07:34:03,046 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-16 07:34:03,082 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-16 07:34:03,112 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-16 07:34:03,142 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-16 07:34:03,176 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-16 07:34:03,205 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-16 07:34:03,242 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-16 07:34:03,273 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-16 07:34:03,304 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.2 / < -9)
+2026-11-16 07:34:03,328 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-16 07:34:03,364 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.2 / < -9)
+2026-11-16 07:34:03,403 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.5 / < -9)
+2026-11-16 07:34:03,433 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.3 / < -9)
+2026-11-16 07:34:03,477 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.3 / < -9)
+2026-11-16 07:34:03,513 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.2 / < -9)
+2026-11-16 07:34:03,540 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.1 / < -9)
+2026-11-16 07:34:03,572 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.7 / < -9)
+2026-11-16 07:34:03,607 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.7 / < -9)
+2026-11-16 07:34:03,668 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-16 07:34:03,717 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.6 / < -9)
+2026-11-16 07:34:03,745 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.0 / < -9)
+2026-11-16 07:34:03,764 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -1.6 / < -9)
+2026-11-16 07:34:03,797 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.1 / < -9)
+2026-11-16 07:34:03,829 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.1 / < -9)
+2026-11-16 07:34:03,867 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: +0.2 / < -9)
+2026-11-16 07:34:03,917 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.5 / < -9)
+2026-11-16 07:34:03,950 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -0.4 / < -9)
+2026-11-16 07:34:03,975 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -2.1 / < -9)
+2026-11-16 07:34:04,003 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -5.2 / < -9)
+2026-11-16 07:34:04,037 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -6.8 / < -9)
+2026-11-16 07:34:04,066 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -6.7 / < -9)
+2026-11-16 07:34:04,098 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang TRAI (dYaw: -9.0 / < -9)
+2026-11-16 07:34:04,129 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (1/3)...
+2026-11-16 07:34:04,171 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (2/3)...
+2026-11-16 07:34:04,203 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da lam dung huong!
+2026-11-16 07:34:04,203 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-16 07:34:04,285 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.992)
+2026-11-16 07:34:04,285 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.992
+2026-11-16 07:34:18,136 [INFO] [FaceID-Daemon] [AUDIT] Da tai lai cau hinh config.json & policy.json (enabled=True).
+2026-11-16 07:36:59,564 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 17804).
+2026-11-16 07:39:31,294 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:39:31,294 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:39:31,792 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.50s!
+2026-11-16 07:39:31,797 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:39:32,460 [INFO] [FaceID-Daemon] [AUDIT] Cong tac FaceID da duoc BAT (ENABLED) qua IPC (PID: 9872).
+2026-11-16 07:39:38,409 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 9872).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 9872)...
+2026-11-16 07:39:57,521 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:39:57,521 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:39:57,897 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.38s!
+2026-11-16 07:39:57,899 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:40:03,044 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=13684, Thresh=0.68)
+2026-11-16 07:40:03,051 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 07:40:05,486 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 07:40:05,930 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.996)
+2026-11-16 07:40:05,930 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-16 07:40:26,248 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 13684).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 13684)...
+2026-11-16 07:40:32,286 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:40:32,286 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:40:32,698 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.41s!
+2026-11-16 07:40:32,699 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:53:12,854 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 22444).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 22444)...
+2026-11-16 07:53:23,644 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:53:23,644 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:53:24,080 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.44s!
+2026-11-16 07:53:24,082 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:53:29,566 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=20780, Thresh=0.68)
+2026-11-16 07:53:29,574 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 07:53:31,558 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 07:53:32,020 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.996)
+2026-11-16 07:53:32,020 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-16 07:54:54,074 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 20780).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 20780)...
+2026-11-16 07:56:58,344 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:56:58,344 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:56:59,276 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:56:59,277 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+22026-11-16 07:57:06,706 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 15352).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 15352)...
+2026-11-16 07:57:33,420 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:57:33,420 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:57:34,172 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.75s!
+2026-11-16 07:57:34,175 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:57:46,447 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=17932, Thresh=0.68)
+2026-11-16 07:57:46,447 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 07:57:48,885 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 07:57:49,220 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.995)
+2026-11-16 07:57:49,220 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.995
+2026-11-16 07:57:54,758 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 17932).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 17932)...
+2026-11-16 07:58:57,773 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:58:57,773 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:58:58,457 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.68s!
+2026-11-16 07:58:58,464 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 07:59:14,509 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 20120).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 20120)...
+2026-11-16 07:59:58,604 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 07:59:58,604 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 07:59:59,280 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.68s!
+2026-11-16 07:59:59,286 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:03:43,173 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 4836).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 4836)...
+
+2026-11-16 08:03:51,528 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:03:51,528 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:03:51,811 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.28s!
+2026-11-16 08:03:51,827 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:03:58,044 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 4324).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 4324)...
+2026-11-16 08:11:53,052 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:11:53,052 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:11:53,409 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.36s!
+2026-11-16 08:11:53,409 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:11:56,342 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=8188, Thresh=0.68)
+2026-11-16 08:11:56,342 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:11:58,472 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:12:00,455 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.955)
+2026-11-16 08:12:00,455 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.955
+2026-11-16 08:12:54,148 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 8188).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 8188)...
+2026-11-16 08:13:07,164 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:13:07,164 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:13:07,484 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.32s!
+2026-11-16 08:13:07,486 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:13:09,038 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=11592, Thresh=0.68)
+2026-11-16 08:13:09,038 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:13:11,222 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:13:11,423 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.992)
+2026-11-16 08:13:11,423 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.992
+2026-11-16 08:16:03,352 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 11592).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 11592)...
+2026-11-16 08:18:51,030 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:18:51,030 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:18:51,327 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.30s!
+2026-11-16 08:18:51,329 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:18:56,027 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22120, Thresh=0.68)
+2026-11-16 08:18:56,027 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:18:57,990 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:18:58,233 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.997)
+2026-11-16 08:18:58,234 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.997
+2026-11-16 08:18:59,103 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22120, Thresh=0.68)
+2026-11-16 08:18:59,103 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:19:00,803 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:19:05,077 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22120, Thresh=0.68)
+2026-11-16 08:19:05,079 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:19:05,079 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 22120).
+2026-11-16 08:19:06,221 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22120, Thresh=0.68)
+2026-11-16 08:19:06,222 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:19:06,222 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 22120).
+2026-11-16 08:19:08,839 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-11-16 08:19:09,051 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22120, Thresh=0.68)
+2026-11-16 08:19:09,053 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:19:09,053 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 22120).
+2026-11-16 08:19:09,152 [ERROR] [FaceID-Daemon] Loi xu ly client IPC: [WinError 10054] An existing connection was forcibly closed by the remote host
+2026-11-16 08:19:14,024 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=22120, Thresh=0.68)
+2026-11-16 08:19:14,024 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:19:15,856 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:19:23,961 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.996)
+2026-11-16 08:19:23,961 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-16 08:21:23,503 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 22120).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 22120)...
+2026-11-16 08:25:14,810 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:25:14,811 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:25:15,203 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.39s!
+2026-11-16 08:25:15,203 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:26:18,876 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=11448, Thresh=0.68)
+2026-11-16 08:26:18,878 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:26:20,920 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:26:24,760 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=11448, Thresh=0.68)
+2026-11-16 08:26:24,761 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:26:24,761 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 11448).
+2026-11-16 08:26:25,518 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=11448, Thresh=0.68)
+2026-11-16 08:26:25,520 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:26:25,520 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 11448).
+2026-11-16 08:26:28,945 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-11-16 08:26:29,316 [ERROR] [FaceID-Daemon] Loi xu ly client IPC: [WinError 10054] An existing connection was forcibly closed by the remote host
+2026-11-16 08:26:35,924 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 11448).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 11448)...
+2026-11-16 08:26:47,833 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:26:47,833 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:26:48,131 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.30s!
+2026-11-16 08:26:48,133 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:27:02,240 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=11496, Thresh=0.68)
+2026-11-16 08:27:02,242 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:27:04,405 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:27:12,406 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-11-16 08:27:30,810 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 11496).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 11496)...
+2026-11-16 08:29:31,742 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:29:31,743 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:29:32,065 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.32s!
+2026-11-16 08:29:32,067 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:30:24,849 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 14696).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 14696)...
+2026-11-16 08:32:07,205 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:32:07,205 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:32:07,491 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.29s!
+2026-11-16 08:32:07,491 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:32:13,532 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=15592, Thresh=0.68)
+2026-11-16 08:32:13,534 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:32:15,960 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:32:23,967 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-11-16 08:36:35,767 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 08:36:35,767 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 08:36:36,077 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.31s!
+2026-11-16 08:36:36,078 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 08:36:41,923 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9296, Thresh=0.68)
+2026-11-16 08:36:41,923 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:36:43,757 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 08:36:47,155 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9296, Thresh=0.68)
+2026-11-16 08:36:47,156 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:36:47,156 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 9296).
+2026-11-16 08:36:48,093 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=9296, Thresh=0.68)
+2026-11-16 08:36:48,094 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 08:36:48,094 [WARNING] [FaceID-Daemon] [AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID 9296).
+2026-11-16 08:36:50,602 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.996)
+2026-11-16 08:36:50,602 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.996
+2026-11-16 08:36:50,887 [ERROR] [FaceID-Daemon] Loi xu ly client IPC: [WinError 10054] An existing connection was forcibly closed by the remote host
+2026-11-16 08:37:05,346 [INFO] [FaceID-Daemon] [AUDIT] Nhan lenh DUNG DAEMON (STOP) qua IPC (PID: 9296).
+
+================================================================================
+  FACEID HYBRID DAEMON - PHIEN BAN 2.1.0 (SECURE EDITION)
+  He dieu hanh phat hien: Windows (Dev Mode)
+  Trang thai hoat dong   : [BAT / ENABLED]
+  Che do van hanh        : STANDALONE_TEST
+  Diem lang nghe IPC     : Port TCP 9876 (Local Loopback)
+================================================================================
+
+[*] S-Norm: Da nap thanh cong 128 vector Cohort tu: 'cohort_lfw.npy'
+[*] MultiModalFusionEngine: Da nap trong so Logistic Regression da train tu: 'fusion_model.json' (AUC: 1.0000)
+[*] Dang khoi dong FaceID Daemon (PID: 9296)...
+2026-11-16 09:51:07,801 [INFO] [FaceID-Daemon] [*] Khoi dong FaceID Daemon tren Windows (Dev Mode) (Mode: standalone_test)
+2026-11-16 09:51:07,801 [INFO] [FaceID-Daemon] [*] Dang nap san cac Model AI vao bo nho RAM...
+2026-11-16 09:51:08,226 [INFO] [FaceID-Daemon] [+] Da nap thanh cong toan bo AI Models vao RAM trong 0.43s!
+2026-11-16 09:51:08,228 [INFO] [FaceID-Daemon] [+] Lang nghe TCP Socket tai: 127.0.0.1:9876 (Windows Dev Mode)
+2026-11-16 09:51:14,983 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=17384, Thresh=0.68)
+2026-11-16 09:51:14,985 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 09:51:16,686 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 09:51:16,751 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-16 09:51:16,775 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-16 09:51:16,805 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-16 09:51:16,837 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-16 09:51:16,878 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-16 09:51:16,905 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-16 09:51:16,939 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-16 09:51:16,972 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-16 09:51:16,999 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.6 / > +8)
+2026-11-16 09:51:17,035 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.3 / > +8)
+2026-11-16 09:51:17,068 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.9 / > +8)
+2026-11-16 09:51:17,099 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.0 / > +8)
+2026-11-16 09:51:17,132 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.0 / > +8)
+2026-11-16 09:51:17,196 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.3 / > +8)
+2026-11-16 09:51:17,230 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.1 / > +8)
+2026-11-16 09:51:17,286 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:17,306 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.0 / > +8)
+2026-11-16 09:51:17,333 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.1 / > +8)
+2026-11-16 09:51:17,366 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.0 / > +8)
+2026-11-16 09:51:17,402 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.2 / > +8)
+2026-11-16 09:51:17,432 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.0 / > +8)
+2026-11-16 09:51:17,462 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.0 / > +8)
+2026-11-16 09:51:17,499 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.1 / > +8)
+2026-11-16 09:51:17,525 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.3 / > +8)
+2026-11-16 09:51:17,564 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:17,618 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.0 / > +8)
+2026-11-16 09:51:17,639 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.3 / > +8)
+2026-11-16 09:51:17,670 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.1 / > +8)
+2026-11-16 09:51:17,702 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.0 / > +8)
+2026-11-16 09:51:17,734 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.2 / > +8)
+2026-11-16 09:51:17,774 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.0 / > +8)
+2026-11-16 09:51:17,803 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:17,833 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:17,861 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.6 / > +8)
+2026-11-16 09:51:17,899 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.3 / > +8)
+2026-11-16 09:51:17,924 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:17,972 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.5 / > +8)
+2026-11-16 09:51:17,999 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.3 / > +8)
+2026-11-16 09:51:18,042 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:18,072 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.9 / > +8)
+2026-11-16 09:51:18,102 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.1 / > +8)
+2026-11-16 09:51:18,138 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.5 / > +8)
+2026-11-16 09:51:18,167 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.8 / > +8)
+2026-11-16 09:51:18,204 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.5 / > +8)
+2026-11-16 09:51:18,234 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.9 / > +8)
+2026-11-16 09:51:18,264 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.0 / > +8)
+2026-11-16 09:51:18,296 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.4 / > +8)
+2026-11-16 09:51:18,327 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +6.9 / > +8)
+2026-11-16 09:51:18,360 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +7.5 / > +8)
+2026-11-16 09:51:18,395 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +6.7 / > +8)
+2026-11-16 09:51:18,425 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.8 / > +8)
+2026-11-16 09:51:18,480 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.9 / > +8)
+2026-11-16 09:51:18,506 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.4 / > +8)
+2026-11-16 09:51:18,538 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:18,570 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.5 / > +8)
+2026-11-16 09:51:18,604 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.5 / > +8)
+2026-11-16 09:51:18,633 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.0 / > +8)
+2026-11-16 09:51:18,661 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.1 / > +8)
+2026-11-16 09:51:18,701 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.9 / > +8)
+2026-11-16 09:51:18,729 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.2 / > +8)
+2026-11-16 09:51:18,760 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.6 / > +8)
+2026-11-16 09:51:18,825 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.8 / > +8)
+2026-11-16 09:51:18,858 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.4 / > +8)
+2026-11-16 09:51:18,913 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.3 / > +8)
+2026-11-16 09:51:18,939 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.4 / > +8)
+2026-11-16 09:51:18,962 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.1 / > +8)
+2026-11-16 09:51:19,003 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.4 / > +8)
+2026-11-16 09:51:19,028 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.0 / > +8)
+2026-11-16 09:51:19,062 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.7 / > +8)
+2026-11-16 09:51:19,103 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.6 / > +8)
+2026-11-16 09:51:19,131 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.4 / > +8)
+2026-11-16 09:51:19,159 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.7 / > +8)
+2026-11-16 09:51:19,193 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.9 / > +8)
+2026-11-16 09:51:19,224 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.6 / > +8)
+2026-11-16 09:51:19,257 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.7 / > +8)
+2026-11-16 09:51:19,287 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.9 / > +8)
+2026-11-16 09:51:19,347 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:19,371 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.6 / > +8)
+2026-11-16 09:51:19,398 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-16 09:51:19,432 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (1/3)...
+2026-11-16 09:51:19,467 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.4 / > +8)
+2026-11-16 09:51:19,498 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +6.5 / > +8)
+2026-11-16 09:51:19,528 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +7.6 / > +8)
+2026-11-16 09:51:19,559 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +7.2 / > +8)
+2026-11-16 09:51:19,592 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.2 / > +8)
+2026-11-16 09:51:19,621 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.0 / > +8)
+2026-11-16 09:51:19,660 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.9 / > +8)
+2026-11-16 09:51:19,687 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-16 09:51:19,721 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.5 / > +8)
+2026-11-16 09:51:19,779 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.3 / > +8)
+2026-11-16 09:51:19,803 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.1 / > +8)
+2026-11-16 09:51:19,832 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.1 / > +8)
+2026-11-16 09:51:19,864 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.0 / > +8)
+2026-11-16 09:51:19,898 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.1 / > +8)
+2026-11-16 09:51:19,928 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.1 / > +8)
+2026-11-16 09:51:19,964 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.7 / > +8)
+2026-11-16 09:51:19,999 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.3 / > +8)
+2026-11-16 09:51:20,026 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.6 / > +8)
+2026-11-16 09:51:20,055 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:20,100 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:20,125 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-16 09:51:20,149 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.6 / > +8)
+2026-11-16 09:51:20,212 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.0 / > +8)
+2026-11-16 09:51:20,237 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-16 09:51:20,262 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.0 / > +8)
+2026-11-16 09:51:20,301 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.5 / > +8)
+2026-11-16 09:51:20,326 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.5 / > +8)
+2026-11-16 09:51:20,357 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.9 / > +8)
+2026-11-16 09:51:20,391 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.7 / > +8)
+2026-11-16 09:51:20,422 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.0 / > +8)
+2026-11-16 09:51:20,455 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.6 / > +8)
+2026-11-16 09:51:20,483 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.6 / > +8)
+2026-11-16 09:51:20,522 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.9 / > +8)
+2026-11-16 09:51:20,553 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.6 / > +8)
+2026-11-16 09:51:20,580 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.1 / > +8)
+2026-11-16 09:51:20,644 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.2 / > +8)
+2026-11-16 09:51:20,673 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.0 / > +8)
+2026-11-16 09:51:20,698 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:20,731 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.0 / > +8)
+2026-11-16 09:51:20,762 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.8 / > +8)
+2026-11-16 09:51:20,791 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.5 / > +8)
+2026-11-16 09:51:20,825 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.3 / > +8)
+2026-11-16 09:51:20,858 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-16 09:51:20,887 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.3 / > +8)
+2026-11-16 09:51:20,956 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-16 09:51:20,984 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.1 / > +8)
+2026-11-16 09:51:21,012 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.5 / > +8)
+2026-11-16 09:51:21,069 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.2 / > +8)
+2026-11-16 09:51:21,104 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.5 / > +8)
+2026-11-16 09:51:21,134 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.7 / > +8)
+2026-11-16 09:51:21,162 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.0 / > +8)
+2026-11-16 09:51:21,189 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.9 / > +8)
+2026-11-16 09:51:21,221 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.4 / > +8)
+2026-11-16 09:51:21,254 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.5 / > +8)
+2026-11-16 09:51:21,288 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-16 09:51:21,322 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.0 / > +8)
+2026-11-16 09:51:21,350 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.5 / > +8)
+2026-11-16 09:51:21,388 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.4 / > +8)
+2026-11-16 09:51:21,417 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-16 09:51:21,448 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.4 / > +8)
+2026-11-16 09:51:21,505 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.3 / > +8)
+2026-11-16 09:51:21,529 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-16 09:51:21,557 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-16 09:51:21,591 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.9 / > +8)
+2026-11-16 09:51:21,626 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.9 / > +8)
+2026-11-16 09:51:21,652 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.3 / > +8)
+2026-11-16 09:51:21,687 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-16 09:51:21,725 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.5 / > +8)
+2026-11-16 09:51:21,747 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.3 / > +8)
+2026-11-16 09:51:21,785 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.0 / > +8)
+2026-11-16 09:51:21,817 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.5 / > +8)
+2026-11-16 09:51:21,845 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.5 / > +8)
+2026-11-16 09:51:21,881 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.3 / > +8)
+2026-11-16 09:51:21,943 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.3 / > +8)
+2026-11-16 09:51:21,970 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.9 / > +8)
+2026-11-16 09:51:21,988 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.5 / > +8)
+2026-11-16 09:51:22,022 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-16 09:51:22,069 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:22,098 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.5 / > +8)
+2026-11-16 09:51:22,120 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.3 / > +8)
+2026-11-16 09:51:22,151 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.3 / > +8)
+2026-11-16 09:51:22,181 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.8 / > +8)
+2026-11-16 09:51:22,216 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:22,251 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.5 / > +8)
+2026-11-16 09:51:22,275 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -6.8 / > +8)
+2026-11-16 09:51:22,316 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.2 / > +8)
+2026-11-16 09:51:22,365 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.7 / > +8)
+2026-11-16 09:51:22,387 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.6 / > +8)
+2026-11-16 09:51:22,423 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -4.1 / > +8)
+2026-11-16 09:51:22,457 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -4.0 / > +8)
+2026-11-16 09:51:22,484 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.8 / > +8)
+2026-11-16 09:51:22,522 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.8 / > +8)
+2026-11-16 09:51:22,552 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.3 / > +8)
+2026-11-16 09:51:22,586 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.5 / > +8)
+2026-11-16 09:51:22,612 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.2 / > +8)
+2026-11-16 09:51:22,646 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.6 / > +8)
+2026-11-16 09:51:22,682 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -2.9 / > +8)
+2026-11-16 09:51:22,712 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -4.8 / > +8)
+2026-11-16 09:51:22,742 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -4.7 / > +8)
+2026-11-16 09:51:22,801 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -5.2 / > +8)
+2026-11-16 09:51:22,833 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.8 / > +8)
+2026-11-16 09:51:22,862 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.6 / > +8)
+2026-11-16 09:51:22,885 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.2 / > +8)
+2026-11-16 09:51:22,919 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -3.7 / > +8)
+2026-11-16 09:51:22,961 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.5 / > +8)
+2026-11-16 09:51:22,989 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.9 / > +8)
+2026-11-16 09:51:23,032 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.4 / > +8)
+2026-11-16 09:51:23,060 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.4 / > +8)
+2026-11-16 09:51:23,087 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.0 / > +8)
+2026-11-16 09:51:23,113 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-16 09:51:23,151 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.4 / > +8)
+2026-11-16 09:51:23,187 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.2 / > +8)
+2026-11-16 09:51:23,236 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-16 09:51:23,264 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.1 / > +8)
+2026-11-16 09:51:23,288 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.7 / > +8)
+2026-11-16 09:51:23,320 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.0 / > +8)
+2026-11-16 09:51:23,352 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.3 / > +8)
+2026-11-16 09:51:23,384 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.6 / > +8)
+2026-11-16 09:51:23,416 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.0 / > +8)
+2026-11-16 09:51:23,448 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.0 / > +8)
+2026-11-16 09:51:23,479 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.9 / > +8)
+2026-11-16 09:51:23,510 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.5 / > +8)
+2026-11-16 09:51:23,541 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-16 09:51:23,577 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.4 / > +8)
+2026-11-16 09:51:23,605 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.6 / > +8)
+2026-11-16 09:51:23,667 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.1 / > +8)
+2026-11-16 09:51:23,692 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.6 / > +8)
+2026-11-16 09:51:23,722 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.2 / > +8)
+2026-11-16 09:51:23,755 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.7 / > +8)
+2026-11-16 09:51:23,816 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.0 / > +8)
+2026-11-16 09:51:23,849 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.2 / > +8)
+2026-11-16 09:51:23,881 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.1 / > +8)
+2026-11-16 09:51:23,910 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.5 / > +8)
+2026-11-16 09:51:23,979 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.3 / > +8)
+2026-11-16 09:51:24,011 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:24,040 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.2 / > +8)
+2026-11-16 09:51:24,099 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.0 / > +8)
+2026-11-16 09:51:24,127 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.5 / > +8)
+2026-11-16 09:51:24,154 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.6 / > +8)
+2026-11-16 09:51:24,181 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.8 / > +8)
+2026-11-16 09:51:24,218 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-16 09:51:24,246 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +1.1 / > +8)
+2026-11-16 09:51:24,279 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.6 / > +8)
+2026-11-16 09:51:24,313 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.1 / > +8)
+2026-11-16 09:51:24,342 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.8 / > +8)
+2026-11-16 09:51:24,378 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.3 / > +8)
+2026-11-16 09:51:24,408 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.4 / > +8)
+2026-11-16 09:51:24,437 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +4.1 / > +8)
+2026-11-16 09:51:24,470 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -0.2 / > +8)
+2026-11-16 09:51:24,532 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +0.3 / > +8)
+2026-11-16 09:51:24,550 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +2.7 / > +8)
+2026-11-16 09:51:24,579 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +5.0 / > +8)
+2026-11-16 09:51:24,614 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.3 / > +8)
+2026-11-16 09:51:24,642 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: +3.7 / > +8)
+2026-11-16 09:51:24,678 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nang nhe cam (dPitch: -1.2 / > +8)
+2026-11-16 09:51:24,712 [INFO] [FaceID-Daemon] [*] Thu thach liveness: HET GIO! Nhan 'r' de thu thach moi
+2026-11-16 09:51:24,713 [WARNING] [FaceID-Daemon] [AUDIT] AUTH_FAILED user='ADMIN' svc='windows-unlock' (Con lai 2 lan)
+2026-11-16 09:51:27,151 [INFO] [FaceID-Daemon] [AUDIT] Yeu cau xac thuc user='ADMIN' (Service='windows-unlock', PID=17384, Thresh=0.68)
+2026-11-16 09:51:27,151 [INFO] [FaceID-Daemon] [*] San sang so khop 1:N voi 1 khuon mat da luu trong may.
+2026-11-16 09:51:28,886 [INFO] [FaceID-Daemon] [*] Camera BAT thanh cong. Tien hanh quet khuon mat...
+2026-11-16 09:51:29,038 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (1/8)
+2026-11-16 09:51:29,068 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (2/8)
+2026-11-16 09:51:29,095 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (3/8)
+2026-11-16 09:51:29,131 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (4/8)
+2026-11-16 09:51:29,153 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (5/8)
+2026-11-16 09:51:29,256 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (6/8)
+2026-11-16 09:51:29,291 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Nhin thang de lay mau... (7/8)
+2026-11-16 09:51:29,324 [INFO] [FaceID-Daemon] [*] Thu thach liveness: San sang! Hay lam thu thach
+2026-11-16 09:51:29,346 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.3 / > +9)
+2026-11-16 09:51:29,385 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.1 / > +9)
+2026-11-16 09:51:29,410 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: +0.2 / > +9)
+2026-11-16 09:51:29,449 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.3 / > +9)
+2026-11-16 09:51:29,512 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.1 / > +9)
+2026-11-16 09:51:29,572 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.3 / > +9)
+2026-11-16 09:51:29,607 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: +0.0 / > +9)
+2026-11-16 09:51:29,635 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: +0.1 / > +9)
+2026-11-16 09:51:29,672 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.2 / > +9)
+2026-11-16 09:51:29,700 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.4 / > +9)
+2026-11-16 09:51:29,732 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: -0.1 / > +9)
+2026-11-16 09:51:29,769 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: +0.2 / > +9)
+2026-11-16 09:51:29,824 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: +0.7 / > +9)
+2026-11-16 09:51:29,847 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: +1.6 / > +9)
+2026-11-16 09:51:29,873 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Quay sang PHAI (dYaw: +4.6 / > +9)
+2026-11-16 09:51:29,910 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (1/3)...
+2026-11-16 09:51:29,945 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Giu nguyen (2/3)...
+2026-11-16 09:51:29,974 [INFO] [FaceID-Daemon] [*] Thu thach liveness: Thanh cong: Da lam dung huong!
+2026-11-16 09:51:29,975 [INFO] [FaceID-Daemon] [+] Thu thach liveness: HOAN THANH!
+2026-11-16 09:51:30,044 [INFO] [FaceID-Daemon] [+] Khop thanh cong voi khuon mat: 'aiodh' (conf=0.952)
+2026-11-16 09:51:30,044 [INFO] [FaceID-Daemon] [AUDIT] AUTH_SUCCESS user='ADMIN' svc='windows-unlock' conf=0.952

@@ -20,7 +20,8 @@ from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QTableWidget, QTableWidgetItem, QTextEdit,
     QProgressBar, QGroupBox, QTabWidget, QHeaderView, QMessageBox,
-    QInputDialog, QCheckBox, QDoubleSpinBox, QSpinBox, QGridLayout
+    QInputDialog, QCheckBox, QDoubleSpinBox, QSpinBox, QGridLayout,
+    QComboBox, QRadioButton, QLineEdit
 )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -192,9 +193,23 @@ class CameraMonitorThread(QThread):
             self.init_status_signal.emit(f"Lỗi khởi tạo AI: {e}")
             return
 
-        cap = cv2.VideoCapture(0)
+        # Doc camera device_index tu config.json
+        cam_idx = 0
+        if os.path.exists(CONFIG_FILE):
+            try:
+                with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                    cam_idx = int(json.load(f).get("camera", {}).get("device_index", 0))
+            except Exception:
+                cam_idx = 0
+
+        # Thu mo bang DSHOW truoc tren Windows, fallback ve mac dinh
+        cap = cv2.VideoCapture(cam_idx, cv2.CAP_DSHOW)
         if not cap.isOpened():
-            self.init_status_signal.emit("Không thể mở Camera (Camera đang bận hoặc chưa cắm)!")
+            cap.release()
+            cap = cv2.VideoCapture(cam_idx)
+
+        if not cap.isOpened():
+            self.init_status_signal.emit(f"Không thể mở Camera #{cam_idx} (Camera đang bận hoặc chưa cắm)!")
             return
 
         last_time = time.time()
@@ -341,20 +356,11 @@ class FaceIDAdminWindow(QMainWindow):
 
         header_layout.addStretch()
 
-        self.btn_toggle_autostart = QPushButton("Auto-Start: ...")
-        self.btn_toggle_autostart.setMinimumWidth(185)
-        self.btn_toggle_autostart.clicked.connect(self.toggle_autostart_state)
-        header_layout.addWidget(self.btn_toggle_autostart)
-
-        self.btn_toggle_daemon = QPushButton("Daemon: ...")
-        self.btn_toggle_daemon.setMinimumWidth(195)
-        self.btn_toggle_daemon.clicked.connect(self.toggle_daemon_process)
-        header_layout.addWidget(self.btn_toggle_daemon)
-
-        self.btn_toggle_faceid = QPushButton("FaceID: ...")
-        self.btn_toggle_faceid.setMinimumWidth(165)
-        self.btn_toggle_faceid.clicked.connect(self.toggle_faceid_state)
-        header_layout.addWidget(self.btn_toggle_faceid)
+        self.btn_master_toggle = QPushButton("FACEID: Đang kiểm tra...")
+        self.btn_master_toggle.setMinimumWidth(260)
+        self.btn_master_toggle.setStyleSheet("font-size: 14px; font-weight: bold; padding: 8px 16px; border-radius: 6px;")
+        self.btn_master_toggle.clicked.connect(self.toggle_master_system)
+        header_layout.addWidget(self.btn_master_toggle)
 
         main_layout.addLayout(header_layout)
 
@@ -366,27 +372,27 @@ class FaceIDAdminWindow(QMainWindow):
 
         top_split = QHBoxLayout()
 
-        grp_daemon = QGroupBox("⚙️ Điều Khiển Tiến Trình Ngầm (Daemon & Auto-Start)")
+        grp_daemon = QGroupBox("⚙️ Trạng Thái Hoạt Động Của Hệ Thống")
         vbox_daemon = QVBoxLayout(grp_daemon)
-        self.lbl_ctrl_daemon = QLabel("• Trạng thái Daemon: Đang kiểm tra...")
-        self.lbl_ctrl_faceid = QLabel("• Công tắc xác thực FaceID: Đang kiểm tra...")
-        self.lbl_ctrl_autostart = QLabel("• Tự chạy khi bật máy (Boot Auto-Start): Đang kiểm tra...")
-        self.lbl_ctrl_winlock = QLabel("• Tích hợp mở khóa Win + L (System32 DLL): Đang kiểm tra...")
+        self.lbl_ctrl_daemon = QLabel("• Dịch vụ nhận diện: Đang kiểm tra...")
+        self.lbl_ctrl_faceid = QLabel("• Tính năng FaceID: Đang kiểm tra...")
+        self.lbl_ctrl_autostart = QLabel("• Tự khởi động cùng máy tính: Đang kiểm tra...")
+        self.lbl_ctrl_winlock = QLabel("• Trạng thái kết nối Windows: Đang kiểm tra...")
         for lbl in (self.lbl_ctrl_daemon, self.lbl_ctrl_faceid, self.lbl_ctrl_autostart, self.lbl_ctrl_winlock):
             lbl.setStyleSheet("font-size: 13px; padding: 2px 0;")
             vbox_daemon.addWidget(lbl)
 
         btn_daemon_row = QHBoxLayout()
-        btn_start_d = QPushButton("▶ Bật Daemon Ngầm")
-        btn_start_d.setStyleSheet("background-color: #059669;")
+        btn_start_d = QPushButton("▶ Bật Dịch Vụ")
+        btn_start_d.setStyleSheet("background-color: #059669; font-weight: bold; padding: 8px;")
         btn_start_d.clicked.connect(self.start_daemon_explicit)
 
-        btn_restart_d = QPushButton("🔄 Khởi Động Lại Daemon")
-        btn_restart_d.setStyleSheet("background-color: #0284c7;")
+        btn_restart_d = QPushButton("🔄 Khởi Động Lại")
+        btn_restart_d.setStyleSheet("background-color: #0284c7; font-weight: bold; padding: 8px;")
         btn_restart_d.clicked.connect(self.restart_daemon_explicit)
 
-        btn_stop_d = QPushButton("⏹ Tắt Hẳn Daemon (Stop)")
-        btn_stop_d.setStyleSheet("background-color: #dc2626;")
+        btn_stop_d = QPushButton("⏹ Tạm Dừng")
+        btn_stop_d.setStyleSheet("background-color: #dc2626; font-weight: bold; padding: 8px;")
         btn_stop_d.clicked.connect(self.stop_daemon_explicit)
 
         btn_daemon_row.addWidget(btn_start_d)
@@ -395,98 +401,128 @@ class FaceIDAdminWindow(QMainWindow):
         vbox_daemon.addLayout(btn_daemon_row)
         top_split.addWidget(grp_daemon, stretch=3)
 
-        grp_win = QGroupBox("🪟 Tích Hợp Mở Khóa Windows (Win + L & Mật Khẩu Dự Phòng)")
+        grp_win = QGroupBox("🪟 Tính Năng Mở Khóa Màn Hình Windows")
         vbox_win = QVBoxLayout(grp_win)
         lbl_win_desc = QLabel(
-            "Quản lý module C++ Credential Provider (SampleV2CredentialProvider.dll)\n"
-            "tích hợp trực tiếp vào màn hình khóa Win + L và màn hình bật máy Windows:"
+            "Tích hợp mở khóa bằng khuôn mặt trực tiếp vào màn hình khóa máy (Win + L)\n"
+            "và màn hình đăng nhập khi vừa bật máy:"
         )
         lbl_win_desc.setStyleSheet("color: #94a3b8;")
         vbox_win.addWidget(lbl_win_desc)
 
-        btn_install_win = QPushButton("🛡️ Cài Đặt / Cập Nhật Mở Khóa Win + L + Task ONSTART (Admin)")
-        btn_install_win.setStyleSheet("background-color: #2563eb; padding: 8px;")
+        btn_install_win = QPushButton("🛡️ Kích Hoạt Mở Khóa Màn Hình (Cần quyền Admin)")
+        btn_install_win.setStyleSheet("background-color: #2563eb; font-weight: bold; padding: 10px;")
         btn_install_win.clicked.connect(self.install_windows_provider)
 
-        btn_uninstall_win = QPushButton("🗑️ Gỡ Bỏ Tích Hợp Màn Hình Khóa Win + L (Admin)")
-        btn_uninstall_win.setStyleSheet("background-color: #7f1d1d; padding: 8px;")
+        btn_uninstall_win = QPushButton("🗑️ Tắt / Gỡ Khỏi Màn Hình Khóa (Admin)")
+        btn_uninstall_win.setStyleSheet("background-color: #7f1d1d; padding: 10px;")
         btn_uninstall_win.clicked.connect(self.uninstall_windows_provider)
-
-        btn_test_unlock = QPushButton("⚡ Test Nhanh Luồng Mở Khóa Win + L (windows-unlock)")
-        btn_test_unlock.clicked.connect(lambda: self.run_quick_test_service("windows-unlock"))
 
         vbox_win.addWidget(btn_install_win)
         vbox_win.addWidget(btn_uninstall_win)
-        vbox_win.addWidget(btn_test_unlock)
         top_split.addWidget(grp_win, stretch=2)
 
         tab_control_layout.addLayout(top_split)
 
-        # Contextual Policy
-        grp_policy = QGroupBox("🔐 Cấu Hình Chính Sách Xác Thực Theo Ngữ Cảnh (Contextual Security Policy)")
-        grid_pol = QGridLayout(grp_policy)
+        # Contextual Policy & Cấu hình thiết bị
+        grp_policy = QGroupBox("🔐 Thiết Lập Mở Khóa & Cấu Hình Thiết Bị")
+        vbox_settings = QVBoxLayout(grp_policy)
 
-        sub_unlock = QGroupBox("1. Khi Khóa Màn Hình Tạm Thời (Win + L / windows-unlock)")
-        form_unlock = QGridLayout(sub_unlock)
-        self.chk_unlock_active = QCheckBox("Yêu cầu thử thách Active Liveness (Chớp mắt/Quay đầu)")
-        self.spn_unlock_dec = QDoubleSpinBox()
-        self.spn_unlock_dec.setRange(0.40, 0.99)
-        self.spn_unlock_dec.setSingleStep(0.02)
-        self.spn_unlock_sim = QDoubleSpinBox()
-        self.spn_unlock_sim.setRange(0.40, 0.99)
-        self.spn_unlock_sim.setSingleStep(0.02)
-        self.spn_unlock_timeout = QDoubleSpinBox()
-        self.spn_unlock_timeout.setRange(2.0, 15.0)
-        self.spn_unlock_timeout.setSingleStep(0.5)
+        # 1. Phong cach mo khoa & Active Liveness cho 2 truong hop rieng biet
+        row_styles = QHBoxLayout()
 
-        form_unlock.addWidget(self.chk_unlock_active, 0, 0, 1, 2)
-        form_unlock.addWidget(QLabel("Ngưỡng Quyết Định Tổng Hợp (Decision Threshold):"), 1, 0)
-        form_unlock.addWidget(self.spn_unlock_dec, 1, 1)
-        form_unlock.addWidget(QLabel("Ngưỡng Tương Đồng Khuôn Mặt (ArcFace Sim):"), 2, 0)
-        form_unlock.addWidget(self.spn_unlock_sim, 2, 1)
-        form_unlock.addWidget(QLabel("Thời Gian Quét Tối Đa (Timeout giây):"), 3, 0)
-        form_unlock.addWidget(self.spn_unlock_timeout, 3, 1)
-        grid_pol.addWidget(sub_unlock, 0, 0)
+        # 1.1 Khi khoa man hinh tam thoi (Win + L)
+        grp_unlock = QGroupBox("1. Khi Khóa Tạm Thời (Win + L / windows-unlock)")
+        vbox_unlock = QVBoxLayout(grp_unlock)
+        self.rad_instant_unlock = QRadioButton("⚡ Tự Động Quét Ngay (0.5s)")
+        self.rad_enter_unlock = QRadioButton("⌨️ Bấm Enter Mới Quét")
+        self.rad_instant_unlock.toggled.connect(self.on_unlock_style_changed)
+        vbox_unlock.addWidget(self.rad_instant_unlock)
+        vbox_unlock.addWidget(self.rad_enter_unlock)
 
-        sub_logon = QGroupBox("2. Khi Bật Máy / Đăng Nhập Mới (Boot / windows-logon & sudo)")
-        form_logon = QGridLayout(sub_logon)
-        self.chk_logon_active = QCheckBox("Yêu cầu thử thách Active Liveness (Chớp mắt/Quay đầu)")
-        self.spn_logon_dec = QDoubleSpinBox()
-        self.spn_logon_dec.setRange(0.40, 0.99)
-        self.spn_logon_dec.setSingleStep(0.02)
-        self.spn_logon_sim = QDoubleSpinBox()
-        self.spn_logon_sim.setRange(0.40, 0.99)
-        self.spn_logon_sim.setSingleStep(0.02)
-        self.spn_logon_timeout = QDoubleSpinBox()
-        self.spn_logon_timeout.setRange(2.0, 15.0)
-        self.spn_logon_timeout.setSingleStep(0.5)
+        self.chk_unlock_active = QCheckBox("🛡️ Thử thách Liveness (Quay đầu/chớp mắt)")
+        self.chk_unlock_active.setStyleSheet("margin-left: 20px; color: #38bdf8;")
+        vbox_unlock.addWidget(self.chk_unlock_active)
+        row_styles.addWidget(grp_unlock)
 
-        form_logon.addWidget(self.chk_logon_active, 0, 0, 1, 2)
-        form_logon.addWidget(QLabel("Ngưỡng Quyết Định Tổng Hợp (Decision Threshold):"), 1, 0)
-        form_logon.addWidget(self.spn_logon_dec, 1, 1)
-        form_logon.addWidget(QLabel("Ngưỡng Tương Đồng Khuôn Mặt (ArcFace Sim):"), 2, 0)
-        form_logon.addWidget(self.spn_logon_sim, 2, 1)
-        form_logon.addWidget(QLabel("Thời Gian Quét Tối Đa (Timeout giây):"), 3, 0)
-        form_logon.addWidget(self.spn_logon_timeout, 3, 1)
-        grid_pol.addWidget(sub_logon, 0, 1)
+        # 1.2 Khi tat may mo lai (Boot / windows-logon)
+        grp_logon = QGroupBox("2. Khi Bật / Khởi Động Lại Máy (Boot / windows-logon)")
+        vbox_logon = QVBoxLayout(grp_logon)
+        self.rad_instant_logon = QRadioButton("⚡ Tự Động Quét Ngay (0.5s)")
+        self.rad_enter_logon = QRadioButton("⌨️ Bấm Enter Mới Quét")
+        self.rad_instant_logon.toggled.connect(self.on_logon_style_changed)
+        vbox_logon.addWidget(self.rad_instant_logon)
+        vbox_logon.addWidget(self.rad_enter_logon)
 
-        pol_btn_row = QHBoxLayout()
+        self.chk_logon_active = QCheckBox("🛡️ Thử thách Liveness (Quay đầu/chớp mắt)")
+        self.chk_logon_active.setStyleSheet("margin-left: 20px; color: #38bdf8;")
+        vbox_logon.addWidget(self.chk_logon_active)
+        row_styles.addWidget(grp_logon)
+
+        vbox_settings.addLayout(row_styles)
+
+        # 2. Cac thiet lap bao mat va camera
+        grid_params = QGridLayout()
+
+        grid_params.addWidget(QLabel("📷 Chọn Camera sử dụng:"), 0, 0)
+        self.cbo_camera_idx = QComboBox()
+        self.cbo_camera_idx.addItems([
+            "Camera 0 (Camera Mặc Định / Laptop)",
+            "Camera 1 (Webcam Rời USB / Phụ)",
+            "Camera 2 (Camera Ngoài Phụ)"
+        ])
+        grid_params.addWidget(self.cbo_camera_idx, 0, 1)
+
+        grid_params.addWidget(QLabel("🔑 Mật khẩu dự phòng Windows:"), 1, 0)
+        pw_layout = QHBoxLayout()
+        self.txt_fallback_pw = QLineEdit("123456")
+        self.txt_fallback_pw.setEchoMode(QLineEdit.EchoMode.Password)
+        self.btn_show_pw = QPushButton("👁️")
+        self.btn_show_pw.setFixedWidth(40)
+        self.btn_show_pw.clicked.connect(self.toggle_password_visibility)
+        pw_layout.addWidget(self.txt_fallback_pw)
+        pw_layout.addWidget(self.btn_show_pw)
+        grid_params.addLayout(pw_layout, 1, 1)
+
+        grid_params.addWidget(QLabel("Mức độ bảo mật khuôn mặt:"), 2, 0)
+        self.cbo_security_level = QComboBox()
+        self.cbo_security_level.addItems([
+            "Thấp (Nhận diện nhạy, dễ mở)",
+            "Trung bình (Cân bằng - Khuyên dùng)",
+            "Cao (Bảo mật tối đa)"
+        ])
+        grid_params.addWidget(self.cbo_security_level, 2, 1)
+
+        grid_params.addWidget(QLabel("Thời gian quét tối đa (5 - 10s):"), 3, 0)
+        self.spn_scan_timeout = QSpinBox()
+        self.spn_scan_timeout.setRange(5, 10)
+        self.spn_scan_timeout.setValue(8)
+        self.spn_scan_timeout.setSuffix(" giây")
+        grid_params.addWidget(self.spn_scan_timeout, 3, 1)
+
+        grid_params.addWidget(QLabel("Khóa tạm nếu nhận diện sai quá:"), 4, 0)
+        lock_layout = QHBoxLayout()
         self.spn_max_fail = QSpinBox()
         self.spn_max_fail.setRange(1, 10)
+        self.spn_max_fail.setValue(3)
+        self.spn_max_fail.setSuffix(" lần")
+        lock_layout.addWidget(self.spn_max_fail)
+
+        lock_layout.addWidget(QLabel("trong:"))
         self.spn_lockout_sec = QSpinBox()
         self.spn_lockout_sec.setRange(10, 600)
-        pol_btn_row.addWidget(QLabel("Số lần sai tối đa trước khi khóa tạm (Rate Limit):"))
-        pol_btn_row.addWidget(self.spn_max_fail)
-        pol_btn_row.addWidget(QLabel("Thời gian khóa tạm (giây):"))
-        pol_btn_row.addWidget(self.spn_lockout_sec)
-        pol_btn_row.addStretch()
+        self.spn_lockout_sec.setValue(45)
+        self.spn_lockout_sec.setSuffix(" giây")
+        lock_layout.addWidget(self.spn_lockout_sec)
+        grid_params.addLayout(lock_layout, 4, 1)
 
-        btn_save_policy = QPushButton("💾 Lưu Cấu Hình & Áp Dụng Ngay (Hot-Reload)")
-        btn_save_policy.setStyleSheet("background-color: #059669; padding: 8px 20px; font-size: 14px;")
+        vbox_settings.addLayout(grid_params)
+
+        btn_save_policy = QPushButton("💾 Lưu Cài Đặt & Áp Dụng Ngay (Hot-Reload)")
+        btn_save_policy.setStyleSheet("background-color: #059669; font-weight: bold; padding: 10px 24px; font-size: 14px;")
         btn_save_policy.clicked.connect(self.save_policy_settings)
-        pol_btn_row.addWidget(btn_save_policy)
+        vbox_settings.addWidget(btn_save_policy, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        grid_pol.addLayout(pol_btn_row, 1, 0, 1, 2)
         tab_control_layout.addWidget(grp_policy)
 
         self.tabs.addTab(tab_control, "🎛️ Bảng Điều Khiển & Cấu Hình")
@@ -495,60 +531,52 @@ class FaceIDAdminWindow(QMainWindow):
         tab_monitor = QWidget()
         tab_monitor_layout = QHBoxLayout(tab_monitor)
 
-        preview_group = QGroupBox("Camera Live Feed (Nhận diện thời gian thực)")
+        preview_group = QGroupBox("Camera Soi Gương Trực Tiếp (Realtime Feed)")
         preview_vbox = QVBoxLayout(preview_group)
-        self.cam_label = QLabel("Chưa bật xem trước camera\n(Bấm 'Bật Giám Sát Realtime' bên dưới)")
+        self.cam_label = QLabel("Camera đang tắt\n(Bấm nút 'Mở Camera Thử Nghiệm' bên dưới để soi gương)")
         self.cam_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.cam_label.setStyleSheet("background-color: #020617; border-radius: 8px; min-height: 360px;")
+        self.cam_label.setStyleSheet("background-color: #020617; border-radius: 8px; min-height: 360px; font-size: 14px; color: #94a3b8;")
         preview_vbox.addWidget(self.cam_label)
 
-        cam_btn_layout = QHBoxLayout()
-        self.btn_start_cam = QPushButton("▶ Bật Giám Sát Realtime")
-        self.btn_start_cam.setStyleSheet("background-color: #059669;")
-        self.btn_start_cam.clicked.connect(self.start_camera_monitor)
-        self.btn_stop_cam = QPushButton("⏹ Dừng Camera")
-        self.btn_stop_cam.clicked.connect(self.stop_camera_monitor)
-        self.btn_stop_cam.setEnabled(False)
+        self.btn_toggle_cam_view = QPushButton("▶ Mở Camera Thử Nghiệm")
+        self.btn_toggle_cam_view.setStyleSheet("background-color: #059669; font-weight: bold; padding: 10px; font-size: 14px;")
+        self.btn_toggle_cam_view.clicked.connect(self.toggle_camera_monitor_button)
+        preview_vbox.addWidget(self.btn_toggle_cam_view)
 
-        cam_btn_layout.addWidget(self.btn_start_cam)
-        cam_btn_layout.addWidget(self.btn_stop_cam)
-        preview_vbox.addLayout(cam_btn_layout)
         tab_monitor_layout.addWidget(preview_group, stretch=3)
 
-        telemetry_group = QGroupBox("Chỉ Số Đa Phương Thức (AI Telemetry)")
+        telemetry_group = QGroupBox("🔍 Kết Quả Phân Tích Khuôn Mặt")
         telemetry_vbox = QVBoxLayout(telemetry_group)
 
-        self.lbl_fps = QLabel("FPS Xử Lý: 0.0")
-        self.lbl_status_det = QLabel("Phát Hiện Khuôn Mặt: Không có")
-        self.lbl_fiqa = QLabel("Chất Lượng Ảnh (FIQA): 0.0")
-        self.lbl_moire = QLabel("Chống Màn Hình (2D FFT): 0.00")
-        self.lbl_pad = QLabel("Chống Giả Mạo (PAD): 0%")
+        self.lbl_fps = QLabel("• Tốc độ khung hình: 0.0 FPS")
+        self.lbl_status_det = QLabel("• Nhìn thấy khuôn mặt: Chưa thấy")
+        self.lbl_fiqa = QLabel("• Độ rõ nét & ánh sáng: Đang chờ")
+        self.lbl_moire = QLabel("• Kiểm tra giả lập màn hình: Đang chờ")
+
+        self.lbl_pad = QLabel("• Độ chân thực người thật (Chống ảnh chụp): 0%")
         self.prog_pad = QProgressBar()
         self.prog_pad.setRange(0, 100)
 
-        self.lbl_sim = QLabel("Tương Đồng ArcFace: 0.00")
-        self.lbl_fused = QLabel("Độ Tin Cậy Hợp Nhất (Confidence): 0.00")
+        self.lbl_sim = QLabel("• Độ khớp với khuôn mặt bạn: 0%")
+        self.prog_sim = QProgressBar()
+        self.prog_sim.setRange(0, 100)
+
+        self.lbl_fused = QLabel("• Điểm tin cậy mở khóa tổng hợp: 0%")
         self.prog_fused = QProgressBar()
         self.prog_fused.setRange(0, 100)
 
         self.lbl_result = QLabel("KẾT LUẬN: ĐANG CHỜ")
-        self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 6px; border-radius: 4px; background: #334155;")
+        self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 10px; border-radius: 6px; background: #334155; color: white;")
         self.lbl_result.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        telemetry_vbox.addWidget(self.lbl_fps)
-        telemetry_vbox.addWidget(self.lbl_status_det)
-        telemetry_vbox.addWidget(self.lbl_fiqa)
-        telemetry_vbox.addWidget(self.lbl_moire)
-        telemetry_vbox.addWidget(self.lbl_pad)
-        telemetry_vbox.addWidget(self.prog_pad)
-        telemetry_vbox.addWidget(self.lbl_sim)
-        telemetry_vbox.addWidget(self.lbl_fused)
-        telemetry_vbox.addWidget(self.prog_fused)
-        telemetry_vbox.addWidget(self.lbl_result)
+        for w in (self.lbl_fps, self.lbl_status_det, self.lbl_fiqa, self.lbl_moire,
+                  self.lbl_pad, self.prog_pad, self.lbl_sim, self.prog_sim,
+                  self.lbl_fused, self.prog_fused, self.lbl_result):
+            telemetry_vbox.addWidget(w)
         telemetry_vbox.addStretch()
 
         tab_monitor_layout.addWidget(telemetry_group, stretch=2)
-        self.tabs.addTab(tab_monitor, "📊 Giám Sát Camera & AI Realtime")
+        self.tabs.addTab(tab_monitor, "📊 Giám Sát Camera & Thử Nghiệm Realtime")
 
         # TAB 3: USER MANAGEMENT
         tab_users = QWidget()
@@ -557,14 +585,14 @@ class FaceIDAdminWindow(QMainWindow):
         btn_user_row = QHBoxLayout()
         self.btn_refresh_users = QPushButton("🔄 Tải Lại Danh Sách")
         self.btn_refresh_users.clicked.connect(self.refresh_user_list)
-        self.btn_enroll_user = QPushButton("➕ Đăng Ký / Cập Nhật Khuôn Mặt (Enroll 5 Góc)")
-        self.btn_enroll_user.setStyleSheet("background-color: #2563eb;")
+        self.btn_enroll_user = QPushButton("➕ Thêm / Đăng Ký Khuôn Mặt Mới (5 Góc)")
+        self.btn_enroll_user.setStyleSheet("background-color: #2563eb; font-weight: bold; padding: 6px 12px;")
         self.btn_enroll_user.clicked.connect(self.enroll_new_user)
-        self.btn_verify_user = QPushButton("🔍 Mở Cửa Sổ Kiểm Thử 1:1 (Verify Interactive)")
-        self.btn_verify_user.setStyleSheet("background-color: #0284c7;")
+        self.btn_verify_user = QPushButton("🔍 Soi Thử Khuôn Mặt (Kiểm Tra)")
+        self.btn_verify_user.setStyleSheet("background-color: #0284c7; padding: 6px 12px;")
         self.btn_verify_user.clicked.connect(self.verify_selected_user)
-        self.btn_delete_user = QPushButton("🗑️ Xóa Người Dùng Đã Chọn")
-        self.btn_delete_user.setStyleSheet("background-color: #dc2626;")
+        self.btn_delete_user = QPushButton("🗑️ Xóa Khuôn Mặt Đã Chọn")
+        self.btn_delete_user.setStyleSheet("background-color: #dc2626; padding: 6px 12px;")
         self.btn_delete_user.clicked.connect(self.delete_selected_user)
 
         btn_user_row.addWidget(self.btn_refresh_users)
@@ -575,32 +603,24 @@ class FaceIDAdminWindow(QMainWindow):
         tab_users_layout.addLayout(btn_user_row)
 
         self.user_table = QTableWidget()
-        self.user_table.setColumnCount(4)
-        self.user_table.setHorizontalHeaderLabels(["Username", "Số Lượng Prototypes", "Định Dạng Vector", "Trạng Thái"])
+        self.user_table.setColumnCount(3)
+        self.user_table.setHorizontalHeaderLabels(["Tên Khuôn Mặt / Người Dùng", "Số Lượng Góc Mặt", "Trạng Thái Mở Khóa"])
         self.user_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         tab_users_layout.addWidget(self.user_table)
 
-        self.tabs.addTab(tab_users, "👥 Quản Lý Khuôn Mặt Người Dùng")
+        self.tabs.addTab(tab_users, "👥 Danh Sách Khuôn Mặt Được Phép Mở Khóa")
 
         # TAB 4: AUDIT LOGS
         tab_logs = QWidget()
         tab_logs_layout = QVBoxLayout(tab_logs)
 
         log_btn_row = QHBoxLayout()
-        self.btn_reload_daemon_log = QPushButton("🔄 Tải Log Thực Tế Từ Daemon (data/daemon.log)")
+        self.btn_reload_daemon_log = QPushButton("🔄 Tải Lại Nhật Ký")
         self.btn_reload_daemon_log.clicked.connect(self.load_daemon_log_file)
-        self.btn_quick_test = QPushButton("⚡ Test Xác Thực Nhanh (windows-unlock)")
-        self.btn_quick_test.setStyleSheet("background-color: #059669;")
-        self.btn_quick_test.clicked.connect(lambda: self.run_quick_test_service("windows-unlock"))
-        self.btn_quick_test_sudo = QPushButton("🔐 Test Xác Thực Có Active Liveness (windows-logon)")
-        self.btn_quick_test_sudo.setStyleSheet("background-color: #0284c7;")
-        self.btn_quick_test_sudo.clicked.connect(lambda: self.run_quick_test_service("windows-logon"))
-        self.btn_clear_logs = QPushButton("🧹 Xóa Màn Hình Log")
+        self.btn_clear_logs = QPushButton("🧹 Xóa Màn Hình")
         self.btn_clear_logs.clicked.connect(lambda: self.log_text.clear())
 
         log_btn_row.addWidget(self.btn_reload_daemon_log)
-        log_btn_row.addWidget(self.btn_quick_test)
-        log_btn_row.addWidget(self.btn_quick_test_sudo)
         log_btn_row.addWidget(self.btn_clear_logs)
         log_btn_row.addStretch()
         tab_logs_layout.addLayout(log_btn_row)
@@ -609,7 +629,7 @@ class FaceIDAdminWindow(QMainWindow):
         self.log_text.setReadOnly(True)
         tab_logs_layout.addWidget(self.log_text)
 
-        self.tabs.addTab(tab_logs, "📜 Nhật Ký Kiểm Toán (Audit Logs)")
+        self.tabs.addTab(tab_logs, "📜 Nhật Ký Hoạt Động (Logs)")
 
         main_layout.addWidget(self.tabs)
         self.setCentralWidget(main_widget)
@@ -664,42 +684,40 @@ class FaceIDAdminWindow(QMainWindow):
         autostart_on = info.get("autostart", False)
         winlock_ok = info.get("winlock_ok", False)
 
-        if daemon_running:
-            self.btn_toggle_daemon.setText(f"🟢 DAEMON: ĐANG CHẠY (PID {pid})")
-            self.btn_toggle_daemon.setStyleSheet("background-color: #0284c7; color: white;")
-            self.lbl_ctrl_daemon.setText(f"• Trạng thái Daemon: 🟢 ĐANG HOẠT ĐỘNG NGẦM (PID: {pid}, Cổng TCP 9876 OK)")
+        # Master Status
+        is_fully_active = daemon_running and enabled
+
+        if is_fully_active:
+            self.btn_master_toggle.setText("🟢 FACEID: ĐANG BẬT (Bấm để Tắt)")
+            self.btn_master_toggle.setStyleSheet("background-color: #059669; color: white; font-size: 14px; font-weight: bold; padding: 8px 16px; border-radius: 6px;")
         else:
-            self.btn_toggle_daemon.setText("⚫ DAEMON: ĐÃ TẮT (Bấm để Bật)")
-            self.btn_toggle_daemon.setStyleSheet("background-color: #475569; color: white;")
-            self.lbl_ctrl_daemon.setText("• Trạng thái Daemon: 🔴 ĐÃ TẮT (Chưa nạp vào RAM)")
+            self.btn_master_toggle.setText("⚫ FACEID: ĐÃ TẮT (Bấm để Bật)")
+            self.btn_master_toggle.setStyleSheet("background-color: #475569; color: white; font-size: 14px; font-weight: bold; padding: 8px 16px; border-radius: 6px;")
+
+        if daemon_running:
+            self.lbl_ctrl_daemon.setText(f"• Dịch vụ nhận diện: 🟢 ĐANG HOẠT ĐỘNG (Sẵn sàng mở khóa)")
+        else:
+            self.lbl_ctrl_daemon.setText("• Dịch vụ nhận diện: 🔴 ĐÃ TẮT (Tạm ngừng hoạt động)")
 
         if enabled:
-            self.btn_toggle_faceid.setText("🟢 FACEID: BẬT")
-            self.btn_toggle_faceid.setStyleSheet("background-color: #059669; color: white;")
-            self.lbl_ctrl_faceid.setText("• Công tắc xác thực FaceID: 🟢 ĐANG BẬT (Tự động nhận diện khuôn mặt)")
+            self.lbl_ctrl_faceid.setText("• Tính năng FaceID: 🟢 ĐANG BẬT (Tự động nhận diện khuôn mặt)")
         else:
-            self.btn_toggle_faceid.setText("🔴 FACEID: TẮT (BYPASS)")
-            self.btn_toggle_faceid.setStyleSheet("background-color: #dc2626; color: white;")
-            self.lbl_ctrl_faceid.setText("• Công tắc xác thực FaceID: 🔴 ĐANG TẮT (Bypass 100% sang mật khẩu dự phòng)")
+            self.lbl_ctrl_faceid.setText("• Tính năng FaceID: 🔴 ĐÃ TẮT (Chỉ dùng mã PIN / Mật khẩu)")
 
         if autostart_on:
-            self.btn_toggle_autostart.setText("🚀 AUTO-START: BẬT")
-            self.btn_toggle_autostart.setStyleSheet("background-color: #0d9488; color: white;")
-            self.lbl_ctrl_autostart.setText("• Tự chạy khi bật máy (Boot Auto-Start): 🟢 ĐÃ BẬT (Tự chạy ngầm sau khi Shut down/Restart)")
+            self.lbl_ctrl_autostart.setText("• Tự khởi động cùng máy tính: 🟢 ĐÃ BẬT (Tự chạy ngầm khi mở máy)")
         else:
-            self.btn_toggle_autostart.setText("⚪ AUTO-START: TẮT")
-            self.btn_toggle_autostart.setStyleSheet("background-color: #475569; color: white;")
-            self.lbl_ctrl_autostart.setText("• Tự chạy khi bật máy (Boot Auto-Start): ⚪ ĐANG TẮT")
+            self.lbl_ctrl_autostart.setText("• Tự khởi động cùng máy tính: ⚪ ĐANG TẮT")
 
         if winlock_ok:
-            self.lbl_ctrl_winlock.setText("• Tích hợp mở khóa Win + L (System32 DLL): 🟢 ĐÃ CÀI ĐẶT & ĐĂNG KÝ REGISTRY")
+            self.lbl_ctrl_winlock.setText("• Trạng thái kết nối Windows: 🟢 ĐÃ KÍCH HOẠT (Đã hiển thị trên màn hình khóa)")
         else:
-            self.lbl_ctrl_winlock.setText("• Tích hợp mở khóa Win + L (System32 DLL): ⚪ CHƯA CÀI ĐẶT (hoặc đang chạy trên Linux)")
+            self.lbl_ctrl_winlock.setText("• Trạng thái kết nối Windows: ⚪ CHƯA KÍCH HOẠT")
 
     def run_ctl_async(self, subcmd: str, busy_text: str, done_msg: str):
         if self.cmd_worker and self.cmd_worker.isRunning():
             return
-        self.btn_toggle_daemon.setText(busy_text)
+        self.btn_master_toggle.setText(busy_text)
         ctl_script = os.path.join(BASE_DIR, "scripts", "faceidctl")
         self.cmd_worker = CommandRunnerWorker([sys.executable, ctl_script, subcmd], done_msg)
         self.cmd_worker.finished_signal.connect(self.on_ctl_finished)
@@ -710,61 +728,120 @@ class FaceIDAdminWindow(QMainWindow):
         self.trigger_async_status_refresh()
 
     def start_daemon_explicit(self):
-        self.run_ctl_async("start", "⏳ Đang bật Daemon...", "[DAEMON] Đã khởi động tiến trình ngầm FaceID Daemon.")
+        self.run_ctl_async("start", "⏳ Đang bật FaceID...", "[HỆ THỐNG] Đã bật FaceID thành công.")
 
     def stop_daemon_explicit(self):
         if self.cam_thread and self.cam_thread.isRunning():
             self.stop_camera_monitor()
-        self.run_ctl_async("stop", "⏳ Đang tắt Daemon...", "[DAEMON] Đã dừng hẳn tiến trình ngầm FaceID Daemon.")
+        self.run_ctl_async("stop", "⏳ Đang tắt FaceID...", "[HỆ THỐNG] Đã tắt FaceID.")
 
     def restart_daemon_explicit(self):
-        self.run_ctl_async("restart", "⏳ Đang khởi động lại...", "[DAEMON] Đã khởi động lại tiến trình ngầm FaceID Daemon.")
+        self.run_ctl_async("restart", "⏳ Đang khởi động lại...", "[HỆ THỐNG] Đã khởi động lại dịch vụ FaceID.")
 
-    def toggle_daemon_process(self):
-        if self._cached_status.get("daemon_running", False):
+    def toggle_master_system(self):
+        """Công tắc tổng gộp: Bật hoặc Tắt toàn bộ FaceID (Dịch vụ + Tự khởi động + Nhận diện)."""
+        daemon_running = self._cached_status.get("daemon_running", False)
+        enabled = self._cached_status.get("enabled", True)
+
+        if daemon_running and enabled:
+            # Đang chạy -> Tắt toàn bộ
             self.stop_daemon_explicit()
         else:
+            # Đang tắt -> Đảm bảo config bật enabled rồi start dịch vụ
+            if os.path.exists(CONFIG_FILE):
+                try:
+                    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                        cfg = json.load(f)
+                    cfg.setdefault("system", {})["enabled"] = True
+                    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+                        json.dump(cfg, f, indent=2)
+                except Exception:
+                    pass
             self.start_daemon_explicit()
 
-    def toggle_autostart_state(self):
-        if self._cached_status.get("autostart", False):
-            self.run_ctl_async("disable-autostart", "⏳ Đang cập nhật...", "[AUTO-START] Đã TẮT tự động chạy ngầm khi khởi động máy.")
+    def _map_thresholds_to_level(self, dec_val: float, sim_val: float) -> int:
+        """Quy doi nguong decision va sim ve index: 0 (Thap), 1 (Trung binh), 2 (Cao)"""
+        if dec_val >= 0.72 or sim_val >= 0.65:
+            return 2  # Cao
+        elif dec_val <= 0.65 or sim_val <= 0.59:
+            return 0  # Thap
+        return 1      # Trung binh
+
+    def _map_level_to_thresholds(self, level_idx: int) -> tuple[float, float]:
+        """Quy doi index level sang tuple (decision_threshold, sim_threshold)"""
+        if level_idx == 0:
+            return (0.64, 0.58)  # Thap: Nhan dien nhay, de mo
+        elif level_idx == 2:
+            return (0.74, 0.66)  # Cao: Bao mat toi da
+        return (0.68, 0.62)      # Trung binh: Chuan can bang mac dinh
+
+    def toggle_password_visibility(self):
+        if self.txt_fallback_pw.echoMode() == QLineEdit.EchoMode.Password:
+            self.txt_fallback_pw.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.btn_show_pw.setText("🔒")
         else:
-            self.run_ctl_async("enable-autostart", "⏳ Đang cập nhật...", "[AUTO-START] Đã BẬT tự động chạy ngầm khi khởi động máy.")
+            self.txt_fallback_pw.setEchoMode(QLineEdit.EchoMode.Password)
+            self.btn_show_pw.setText("👁️")
 
-    def toggle_faceid_state(self):
-        if not os.path.exists(CONFIG_FILE):
-            return
-        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-            cfg = json.load(f)
-        current = cfg.get("system", {}).get("enabled", True)
-        new_state = not current
-        cfg.setdefault("system", {})["enabled"] = new_state
-        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
-            json.dump(cfg, f, indent=2)
+    def on_unlock_style_changed(self):
+        is_instant = self.rad_instant_unlock.isChecked()
+        if is_instant:
+            self.chk_unlock_active.setChecked(False)
+            self.chk_unlock_active.setEnabled(False)
+            self.chk_unlock_active.setText("🛡️ Liveness (Đã tắt để mở 0.5s)")
+        else:
+            self.chk_unlock_active.setEnabled(True)
+            self.chk_unlock_active.setText("🛡️ Thử thách Liveness (Quay đầu/chớp mắt)")
 
-        fast_query_daemon(action="enable" if new_state else "disable", timeout=0.18)
-        self.trigger_async_status_refresh()
-        st_text = "BẬT" if new_state else "TẮT (Chuyển sang dùng mật khẩu)"
-        self.log_message(f"[CẤU HÌNH] Đã chuyển công tắc FaceID sang: {st_text}")
+    def on_logon_style_changed(self):
+        is_instant = self.rad_instant_logon.isChecked()
+        if is_instant:
+            self.chk_logon_active.setChecked(False)
+            self.chk_logon_active.setEnabled(False)
+            self.chk_logon_active.setText("🛡️ Liveness (Đã tắt để mở 0.5s)")
+        else:
+            self.chk_logon_active.setEnabled(True)
+            self.chk_logon_active.setText("🛡️ Thử thách Liveness (Quay đầu/chớp mắt)")
+
+    def toggle_camera_monitor_button(self):
+        if self.cam_thread and self.cam_thread.isRunning():
+            self.stop_camera_monitor()
+        else:
+            self.start_camera_monitor()
 
     def load_policy_settings(self):
         if os.path.exists(POLICY_FILE):
             try:
                 with open(POLICY_FILE, "r", encoding="utf-8") as f:
                     pol = json.load(f).get("contextual_policies", {})
+                
                 u_cfg = pol.get("windows-unlock", {})
                 l_cfg = pol.get("windows-logon", {})
 
-                self.chk_unlock_active.setChecked(bool(u_cfg.get("require_active_liveness", False)))
-                self.spn_unlock_dec.setValue(float(u_cfg.get("decision_threshold", 0.68)))
-                self.spn_unlock_sim.setValue(float(u_cfg.get("sim_threshold", 0.62)))
-                self.spn_unlock_timeout.setValue(float(u_cfg.get("active_timeout_sec", 5.0)))
+                # 1. Unlock (Win + L)
+                u_active = bool(u_cfg.get("require_active_liveness", False))
+                if u_active:
+                    self.rad_enter_unlock.setChecked(True)
+                    self.chk_unlock_active.setChecked(True)
+                else:
+                    self.rad_instant_unlock.setChecked(True)
+                    self.chk_unlock_active.setChecked(False)
 
-                self.chk_logon_active.setChecked(bool(l_cfg.get("require_active_liveness", True)))
-                self.spn_logon_dec.setValue(float(l_cfg.get("decision_threshold", 0.72)))
-                self.spn_logon_sim.setValue(float(l_cfg.get("sim_threshold", 0.64)))
-                self.spn_logon_timeout.setValue(float(l_cfg.get("active_timeout_sec", 6.0)))
+                # 2. Logon (Boot / mo may lai)
+                l_active = bool(l_cfg.get("require_active_liveness", True))
+                if l_active:
+                    self.rad_enter_logon.setChecked(True)
+                    self.chk_logon_active.setChecked(True)
+                else:
+                    self.rad_instant_logon.setChecked(True)
+                    self.chk_logon_active.setChecked(False)
+
+                dec = float(l_cfg.get("decision_threshold", u_cfg.get("decision_threshold", 0.68)))
+                sim = float(l_cfg.get("sim_threshold", u_cfg.get("sim_threshold", 0.62)))
+                tout = int(round(float(l_cfg.get("active_timeout_sec", u_cfg.get("active_timeout_sec", 8.0)))))
+
+                self.cbo_security_level.setCurrentIndex(self._map_thresholds_to_level(dec, sim))
+                self.spn_scan_timeout.setValue(max(5, min(10, tout)))
             except Exception as e:
                 self.log_message(f"[-] Lỗi đọc policy.json: {e}")
 
@@ -775,30 +852,52 @@ class FaceIDAdminWindow(QMainWindow):
                 rl = cfg.get("security", {}).get("rate_limiting", {})
                 self.spn_max_fail.setValue(int(rl.get("max_consecutive_failures", 3)))
                 self.spn_lockout_sec.setValue(int(rl.get("lockout_duration_sec", 45)))
+
+                cam_idx = int(cfg.get("camera", {}).get("device_index", 0))
+                self.cbo_camera_idx.setCurrentIndex(max(0, min(2, cam_idx)))
             except Exception:
                 pass
 
+        # Doc mat khau fallback tu Registry
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\FaceIDHybrid", 0, winreg.KEY_READ) as k:
+                val, _ = winreg.QueryValueEx(k, "FallbackPassword")
+                if val:
+                    self.txt_fallback_pw.setText(val)
+        except Exception:
+            self.txt_fallback_pw.setText("123456")
+
     def save_policy_settings(self):
         try:
+            u_req_liveness = self.chk_unlock_active.isChecked() if self.rad_enter_unlock.isChecked() else False
+            l_req_liveness = self.chk_logon_active.isChecked() if self.rad_enter_logon.isChecked() else False
+
+            dec_thresh, sim_thresh = self._map_level_to_thresholds(self.cbo_security_level.currentIndex())
+            tout_sec = float(self.spn_scan_timeout.value())
+
             if os.path.exists(POLICY_FILE):
                 with open(POLICY_FILE, "r", encoding="utf-8") as f:
                     data = json.load(f)
                 pol = data.setdefault("contextual_policies", {})
 
                 u_cfg = pol.setdefault("windows-unlock", {})
-                u_cfg["require_active_liveness"] = self.chk_unlock_active.isChecked()
-                u_cfg["decision_threshold"] = round(self.spn_unlock_dec.value(), 2)
-                u_cfg["sim_threshold"] = round(self.spn_unlock_sim.value(), 2)
-                u_cfg["active_timeout_sec"] = round(self.spn_unlock_timeout.value(), 1)
+                u_cfg["require_active_liveness"] = u_req_liveness
+                u_cfg["decision_threshold"] = dec_thresh
+                u_cfg["sim_threshold"] = sim_thresh
+                u_cfg["active_timeout_sec"] = tout_sec
 
                 l_cfg = pol.setdefault("windows-logon", {})
-                l_cfg["require_active_liveness"] = self.chk_logon_active.isChecked()
-                l_cfg["decision_threshold"] = round(self.spn_logon_dec.value(), 2)
-                l_cfg["sim_threshold"] = round(self.spn_logon_sim.value(), 2)
-                l_cfg["active_timeout_sec"] = round(self.spn_logon_timeout.value(), 1)
+                l_cfg["require_active_liveness"] = l_req_liveness
+                l_cfg["decision_threshold"] = dec_thresh
+                l_cfg["sim_threshold"] = sim_thresh
+                l_cfg["active_timeout_sec"] = tout_sec
 
                 with open(POLICY_FILE, "w", encoding="utf-8") as f:
                     json.dump(data, f, indent=2)
+
+            new_cam_idx = self.cbo_camera_idx.currentIndex()
+            new_pw = self.txt_fallback_pw.text().strip() or "123456"
 
             if os.path.exists(CONFIG_FILE):
                 with open(CONFIG_FILE, "r", encoding="utf-8") as f:
@@ -806,14 +905,24 @@ class FaceIDAdminWindow(QMainWindow):
                 rl = cfg.setdefault("security", {}).setdefault("rate_limiting", {})
                 rl["max_consecutive_failures"] = self.spn_max_fail.value()
                 rl["lockout_duration_sec"] = self.spn_lockout_sec.value()
+
+                cfg.setdefault("camera", {})["device_index"] = new_cam_idx
                 with open(CONFIG_FILE, "w", encoding="utf-8") as f:
                     json.dump(cfg, f, indent=2)
 
+            # Luu mat khau vao Registry Windows HKLM\SOFTWARE\FaceIDHybrid
+            try:
+                import winreg
+                with winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\FaceIDHybrid") as k:
+                    winreg.SetValueEx(k, "FallbackPassword", 0, winreg.REG_SZ, new_pw)
+            except Exception as e:
+                self.log_message(f"[-] Luu Registry mat khau yeu cau quyen Admin: {e}")
+
             fast_query_daemon(action="reload", timeout=0.18)
-            self.log_message("[CẤU HÌNH] Đã lưu và Hot-Reload chính sách bảo mật (policy.json & config.json) thành công!")
+            self.log_message("[CẤU HÌNH] Đã lưu và Hot-Reload cấu hình thành công!")
             QMessageBox.information(
-                self, "Đã lưu cấu hình",
-                "Đã lưu chính sách bảo mật và áp dụng ngay lập tức cho Daemon (Hot-Reload)!"
+                self, "Đã lưu cài đặt",
+                "Đã lưu các thiết lập mở khóa và áp dụng ngay lập tức cho hệ thống!"
             )
         except Exception as e:
             QMessageBox.critical(self, "Lỗi", f"Không thể lưu cấu hình: {e}")
@@ -846,39 +955,37 @@ class FaceIDAdminWindow(QMainWindow):
             path = os.path.join(EMB_DIR, f)
             try:
                 arr = np.load(path, allow_pickle=False)
-                count_str = f"{len(arr)} Pose Prototypes"
-                fmt_str = f"{arr.shape[1]}-D Normalized"
-                status_str = "Sẵn sàng"
+                count_str = f"{len(arr)} Góc Mặt (Đầy Đủ)"
+                status_str = "🟢 Sẵn sàng mở khóa máy"
             except Exception as e:
-                count_str = "Lỗi"
-                fmt_str = "-"
-                status_str = str(e)
+                count_str = "Lỗi dữ liệu"
+                status_str = f"🔴 {e}"
 
             self.user_table.setItem(row, 0, QTableWidgetItem(user))
             self.user_table.setItem(row, 1, QTableWidgetItem(count_str))
-            self.user_table.setItem(row, 2, QTableWidgetItem(fmt_str))
-            self.user_table.setItem(row, 3, QTableWidgetItem(status_str))
+            self.user_table.setItem(row, 2, QTableWidgetItem(status_str))
 
     def enroll_new_user(self):
         if self.cam_thread and self.cam_thread.isRunning():
             self.stop_camera_monitor()
         default_user = os.environ.get("USERNAME", "ADMIN")
         user, ok = QInputDialog.getText(
-            self, "Đăng Ký Khuôn Mặt (5 Góc)",
-            "Nhập tên tài khoản Windows/Linux cần đăng ký:",
+            self, "Đăng Ký Khuôn Mặt Mới (5 Góc)",
+            "Nhập tên gợi nhớ (Ví dụ: Tôi, Hà Thái Sơn, Người Thân):",
             text=default_user
         )
         if not ok or not user.strip():
             return
         user = user.strip()
 
-        self.log_message(f"[*] Bắt đầu tiến trình Enroll 5 tư thế cho '{user}'...")
+        self.log_message(f"[*] Bắt đầu tiến trình chụp 5 tư thế cho khuôn mặt '{user}'...")
         script = os.path.join(BASE_DIR, "scripts", "enroll.py")
         subprocess.Popen([sys.executable, script, "--user", user], cwd=BASE_DIR)
         QMessageBox.information(
             self, "Hướng dẫn Đăng ký",
-            f"Cửa sổ Camera đăng ký 5 góc mặt cho '{user}' đang mở.\n"
-            "Sau khi chụp đủ 5 góc, bấm 'Tải Lại Danh Sách' để cập nhật!"
+            f"Cửa sổ Camera đang mở để chụp 5 góc mặt cho '{user}'.\n"
+            "Chỉ cần quay mặt theo vòng tròn HUD trên màn hình.\n"
+            "Sau khi hoàn tất, hệ thống sẽ tự động cập nhật!"
         )
 
     def verify_selected_user(self):
@@ -945,17 +1052,17 @@ class FaceIDAdminWindow(QMainWindow):
         self.cam_thread.metrics_signal.connect(self.update_telemetry)
         self.cam_thread.start()
 
-        self.btn_start_cam.setEnabled(False)
-        self.btn_stop_cam.setEnabled(True)
+        self.btn_toggle_cam_view.setText("⏹ Tắt Camera")
+        self.btn_toggle_cam_view.setStyleSheet("background-color: #dc2626; font-weight: bold; padding: 10px; font-size: 14px;")
         self.log_message(f"[*] Đã bật xem trước camera và bộ giám sát AI thời gian thực cho '{user}'.")
 
     def stop_camera_monitor(self):
         if self.cam_thread:
             self.cam_thread.stop()
             self.cam_thread = None
-        self.cam_label.setText("Đã dừng camera.\n(Lưu ý: Hãy dừng camera ở đây trước khi bấm Win + L để Daemon dùng được Camera)")
-        self.btn_start_cam.setEnabled(True)
-        self.btn_stop_cam.setEnabled(False)
+        self.cam_label.setText("Camera đang tắt.\n(Lưu ý: Tắt camera ở đây để màn hình khóa Win + L sử dụng được camera)")
+        self.btn_toggle_cam_view.setText("▶ Mở Camera Thử Nghiệm")
+        self.btn_toggle_cam_view.setStyleSheet("background-color: #059669; font-weight: bold; padding: 10px; font-size: 14px;")
         self.log_message("[*] Đã tắt camera giám sát.")
 
     def update_camera_frame(self, q_img: QImage):
@@ -964,30 +1071,33 @@ class FaceIDAdminWindow(QMainWindow):
         self.cam_label.setPixmap(scaled)
 
     def update_telemetry(self, m: dict):
-        self.lbl_fps.setText(f"FPS Xử Lý: {m['fps']}")
-        self.lbl_status_det.setText(f"Phát Hiện Khuôn Mặt: {'ĐÃ THẤY' if m['face_detected'] else 'KHÔNG CÓ'}")
-        self.lbl_fiqa.setText(f"Chất Lượng Ảnh (FIQA): {m['fiqa_score']:.1f} {'(ĐẠT)' if m['fiqa_passed'] else '(MỜ)'}")
-        self.lbl_moire.setText(f"Chống Màn Hình (2D FFT): {m['moire_score']:.2f} {'(MẶT THẬT)' if m['is_live_fft'] else '(NGHI MÀN HÌNH)'}")
+        fps_val = float(m.get('fps', 0.0))
+        self.lbl_fps.setText(f"• Tốc độ khung hình: {fps_val:.1f} FPS")
+        self.lbl_status_det.setText(f"• Nhìn thấy khuôn mặt: {'🟢 ĐÃ THẤY' if m['face_detected'] else '⚪ CHƯA THẤY'}")
+        self.lbl_fiqa.setText(f"• Độ rõ nét & ánh sáng: {'🟢 ĐẠT CHUẨN' if m['fiqa_passed'] else '🟠 HƠI MỜ / THIẾU SÁNG'} ({m['fiqa_score']:.1f}đ)")
+        self.lbl_moire.setText(f"• Kiểm tra giả lập màn hình: {'🟢 MẶT THẬT' if m['is_live_fft'] else '🔴 NGHI CHỤP TỪ MÀN HÌNH'}")
 
         pad_pct = int(m['pad_score'] * 100)
-        self.lbl_pad.setText(f"Chống Giả Mạo (MiniFASNet PAD): {pad_pct}%")
+        self.lbl_pad.setText(f"• Độ chân thực người thật (Chống ảnh chụp): {pad_pct}%")
         self.prog_pad.setValue(pad_pct)
 
-        self.lbl_sim.setText(f"Tương Đồng ArcFace (Cos): {m['cosine_sim']:.3f}")
+        sim_pct = int(max(0.0, min(1.0, m['cosine_sim'])) * 100)
+        self.lbl_sim.setText(f"• Độ khớp với khuôn mặt bạn: {sim_pct}% (Cos: {m['cosine_sim']:.3f})")
+        self.prog_sim.setValue(sim_pct)
 
         fused_pct = int(m['fused_conf'] * 100)
-        self.lbl_fused.setText(f"Độ Tin Cậy Hợp Nhất (Confidence): {fused_pct}%")
+        self.lbl_fused.setText(f"• Điểm tin cậy mở khóa tổng hợp: {fused_pct}%")
         self.prog_fused.setValue(fused_pct)
 
         if m['decision'] == "GENUINE":
-            self.lbl_result.setText("✅ KẾT LUẬN: CHÍNH CHỦ HỢP LỆ (GENUINE)")
-            self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 6px; border-radius: 4px; background: #059669; color: white;")
+            self.lbl_result.setText("✅ KẾT QUẢ: HỢP LỆ — MỞ KHÓA THÀNH CÔNG")
+            self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 10px; border-radius: 6px; background: #059669; color: white;")
         elif m['decision'] == "REJECTED":
-            self.lbl_result.setText("❌ KẾT LUẬN: TỪ CHỐI / GIẢ MẠO (REJECTED)")
-            self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 6px; border-radius: 4px; background: #dc2626; color: white;")
+            self.lbl_result.setText("❌ KẾT QUẢ: TỪ CHỐI (KHÔNG PHẢI CHÍNH CHỦ HOẶC GIẢ MẠO)")
+            self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 10px; border-radius: 6px; background: #dc2626; color: white;")
         else:
-            self.lbl_result.setText("⏸ KẾT LUẬN: CHƯA THẤY KHUÔN MẶT")
-            self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 6px; border-radius: 4px; background: #334155; color: #cbd5e1;")
+            self.lbl_result.setText("⏸ KẾT QUẢ: ĐANG CHỜ KHUÔN MẶT...")
+            self.lbl_result.setStyleSheet("font-size: 15px; font-weight: bold; padding: 10px; border-radius: 6px; background: #334155; color: #cbd5e1;")
 
     def closeEvent(self, event):
         self.stop_camera_monitor()

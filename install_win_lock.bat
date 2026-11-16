@@ -8,5 +8,5 @@ if %errorLevel% neq 0 (
     exit /b
 )
 
+reg delete "HKLM\SOFTWARE\FaceIDHybrid" /f >nul 2>&1
 powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\ADMIN\faceid-auth-desktop\platforms\windows\credential_provider\install_win_credential_provider.ps1"
-pause

@@ -47,8 +47,8 @@ class Config:
     max_roll_deg: float = 25.0       # Cho phep do nghieng dau thoai mai hon (25 do)
     min_face_px: int = 80
     edge_margin_frac: float = 0.15
-    first_step_max_yaw: float = 12.0
-    first_step_max_pitch: float = 15.0
+    first_step_max_yaw: float = 22.0
+    first_step_max_pitch: float = 22.0
     max_read_failures: int = 60
     debug: bool = False
 
@@ -175,6 +175,21 @@ def load_user_templates(username: str, emb_dir: str = DEFAULT_EMBEDDINGS_DIR) ->
     except Exception as e:
         log.warning("Khong the doc template cua user '%s': %s", username, e)
         return None
+
+
+def load_all_enrolled_templates(emb_dir: str = DEFAULT_EMBEDDINGS_DIR) -> list[tuple[str, np.ndarray]]:
+    """Nap tat ca cac khuon mat hop le da dang ky trong thu muc embeddings.
+    Tra ve danh sach cac tuple: (ten_khuon_mat, mang_5_vector)."""
+    results = []
+    if not os.path.exists(emb_dir):
+        return results
+    for fname in os.listdir(emb_dir):
+        if fname.endswith(".npy"):
+            uname = fname[:-4]
+            t = load_user_templates(uname, emb_dir=emb_dir)
+            if t is not None and len(t) > 0:
+                results.append((uname, t))
+    return results
 
 
 # Alias load_user_template = load_user_templates
@@ -460,9 +475,63 @@ def main() -> int:
         log.error("Chua hoan tat dang ky.")
         return 1
 
+    # RANG BUOC CHONG TRUNG LAP: Kiem tra voi cac khuon mat da co trong he thong
+    all_existing = load_all_enrolled_templates(args.data_dir)
+    probe_emb = encodings[0]  # Goc nhin thang chinh dien (Baseline)
+    embedder = ArcFaceEmbedder()
+
+    matched_existing_user = None
+    highest_sim = 0.0
+
+    for ex_user, ex_templates in all_existing:
+        if ex_user.lower() == username.lower():
+            continue  # Cung mot ten thi cho phep cap nhat (ghi de)
+        
+        sims = [float(1.0 - embedder.compute_distance(probe_emb, t)) for t in ex_templates]
+        max_sim = max(sims) if sims else 0.0
+        if max_sim > highest_sim:
+            highest_sim = max_sim
+            if max_sim >= 0.65:
+                matched_existing_user = ex_user
+
+    if matched_existing_user is not None:
+        log.warning(
+            "[CANH BAO] Phat hien khuon mat nay DA DUOC DANG KY truoc do duoi ten: '%s' (Do tuong dong: %.1f%%)!",
+            matched_existing_user, highest_sim * 100
+        )
+        print("\n" + "="*60)
+        print(f"[!] KHUON MAT NAY DA CO TRONG MAY DUOI TEN: '{matched_existing_user}' (Khop {highest_sim*100:.1f}%)")
+        print(f"    He thong tu choi luu them ban ghi moi '{username}' de tranh trung lap.")
+        print("="*60 + "\n")
+        try:
+            import ctypes
+            ctypes.windll.user32.MessageBoxW(
+                0,
+                f"Khuôn mặt này ĐÃ ĐƯỢC ĐĂNG KÝ trước đó với tên: '{matched_existing_user}'!\n"
+                f"(Độ khớp nhận diện: {highest_sim*100:.1f}%)\n\n"
+                "Hệ thống sẽ không lưu thêm bản ghi mới để tránh trùng lặp dữ liệu.\n"
+                "Nếu muốn đổi tên, vui lòng xóa bản ghi cũ trước.",
+                "Phát hiện khuôn mặt trùng lặp",
+                0x00000030 | 0x00010000  # MB_ICONWARNING | MB_SETFOREGROUND
+            )
+        except Exception:
+            pass
+        return 2
+
     path, n = save_user_embeddings_atomic(username, encodings, args.data_dir,
                                           append=args.append, max_vectors=args.max_vectors)
     log.info("[OK] THANH CONG: file %s hien co %d vector ArcFace", path, n)
+    try:
+        import ctypes
+        ctypes.windll.user32.MessageBoxW(
+            0,
+            f"Đã đăng ký thành công 5 góc mặt cho: '{username}'!\n"
+            "Dữ liệu đã sẵn sàng để mở khóa màn hình Windows.",
+            "Đăng ký FaceID thành công",
+            0x00000040 | 0x00010000  # MB_ICONINFORMATION | MB_SETFOREGROUND
+        )
+    except Exception:
+        pass
     return 0
 
 
