@@ -7,7 +7,7 @@
     "debug": true,
     "socket_path": "/run/faceid/faceid.sock",
     "windows_port": 9876,
-    "verify_timeout_sec": 6.0
+    "verify_timeout_sec": 8.0
   },
   "security": {
     "verify_model_sha256": false,
@@ -18,7 +18,7 @@
     },
     "rate_limiting": {
       "max_consecutive_failures": 3,
-      "lockout_duration_sec": 45,
+      "lockout_duration_sec": 45.0,
       "flood_max_requests_per_sec": 5
     },
     "peer_credentials": {
@@ -34,7 +34,7 @@
     "height": 480,
     "fps": 30,
     "open_timeout_sec": 1.0,
-    "verify_timeout_sec": 6.0,
+    "verify_timeout_sec": 8.0,
     "auto_release_on_finish": true
   },
   "ai_pipeline": {

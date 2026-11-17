@@ -15,8 +15,28 @@ from core.detector import YuNetDetector
 from core.fiqa import FaceQualityAssessor
 from core.anti_spoof import MiniFASNetDetector
 from core.embedder import ArcFaceEmbedder
-from core.liveness import ChallengeResponseDetector
+from core.liveness import ChallengeResponseDetector, ActionType
 from core.fusion import MultiModalFusionEngine
+from core.constants import (
+    MIN_FACE_SIZE_PX,
+    STRICT_FRONTAL_MAX_YAW,
+    STRICT_FRONTAL_MAX_PITCH,
+    FRONTAL_STREAK_REQUIRED,
+    POSE_RETURN_MAX_DYAW,
+    POSE_RETURN_MAX_DPITCH,
+    PAD_REAL_THRESHOLD,
+    MOIRE_PASSIVE_PENALTY,
+    MOIRE_FIQA_PENALTY,
+    LOW_FIQA_PENALTY,
+    TOP1_TEMPLATE_WEIGHT,
+    TOP2_TEMPLATE_WEIGHT,
+    DEFAULT_SIM_THRESHOLD,
+    DEFAULT_DECISION_THRESHOLD,
+    DEFAULT_VERIFY_TIMEOUT_SEC,
+    POST_LIVENESS_WINDOW_SEC,
+    DEFAULT_MAX_FAILURES,
+    DEFAULT_LOCKOUT_SEC,
+)
 from scripts.enroll import load_user_templates, load_all_enrolled_templates
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] [FaceID-Daemon] %(message)s")
@@ -94,7 +114,7 @@ class FaceIDDaemon:
         self.debug = sys_cfg.get("debug", True)
         self.socket_path = socket_path or sys_cfg.get("socket_path", DEFAULT_SOCKET_PATH)
         self.windows_port = sys_cfg.get("windows_port", 9876)
-        self.verify_timeout_sec = verify_timeout_sec if verify_timeout_sec is not None else sys_cfg.get("verify_timeout_sec", 6.0)
+        self.verify_timeout_sec = verify_timeout_sec if verify_timeout_sec is not None else sys_cfg.get("verify_timeout_sec", DEFAULT_VERIFY_TIMEOUT_SEC)
         self.pid_file = get_fhs_path("daemon.pid", category="data")
 
         # Doc Contextual Policy
@@ -109,8 +129,8 @@ class FaceIDDaemon:
 
         # Khoi tao Rate Limiter
         rl_cfg = sec_cfg.get("rate_limiting", {})
-        effective_max_failures = max_failures if max_failures is not None else rl_cfg.get("max_consecutive_failures", 3)
-        effective_lockout = lockout_duration_sec if lockout_duration_sec is not None else rl_cfg.get("lockout_duration_sec", 45.0)
+        effective_max_failures = max_failures if max_failures is not None else rl_cfg.get("max_consecutive_failures", DEFAULT_MAX_FAILURES)
+        effective_lockout = lockout_duration_sec if lockout_duration_sec is not None else rl_cfg.get("lockout_duration_sec", DEFAULT_LOCKOUT_SEC)
 
         self.rate_limiter = RateLimiter(
             max_failures=effective_max_failures,
@@ -131,9 +151,9 @@ class FaceIDDaemon:
         t0 = time.time()
         self.detector = YuNetDetector()
         self.fiqa = FaceQualityAssessor()
-        self.anti_spoof = MiniFASNetDetector(real_threshold=0.60)
+        self.anti_spoof = MiniFASNetDetector(real_threshold=PAD_REAL_THRESHOLD)
         self.embedder = ArcFaceEmbedder()
-        self.fusion = MultiModalFusionEngine(sim_threshold=0.62, decision_threshold=0.75)
+        self.fusion = MultiModalFusionEngine(sim_threshold=DEFAULT_SIM_THRESHOLD, decision_threshold=DEFAULT_DECISION_THRESHOLD)
         logger.info(f"[+] Da nap thanh cong toan bo AI Models vao RAM trong {(time.time() - t0):.2f}s!")
 
         self.running = False
@@ -156,6 +176,25 @@ class FaceIDDaemon:
                 if hasattr(self.camera_mgr, "device_index") and self.camera_mgr.device_index != new_dev_idx:
                     logger.info(f"[*] Hot-Reload: Cap nhat Camera Device Index: {self.camera_mgr.device_index} -> {new_dev_idx}")
                     self.camera_mgr.device_index = new_dev_idx
+
+                # Hot-reload max_consecutive_failures (doc truc tiep tu root cua policy.json)
+                policy_file = get_fhs_path("policy.json", category="config")
+                if os.path.exists(policy_file):
+                    try:
+                        with open(policy_file, "r", encoding="utf-8") as pf:
+                            full_pol = json.load(pf)
+                        rl_data = full_pol.get("rate_limit", {})
+                        new_max_fail = int(rl_data.get("max_consecutive_failures", DEFAULT_MAX_FAILURES))
+                        new_lockout = float(rl_data.get("lockout_duration_sec", DEFAULT_LOCKOUT_SEC))
+                        if hasattr(self, "rate_limiter"):
+                            if self.rate_limiter.max_failures != new_max_fail:
+                                self.rate_limiter.max_failures = new_max_fail
+                                logger.info(f"[*] Hot-Reload: Cap nhat Max Failures -> {new_max_fail}")
+                            if self.rate_limiter.lockout_duration_sec != new_lockout:
+                                self.rate_limiter.lockout_duration_sec = new_lockout
+                                logger.info(f"[*] Hot-Reload: Cap nhat Lockout Duration -> {new_lockout}s")
+                    except Exception:
+                        pass
             except Exception as e:
                 logger.warning(f"[-] Khong the doc file config {self.cfg_file}: {e}")
 
@@ -240,8 +279,8 @@ class FaceIDDaemon:
 
         # 4. Lay Contextual Policy cho service nay
         svc_policy = self.policy.get(service, self.policy.get("default", {}))
-        decision_thresh = svc_policy.get("decision_threshold", 0.70)
-        sim_thresh = svc_policy.get("sim_threshold", 0.62)
+        decision_thresh = svc_policy.get("decision_threshold", DEFAULT_DECISION_THRESHOLD)
+        sim_thresh = svc_policy.get("sim_threshold", DEFAULT_SIM_THRESHOLD)
         require_active = svc_policy.get("require_active_liveness", True)
         timeout_sec = svc_policy.get("active_timeout_sec", self.verify_timeout_sec)
 
@@ -269,7 +308,7 @@ class FaceIDDaemon:
             """Gui huong dan truc tiep ve terminal cua client."""
             if client_conn:
                 try:
-                    payload = json.dumps({"event": "progress", "message": msg}) + "\n"
+                    payload = json.dumps({"event": "progress", "message": msg}, ensure_ascii=False) + "\n"
                     client_conn.sendall(payload.encode("utf-8"))
                 except Exception:
                     pass
@@ -283,16 +322,17 @@ class FaceIDDaemon:
             self.anti_spoof.reset()
             with self.camera_mgr.acquire() as cap:
                 logger.info(f"[*] Camera BAT thanh cong. Tien hanh quet khuon mat...")
-                send_progress("Camera da bat. Vui long nhin thang vao camera...")
+                send_progress("Đang kết nối camera... Vui lòng nhìn thẳng vào màn hình")
                 challenge = ChallengeResponseDetector(timeout_sec=timeout_sec, preload_hands=False)
                 if require_active:
                     chosen_action = challenge.reset_challenge()
-                    send_progress(f"[*] YEU CAU LIVENESS: {chosen_action.value}")
+                    send_progress(f"{chosen_action.value}")
                 t_start = time.time()
 
                 best_decision = None
                 active_passed = not require_active
                 last_hint_sent = ""
+                frontal_streak = 0
 
                 while time.time() - t_start < timeout_sec:
                     ret, frame = cap.read()
@@ -303,6 +343,7 @@ class FaceIDDaemon:
                     # Pipeline AI
                     detections = self.detector.detect(frame)
                     if len(detections) == 0:
+                        frontal_streak = 0
                         continue
 
                     # Chon chu the chinh (Primary Subject): Sap xep theo dien tich Bounding Box giam dan de chon mat lon nhat (gan camera nhat)
@@ -313,7 +354,8 @@ class FaceIDDaemon:
                     # Kiem tra kich thuoc mat chu the chinh (tranh mat o qua xa / tap am)
                     face_h = box[2] - box[0]
                     face_w = box[1] - box[3]
-                    if face_h < 70 or face_w < 70:
+                    if face_h < MIN_FACE_SIZE_PX or face_w < MIN_FACE_SIZE_PX:
+                        frontal_streak = 0
                         continue
                     quality = self.fiqa.evaluate_quality(frame, box, landmarks)
                     pose = (quality.yaw, quality.pitch, quality.roll)
@@ -322,21 +364,42 @@ class FaceIDDaemon:
                         p, hint, _ = challenge.check_action(frame, pose, landmarks, box)
                         if hint and hint != last_hint_sent:
                             logger.info(f"[*] Thu thach liveness: {hint}")
-                            send_progress(f"[{chosen_action.value}] {hint}")
+                            send_progress(f"{hint}")
                             last_hint_sent = hint
                         if p:
                             active_passed = True
-                            logger.info("[+] Thu thach liveness: HOAN THANH!")
-                            send_progress("[+] Thu thach Liveness DAT! Dang so khop danh tinh...")
+                            frontal_streak = 0
+                            # Gia han them toi thieu 5.0s de nguoi dung thong tha quay mat ve chinh dien
+                            t_start = max(t_start, time.time() - timeout_sec + POST_LIVENESS_WINDOW_SEC)
+                            logger.info("[+] Thu thach liveness: HOAN THANH! Cho khuon mat ve chinh dien...")
+                            send_progress("Xác thực cử động thành công! Vui lòng nhìn thẳng...")
+                            continue
 
                     if active_passed:
-                        if not quality.passed:
+                        pose_returned = True
+                        if require_active and challenge._pose_base is not None and chosen_action in (
+                            ActionType.LOOK_UP, ActionType.NOD_DOWN, ActionType.TURN_LEFT, ActionType.TURN_RIGHT
+                        ):
+                            byaw, bpitch = challenge._pose_base
+                            cur_y, cur_p = getattr(challenge, "_pose_ema", None) or (quality.yaw, quality.pitch)
+                            cur_y = 0.60 * quality.yaw + 0.40 * cur_y
+                            cur_p = 0.60 * quality.pitch + 0.40 * cur_p
+                            challenge._pose_ema = (cur_y, cur_p)
+                            if abs(cur_y - byaw) > POSE_RETURN_MAX_DYAW or abs(cur_p - bpitch) > POSE_RETURN_MAX_DPITCH:
+                                pose_returned = False
+
+                        is_strict_frontal = quality.passed and abs(quality.yaw) <= STRICT_FRONTAL_MAX_YAW and abs(quality.pitch) <= STRICT_FRONTAL_MAX_PITCH and pose_returned
+                        if not is_strict_frontal:
+                            frontal_streak = 0
+                            continue
+                        frontal_streak += 1
+                        if require_active and frontal_streak < FRONTAL_STREAK_REQUIRED:
                             continue
                         is_real, passive_score, _ = self.anti_spoof.predict_smoothed(frame, box)
                         emb = self.embedder.extract(frame, box, landmarks=landmarks)
                         
-                        effective_passive = passive_score if quality.is_live_fft else (passive_score * 0.82)
-                        fiqa_weight = (1.0 if quality.passed else 0.4) * (1.0 if quality.is_live_fft else 0.85)
+                        effective_passive = passive_score if quality.is_live_fft else (passive_score * MOIRE_PASSIVE_PENALTY)
+                        fiqa_weight = (1.0 if quality.passed else LOW_FIQA_PENALTY) * (1.0 if quality.is_live_fft else MOIRE_FIQA_PENALTY)
 
                         # Duyet qua tat ca cac ung vien khuon mat hop le trong may (1:N Smart Matching)
                         for cand_name, cand_templates in match_candidates:
@@ -348,7 +411,7 @@ class FaceIDDaemon:
                             best_sim, best_t = sim_pairs[0]
 
                             if len(sim_pairs) >= 2:
-                                effective_sim = 0.70 * best_sim + 0.30 * sim_pairs[1][0]
+                                effective_sim = TOP1_TEMPLATE_WEIGHT * best_sim + TOP2_TEMPLATE_WEIGHT * sim_pairs[1][0]
                             else:
                                 effective_sim = best_sim
 
@@ -375,11 +438,15 @@ class FaceIDDaemon:
                 # Ket qua xac thuc
                 if best_decision and best_decision.success and best_decision.confidence_score >= decision_thresh:
                     self.rate_limiter.record_success(user)
+                    cand_display = cand_name if 'cand_name' in locals() and cand_name else user
+                    send_progress(f"Xác thực thành công ({cand_display})! Đang mở khóa...")
+                    time.sleep(0.4) # Cho 400ms de man hinh LogonUI hien thi ro chu thong bao truoc khi dang nhap
                     logger.info(f"[AUDIT] AUTH_SUCCESS user='{user}' svc='{service}' conf={best_decision.confidence_score:.3f}")
                     return {
                         "status": "SUCCESS",
                         "user": user,
-                        "confidence": float(best_decision.confidence_score)
+                        "confidence": float(best_decision.confidence_score),
+                        "matched_user": cand_display
                     }
                 else:
                     new_status = self.rate_limiter.record_failure(user)

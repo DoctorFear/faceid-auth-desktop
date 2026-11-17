@@ -64,67 +64,6 @@ static const char* ResolveEffectiveServiceName(CREDENTIAL_PROVIDER_USAGE_SCENARI
     return "windows-logon";
 }
 
-// Kiem tra cau hinh Tu dong quet ngay (auto_scan) cho service tuong ung trong policy.json
-static bool IsAutoScanEnabled(CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus)
-{
-    const char* szSvcName = ResolveEffectiveServiceName(cpus);
-    char szSvcTarget[64];
-    snprintf(szSvcTarget, sizeof(szSvcTarget), "\"%s\"", szSvcName);
-
-    HANDLE hFile = CreateFileW(FACEID_POLICY_PATH, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (hFile == INVALID_HANDLE_VALUE)
-    {
-        // Neu khong mo duoc policy file, mac dinh van cho tu dong quet ngay
-        return true;
-    }
-
-    char szBuf[16384] = {0};
-    DWORD dwRead = 0;
-    ReadFile(hFile, szBuf, sizeof(szBuf) - 1, &dwRead, NULL);
-    CloseHandle(hFile);
-
-    if (dwRead == 0) return true;
-
-    // Tim vi tri section cua service va gioi han tim kiem trong dung section do (den dau '}')
-    const char* pSvc = strstr(szBuf, szSvcTarget);
-    if (!pSvc) return true;
-
-    const char* pSecEnd = strchr(pSvc, '}');
-    if (!pSecEnd) pSecEnd = szBuf + dwRead;
-
-    // Uu tien tim thuoc tinh "auto_scan" trong section nay truoc
-    const char* pAutoScan = strstr(pSvc, "\"auto_scan\"");
-    if (pAutoScan && pAutoScan < pSecEnd)
-    {
-        const char* pColon = strchr(pAutoScan, ':');
-        if (pColon && pColon < pSecEnd)
-        {
-            pColon++;
-            while (*pColon == ' ' || *pColon == '\t') pColon++;
-            if (strncmp(pColon, "true", 4) == 0) return true;
-            if (strncmp(pColon, "false", 5) == 0) return false;
-        }
-    }
-
-    // Neu chua co auto_scan, fallback sang require_active_liveness trong cung section:
-    // require_active_liveness: false -> auto_scan: true
-    const char* pKey = strstr(pSvc, "\"require_active_liveness\"");
-    if (!pKey || pKey >= pSecEnd) return true;
-
-    const char* pColon = strchr(pKey, ':');
-    if (!pColon || pColon >= pSecEnd) return true;
-
-    pColon++;
-    while (*pColon == ' ' || *pColon == '\t') pColon++;
-
-    if (strncmp(pColon, "false", 5) == 0)
-    {
-        return true;
-    }
-
-    return false;
-}
-
 // Doc mat khau du phong dong tu Registry HKLM\SOFTWARE\FaceIDHybrid (hoac dung mac dinh 123456)
 static void GetDynamicFallbackPassword(wchar_t* pwzOut, size_t cchOut)
 {
@@ -149,6 +88,7 @@ static void GetDynamicFallbackPassword(wchar_t* pwzOut, size_t cchOut)
 }
 
 // Trich xuat gia tri chuoi cua mot key trong dong JSON (vi du: "message": "...")
+// Ho tro ca UTF-8 thuan va JSON escape (\uXXXX)
 static bool ExtractJsonStringField(const char* szJsonLine, const char* szKey, wchar_t* pwzOut, size_t cchOut)
 {
     if (!szJsonLine || !szKey || !pwzOut || cchOut == 0) return false;
@@ -166,23 +106,59 @@ static bool ExtractJsonStringField(const char* szJsonLine, const char* szKey, wc
     if (!pQuoteStart) return false;
     pQuoteStart++;
 
-    char szUtf8[512];
-    size_t idx = 0;
+    // Duyet va giai ma escape: neu gap \uXXXX thi parse truc tiep thanh wchar_t
+    // neu gap UTF-8 multibyte thi chuyen doi qua MultiByteToWideChar
+    size_t outIdx = 0;
     const char* p = pQuoteStart;
-    while (*p != '\0' && *p != '"' && idx < sizeof(szUtf8) - 1)
+    char utf8Buf[8];
+    int utf8Len = 0;
+
+    while (*p != '\0' && *p != '"' && outIdx < cchOut - 1)
     {
-        if (*p == '\\' && *(p + 1) != '\0')
+        if (*p == '\\' && *(p + 1) == 'u' && *(p + 2) && *(p + 3) && *(p + 4) && *(p + 5))
+        {
+            // Parse 4 hex digits \uXXXX
+            char hexBuf[5] = { *(p + 2), *(p + 3), *(p + 4), *(p + 5), '\0' };
+            wchar_t uChar = (wchar_t)strtol(hexBuf, NULL, 16);
+            pwzOut[outIdx++] = uChar;
+            p += 6;
+            continue;
+        }
+        else if (*p == '\\' && *(p + 1) != '\0')
         {
             p++;
         }
-        szUtf8[idx++] = *p++;
-    }
-    szUtf8[idx] = '\0';
 
-    if (idx == 0) return false;
-    MultiByteToWideChar(CP_UTF8, 0, szUtf8, -1, pwzOut, (int)cchOut);
-    pwzOut[cchOut - 1] = L'\0';
-    return (pwzOut[0] != L'\0');
+        // Xu ly UTF-8 byte
+        unsigned char uc = (unsigned char)*p;
+        if (uc < 0x80)
+        {
+            pwzOut[outIdx++] = (wchar_t)uc;
+            p++;
+        }
+        else
+        {
+            // Tinh so byte UTF-8
+            int nBytes = 1;
+            if ((uc & 0xE0) == 0xC0) nBytes = 2;
+            else if ((uc & 0xF0) == 0xE0) nBytes = 3;
+            else if ((uc & 0xF8) == 0xF0) nBytes = 4;
+
+            char mb[8] = {0};
+            for (int b = 0; b < nBytes && *p != '\0' && *p != '"'; b++)
+            {
+                mb[b] = *p++;
+            }
+            wchar_t wTemp[4] = {0};
+            int wLen = MultiByteToWideChar(CP_UTF8, 0, mb, -1, wTemp, 4);
+            for (int wi = 0; wi < wLen && wTemp[wi] != L'\0' && outIdx < cchOut - 1; wi++)
+            {
+                pwzOut[outIdx++] = wTemp[wi];
+            }
+        }
+    }
+    pwzOut[outIdx] = L'\0';
+    return (outIdx > 0);
 }
 
 // Kiem tra nhanh xem FaceID Daemon co dang chay tren 127.0.0.1:9876 hay khong (timeout 150ms)
@@ -334,7 +310,7 @@ bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, 
     // Da ket noi thanh cong toi Daemon!
     if (pCredential)
     {
-        pCredential->UpdateStatusText(L"[FaceID] Dang nhan dien... Vui long nhin thang vao camera");
+        pCredential->UpdateStatusText(L"Đang nhận diện khuôn mặt... Vui lòng nhìn thẳng vào camera");
     }
 
     // Chuyen ve blocking mode voi timeout doc 16.0 giay (ho tro timeout cau hinh len toi 15s + Active Liveness)
@@ -352,7 +328,7 @@ bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, 
     {
         closesocket(sock);
         WSACleanup();
-        if (pwzStatusOut) StringCchCopyW(pwzStatusOut, cchStatusOut, L"Loi gui yeu cau FaceID -> Vui long nhap mat khau");
+        if (pwzStatusOut) StringCchCopyW(pwzStatusOut, cchStatusOut, L"Không thể kết nối FaceID. Vui lòng nhập mật khẩu");
         return false;
     }
 
@@ -394,9 +370,20 @@ bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, 
                     else if (strstr(lineBuf, "\"status\": \"SUCCESS\"") || strstr(lineBuf, "\"status\":\"SUCCESS\""))
                     {
                         authSuccess = true;
-                        if (pwzStatusOut)
+                        wchar_t wUser[128] = {0};
+                        if (ExtractJsonStringField(lineBuf, "matched_user", wUser, ARRAYSIZE(wUser)) && wUser[0] != L'\0')
                         {
-                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"[FaceID] XAC THUC KHUON MAT THANH CONG! Dang mo khoa...");
+                            if (pwzStatusOut)
+                            {
+                                StringCchPrintfW(pwzStatusOut, cchStatusOut, L"Xác thực thành công (%s)! Đang mở khóa...", wUser);
+                            }
+                        }
+                        else
+                        {
+                            if (pwzStatusOut)
+                            {
+                                StringCchCopyW(pwzStatusOut, cchStatusOut, L"Xác thực thành công! Đang mở khóa máy tính...");
+                            }
                         }
                         done = true;
                         break;
@@ -405,7 +392,7 @@ bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, 
                     {
                         if (pwzStatusOut)
                         {
-                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"[FaceID] Tam khoa do sai qua 3 lan -> Vui long nhap mat khau");
+                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"FaceID đã tạm khóa do thử sai nhiều lần. Vui lòng nhập mật khẩu");
                         }
                         done = true;
                         break;
@@ -414,7 +401,7 @@ bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, 
                     {
                         if (pwzStatusOut)
                         {
-                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"[FaceID] Camera dang ban -> Vui long nhap mat khau 123456");
+                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"Camera đang bận. Vui lòng sử dụng mật mã dự phòng");
                         }
                         done = true;
                         break;
@@ -423,7 +410,7 @@ bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, 
                     {
                         if (pwzStatusOut)
                         {
-                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"[FaceID] Cong tac FaceID dang TAT (Bypass) -> Vui long nhap mat khau 123456");
+                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"FaceID đang tạm tắt. Vui lòng nhập mật khẩu mở máy");
                         }
                         done = true;
                         break;
@@ -432,7 +419,7 @@ bool QueryFaceIDDaemon(CSampleCredential *pCredential, PCWSTR pwzQualifiedUser, 
                     {
                         if (pwzStatusOut)
                         {
-                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"[FaceID] Khong khop khuon mat -> Vui long nhap mat khau 123456");
+                            StringCchCopyW(pwzStatusOut, cchStatusOut, L"Không nhận diện được khuôn mặt. Vui lòng nhập mật mã");
                         }
                         done = true;
                         break;
@@ -493,94 +480,6 @@ DWORD WINAPI FaceIDWorkerThread(LPVOID lpParam)
     // Che do Tu Dong Quet Ngay: Man hinh 1 (phong canh/dong ho) chi bien mat khi nguoi dung
     // BAM PHIM, CLICK CHUOT hoac DI CHUYEN CHUOT/VUOT MAN HINH.
     // Nguoi dung chi can bat ky thao tac nao de chuyen sang Man hinh 2 la quet ngay lap tuc!
-    if (pThis->_fWaitForInput)
-    {
-        SHORT prev[256] = {0};
-        for (int vk = 1; vk < 256; ++vk)
-        {
-            prev[vk] = (SHORT)(GetAsyncKeyState(vk) & 0x8000);
-        }
-
-        POINT ptStart = {0, 0};
-        GetCursorPos(&ptStart);
-
-        LASTINPUTINFO lii = { sizeof(LASTINPUTINFO), 0 };
-        GetLastInputInfo(&lii);
-        DWORD dwBaseInput = lii.dwTime;
-
-        DWORD dwStartTick = GetTickCount();
-        bool bDismissed = false;
-
-        while (!bDismissed)
-        {
-            if (pThis->IsStopRequested())
-            {
-                pThis->_fWorkerRunning = FALSE;
-                if (SUCCEEDED(hrCom)) CoUninitialize();
-                if (hInputDesk) CloseDesktop(hInputDesk);
-                pThis->Release();
-                return 0;
-            }
-            if (pThis->_fInputSeen)
-            {
-                bDismissed = true;
-                break;
-            }
-
-            // 1. Kiem tra bat ky phim nao vua duoc nhan (ke ca Space, Enter, Up, A-Z, Click chuot)
-            for (int vk = 1; vk < 256; ++vk)
-            {
-                SHORT cur = (SHORT)(GetAsyncKeyState(vk) & 0x8000);
-                if (cur && !prev[vk])
-                {
-                    bDismissed = true;
-                    break;
-                }
-                prev[vk] = cur;
-            }
-
-            // 2. Kiem tra di chuyen chuot (gat chuot len/keo vuot man hinh khoa)
-            if (!bDismissed)
-            {
-                POINT ptCur = {0, 0};
-                if (GetCursorPos(&ptCur))
-                {
-                    int dx = ptCur.x - ptStart.x;
-                    int dy = ptCur.y - ptStart.y;
-                    // Di chuyen chuot vuot qua 30 pixel -> chac chan nguoi dung dang gat man hinh 1
-                    if ((dx * dx + dy * dy) > 900)
-                    {
-                        bDismissed = true;
-                    }
-                }
-            }
-
-            // 3. Kiem tra su kien input he thong thong qua GetLastInputInfo (bo qua 400ms dau tien tu Win + L)
-            if (!bDismissed)
-            {
-                DWORD dwElapsed = GetTickCount() - dwStartTick;
-                if (dwElapsed > 400)
-                {
-                    LASTINPUTINFO cur = { sizeof(LASTINPUTINFO), 0 };
-                    if (GetLastInputInfo(&cur))
-                    {
-                        if (cur.dwTime != dwBaseInput)
-                        {
-                            bDismissed = true;
-                        }
-                    }
-                }
-            }
-
-            if (!bDismissed) Sleep(30);
-        }
-
-        pThis->_fWaitForInput = FALSE;
-        // Cho hieu ung truot man hinh 1 -> man hinh 2 hoan tat
-        Sleep(200);
-        pThis->UpdateStatusText(L"[FaceID] Dang tu dong quet khuon mat...");
-    }
-
     wchar_t szStatus[256] = {0};
     bool bSuccess = QueryFaceIDDaemon(pThis, pThis->_pszQualifiedUserName, pThis->_cpus, szStatus, ARRAYSIZE(szStatus), pThis->_hStopEvent);
 
@@ -594,7 +493,7 @@ DWORD WINAPI FaceIDWorkerThread(LPVOID lpParam)
 
     if (bSuccess)
     {
-        pThis->OnFaceIDSuccess();
+        pThis->OnFaceIDSuccess(szStatus);
     }
     else
     {
@@ -684,7 +583,7 @@ void CSampleCredential::UpdateStatusText(PCWSTR pszText)
     }
 }
 
-void CSampleCredential::OnFaceIDSuccess()
+void CSampleCredential::OnFaceIDSuccess(PCWSTR pszSuccessStatus)
 {
     wchar_t szPw[128] = {0};
     GetDynamicFallbackPassword(szPw, ARRAYSIZE(szPw));
@@ -693,8 +592,12 @@ void CSampleCredential::OnFaceIDSuccess()
     CoTaskMemFree(_rgFieldStrings[SFI_PASSWORD]);
     SHStrDupW(szPw, &_rgFieldStrings[SFI_PASSWORD]);
 
+    PCWSTR pszFinalMsg = (pszSuccessStatus && pszSuccessStatus[0] != L'\0') 
+        ? pszSuccessStatus 
+        : L"Xác thực thành công! Đang tự động mở khóa...";
+
     CoTaskMemFree(_rgFieldStrings[SFI_FULLNAME_TEXT]);
-    SHStrDupW(L"[FaceID] XAC THUC THANH CONG! Dang tu dong mo khoa...", &_rgFieldStrings[SFI_FULLNAME_TEXT]);
+    SHStrDupW(pszFinalMsg, &_rgFieldStrings[SFI_FULLNAME_TEXT]);
     LeaveCriticalSection(&_csLock);
 
     if (_pCredProvCredentialEvents)
@@ -704,6 +607,9 @@ void CSampleCredential::OnFaceIDSuccess()
         _pCredProvCredentialEvents->SetFieldString(this, SFI_FULLNAME_TEXT, _rgFieldStrings[SFI_FULLNAME_TEXT]);
         _pCredProvCredentialEvents->EndFieldUpdates();
     }
+
+    // Nghi 400ms de nguoi dung nhin ro chu thong bao thanh cong truoc khi chuyen man hinh vao Desktop
+    Sleep(400);
 
     // 1. Kich hoat Native Windows Auto-Logon thong qua ICredentialProviderEvents::CredentialsChanged
     if (_pProvider)
@@ -727,8 +633,6 @@ CSampleCredential::CSampleCredential():
     _hWorkerThread(NULL),
     _hStopEvent(NULL),
     _fWorkerRunning(FALSE),
-    _fWaitForInput(FALSE),
-    _fInputSeen(FALSE),
     _pProvider(nullptr)
 {
     DllAddRef();
@@ -787,11 +691,11 @@ HRESULT CSampleCredential::Initialize(CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus,
 
     if (SUCCEEDED(hr))
     {
-        hr = SHStrDupW(L"FaceID Hybrid", &_rgFieldStrings[SFI_LABEL]);
+        hr = SHStrDupW(L"VinFace Authentication", &_rgFieldStrings[SFI_LABEL]);
     }
     if (SUCCEEDED(hr))
     {
-        hr = SHStrDupW(L"FaceID Hybrid Authentication", &_rgFieldStrings[SFI_LARGE_TEXT]);
+        hr = SHStrDupW(L"VinFace Authentication", &_rgFieldStrings[SFI_LARGE_TEXT]);
     }
     if (SUCCEEDED(hr))
     {
@@ -815,7 +719,7 @@ HRESULT CSampleCredential::Initialize(CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus,
     }
     if (SUCCEEDED(hr))
     {
-        hr = SHStrDupW(L"Quet lai khuon mat FaceID (Camera)", &_rgFieldStrings[SFI_LAUNCHWINDOW_LINK]);
+        hr = SHStrDupW(L"Quét lại khuôn mặt VinFace", &_rgFieldStrings[SFI_LAUNCHWINDOW_LINK]);
     }
     if (SUCCEEDED(hr))
     {
@@ -827,24 +731,9 @@ HRESULT CSampleCredential::Initialize(CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus,
     }
     if (SUCCEEDED(hr))
     {
-        wchar_t szPw[128] = {0};
-        GetDynamicFallbackPassword(szPw, ARRAYSIZE(szPw));
-
-        PWSTR pszUserName = nullptr;
-        pcpUser->GetStringValue(PKEY_Identity_UserName, &pszUserName);
-        if (pszUserName != nullptr)
-        {
-            wchar_t szString[256];
-            StringCchPrintfW(szString, ARRAYSIZE(szString), L"Tai khoan: %s | Nhin camera hoac nhap %s", pszUserName, szPw);
-            hr = SHStrDupW(szString, &_rgFieldStrings[SFI_FULLNAME_TEXT]);
-            CoTaskMemFree(pszUserName);
-        }
-        else
-        {
-            wchar_t szString[256];
-            StringCchCopyW(szString, ARRAYSIZE(szString), L"Nhin thang vao camera hoac nhap mat khau");
-            hr = SHStrDupW(szString, &_rgFieldStrings[SFI_FULLNAME_TEXT]);
-        }
+        wchar_t szString[256];
+        StringCchCopyW(szString, ARRAYSIZE(szString), L"Nhìn thẳng vào camera để mở máy hoặc nhập mật khẩu");
+        hr = SHStrDupW(szString, &_rgFieldStrings[SFI_FULLNAME_TEXT]);
     }
     if (SUCCEEDED(hr))
     {
@@ -894,30 +783,30 @@ HRESULT CSampleCredential::SetSelected(_Out_ BOOL *pbAutoLogon)
         return S_OK;
     }
 
-    // Neu dich vu FaceID Daemon dang tat -> Hien ngay thong bao moi nhap mat khau
-    if (!IsFaceIDDaemonAliveQuick())
+    bool isDaemonAlive = IsFaceIDDaemonAliveQuick();
+
+    // Cap nhat trang thai hien/an cua nut CommandLink "Quet lai khuon mat VinFace"
+    // Neu Daemon tat -> an nut di (CPFS_HIDDEN) de nguoi dung khong bam nham
+    EnterCriticalSection(&_csLock);
+    _rgFieldStatePairs[SFI_LAUNCHWINDOW_LINK].cpfs = isDaemonAlive ? CPFS_DISPLAY_IN_SELECTED_TILE : CPFS_HIDDEN;
+    LeaveCriticalSection(&_csLock);
+
+    if (_pCredProvCredentialEvents)
     {
-        _fInputSeen = FALSE;
-        _fWaitForInput = FALSE;
-        UpdateStatusText(L"M\u1EDDi b\u1EA1n nh\u1EADp m\u1EADt kh\u1EA9u");
+        _pCredProvCredentialEvents->BeginFieldUpdates();
+        _pCredProvCredentialEvents->SetFieldState(this, SFI_LAUNCHWINDOW_LINK, _rgFieldStatePairs[SFI_LAUNCHWINDOW_LINK].cpfs);
+        _pCredProvCredentialEvents->EndFieldUpdates();
+    }
+
+    // Neu dich vu Daemon dang tat -> Hien thong bao moi nhap mat khau
+    if (!isDaemonAlive)
+    {
+        UpdateStatusText(L"Dịch vụ VinFace đang tắt. Vui lòng nhập mật khẩu mở máy");
         return S_OK;
     }
 
-    // SetSelected duoc goi ngay ca khi con o Man hinh 1, nen KHONG quet ngay.
-    // Che do Tu Dong Quet: tao worker o trang thai CHO thao tac nguoi dung (camera chua bat).
-    if (IsAutoScanEnabled(_cpus))
-    {
-        _fInputSeen = FALSE;
-        _fWaitForInput = TRUE;
-        UpdateStatusText(L"[FaceID] San sang - se tu dong quet khi mo man hinh dang nhap (hoac nhap mat khau)");
-        StartWorkerThread();
-    }
-    else
-    {
-        _fInputSeen = FALSE;
-        _fWaitForInput = FALSE;
-        UpdateStatusText(L"[FaceID] San sang! Nhin vao camera roi bam Enter de quet FaceID (hoac nhap mat khau)");
-    }
+    // Che do Enter de quet: chi dung cho, khi nguoi dung bam Enter o GetSerialization moi quet
+    UpdateStatusText(L"Nhìn vào camera để mở khóa và nhấn Enter");
 
     return S_OK;
 }
@@ -954,8 +843,21 @@ HRESULT CSampleCredential::GetFieldState(DWORD dwFieldID,
     HRESULT hr;
     if ((dwFieldID < ARRAYSIZE(_rgFieldStatePairs)))
     {
+        EnterCriticalSection(&_csLock);
+        if (dwFieldID == SFI_LAUNCHWINDOW_LINK)
+        {
+            // Kiem tra truc tiep neu Daemon khong chay thi an nut ngay lap tuc
+            if (!IsFaceIDDaemonAliveQuick())
+            {
+                *pcpfs = CPFS_HIDDEN;
+                *pcpfis = CPFIS_NONE;
+                LeaveCriticalSection(&_csLock);
+                return S_OK;
+            }
+        }
         *pcpfs = _rgFieldStatePairs[dwFieldID].cpfs;
         *pcpfis = _rgFieldStatePairs[dwFieldID].cpfis;
+        LeaveCriticalSection(&_csLock);
         hr = S_OK;
     }
     else
@@ -1148,9 +1050,8 @@ HRESULT CSampleCredential::CommandLinkClicked(DWORD dwFieldID)
     {
         if (dwFieldID == SFI_LAUNCHWINDOW_LINK)
         {
-            UpdateStatusText(L"[FaceID] Dang bat camera quet lai khuon mat...");
+            UpdateStatusText(L"Đang khởi động camera quét lại...");
             StopWorkerThread();
-            _fWaitForInput = FALSE;
             StartWorkerThread();
         }
     }
@@ -1177,17 +1078,19 @@ HRESULT CSampleCredential::GetSerialization(_Out_ CREDENTIAL_PROVIDER_GET_SERIAL
     // Neu o password trong (nguoi dung bam Enter de quet FaceID)
     if (_rgFieldStrings[SFI_PASSWORD] == nullptr || _rgFieldStrings[SFI_PASSWORD][0] == L'\0')
     {
-        // Nguoi dung da o Man hinh 2 va bam Enter -> bat dau quet FaceID ngay lap tuc
-        _fInputSeen = TRUE;
-        _fWaitForInput = FALSE;
+        // Kiem tra nhanh neu dich vu Daemon dang tat thi yeu cau nhap mat khau ngay, khong bao dang bat camera
+        if (!IsFaceIDDaemonAliveQuick())
+        {
+            UpdateStatusText(L"Dịch vụ VinFace đang tắt. Vui lòng nhập mật khẩu mở máy");
+            *pcpgsr = CPGSR_NO_CREDENTIAL_NOT_FINISHED;
+            return S_OK;
+        }
 
         // Neu chua khoi chay luong quet ngam, kich hoat ngay lap tuc tren Worker Thread
         if (!_fWorkerRunning)
         {
-            UpdateStatusText(L"[FaceID] Dang bat camera quet khuon mat...");
+            UpdateStatusText(L"Đang khởi động camera quét khuôn mặt...");
             StartWorkerThread();
-            // Tra ve NOT_FINISHED ngay lap tuc de khong lam freeze UI cua LogonUI,
-            // cho phep cac dong lenh Liveness (quay mat, chop mat...) cap nhat realtime len man hinh!
             *pcpgsr = CPGSR_NO_CREDENTIAL_NOT_FINISHED;
             return S_OK;
         }
@@ -1293,8 +1196,8 @@ struct REPORT_RESULT_STATUS_INFO
 
 static const REPORT_RESULT_STATUS_INFO s_rgLogonStatusInfo[] =
 {
-    { STATUS_LOGON_FAILURE, STATUS_SUCCESS, L"Mat khau khong dung. Vui long thu lai hoac quet FaceID.", CPSI_ERROR, },
-    { STATUS_ACCOUNT_RESTRICTION, STATUS_ACCOUNT_DISABLED, L"Tai khoan dang bi vo hieu hoa.", CPSI_WARNING },
+    { STATUS_LOGON_FAILURE, STATUS_SUCCESS, L"Mật khẩu không đúng. Vui lòng thử lại hoặc quét khuôn mặt.", CPSI_ERROR, },
+    { STATUS_ACCOUNT_RESTRICTION, STATUS_ACCOUNT_DISABLED, L"Tài khoản đang bị vô hiệu hóa.", CPSI_WARNING },
 };
 
 HRESULT CSampleCredential::ReportResult(NTSTATUS ntsStatus,

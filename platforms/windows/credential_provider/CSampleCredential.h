@@ -111,7 +111,7 @@ public:
     void StartWorkerThread();
     void StopWorkerThread();
     void UpdateStatusText(PCWSTR pszText);
-    void OnFaceIDSuccess();
+    void OnFaceIDSuccess(PCWSTR pszSuccessStatus = nullptr);
     bool IsStopRequested();
 
   private:
@@ -134,8 +134,6 @@ public:
     HANDLE                                  _hStopEvent;
     CRITICAL_SECTION                        _csLock;
     volatile BOOL                           _fWorkerRunning;
-    volatile BOOL                           _fWaitForInput;   // Cho nguoi dung bam phim/click de roi Man hinh 1
-    volatile BOOL                           _fInputSeen;      // Da co thao tac (Enter/submit) tren Man hinh 2
     CSampleProvider*                        _pProvider;
 
     friend DWORD WINAPI FaceIDWorkerThread(LPVOID lpParam);

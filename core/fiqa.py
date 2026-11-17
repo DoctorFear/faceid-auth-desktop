@@ -1,6 +1,19 @@
 from dataclasses import dataclass
 import cv2
 import numpy as np
+from core.constants import (
+    FIQA_MIN_SHARPNESS,
+    FIQA_MIN_BRIGHTNESS,
+    FIQA_MAX_BRIGHTNESS,
+    FIQA_MAX_YAW,
+    FIQA_MAX_PITCH,
+    FIQA_MAX_ROLL,
+    FIQA_MOIRE_THRESHOLD,
+    POSE_YAW_SIGN,
+    POSE_PITCH_SIGN,
+    POSE_PITCH_CENTER_RATIO,
+    POSE_PITCH_SCALE,
+)
 
 # Là một dataclass trả về báo cáo chi tiết về khuôn mặt vừa quét:
 @dataclass
@@ -24,13 +37,13 @@ class QualityMetrics:
 class FaceQualityAssessor:
     def __init__(
         self,
-        min_sharpness: float = 35.0,
-        min_brightness: float = 35.0,
-        max_brightness: float = 235.0,
-        max_yaw: float = 25.0,
-        max_pitch: float = 22.0,
-        max_roll: float = 20.0,
-        moire_threshold: float = 0.50
+        min_sharpness: float = FIQA_MIN_SHARPNESS,
+        min_brightness: float = FIQA_MIN_BRIGHTNESS,
+        max_brightness: float = FIQA_MAX_BRIGHTNESS,
+        max_yaw: float = FIQA_MAX_YAW,
+        max_pitch: float = FIQA_MAX_PITCH,
+        max_roll: float = FIQA_MAX_ROLL,
+        moire_threshold: float = FIQA_MOIRE_THRESHOLD
     ):
         self.min_sharpness = min_sharpness
         self.min_brightness = min_brightness
@@ -113,7 +126,7 @@ class FaceQualityAssessor:
         return float(np.mean(gray_roi))
     # Ước lượng góc xoay 3D
     @staticmethod
-    def estimate_pose(landmarks: np.ndarray, frame_w: int, frame_h: int, yaw_sign: int = 1, pitch_sign: int = -1) -> tuple[float, float, float]:
+    def estimate_pose(landmarks: np.ndarray, frame_w: int, frame_h: int, yaw_sign: int = 1, pitch_sign: int = POSE_PITCH_SIGN) -> tuple[float, float, float]:
         re, le, nose, rm, lm = landmarks[:5]
         d_eye = le - re
         roll = float(np.degrees(np.arctan2(d_eye[1], d_eye[0])))
@@ -128,7 +141,7 @@ class FaceQualityAssessor:
         face_height = float(np.linalg.norm(mouth_center - eye_center)) + 1e-6
         nose_relative = float(nose[1] - eye_center[1])
         actual_ratio = nose_relative / face_height
-        pitch = float((actual_ratio - 0.42) * 110.0) * pitch_sign
+        pitch = float((actual_ratio - POSE_PITCH_CENTER_RATIO) * POSE_PITCH_SCALE) * pitch_sign
 
         return yaw, pitch, roll
     # tổng tài ra quyết định
@@ -218,3 +231,6 @@ class FaceQualityAssessor:
             yaw=yaw, pitch=pitch, roll=roll,
             reason=reason
         )
+
+# Alias for backward compatibility
+ImageQualityAssessor = FaceQualityAssessor

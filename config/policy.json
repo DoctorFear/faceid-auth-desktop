@@ -30,33 +30,33 @@
       "description": "Xac thuc do hoa cho cac tac vu can quyen root (vd: cai dat phan mem)",
       "decision_threshold": 0.68,
       "sim_threshold": 0.62,
-      "require_active_liveness": true,
+      "require_active_liveness": false,
       "active_timeout_sec": 8.0,
       "max_failures_before_lock": 3,
       "lockout_sec": 45,
       "gnome_keyring_impact": "NONE",
-      "auto_scan": false
+      "auto_scan": true
     },
     "gnome-screensaver": {
       "description": "Mo khoa man hinh (Lock Screen): Uu tien mo khoa nhanh, tien loi",
       "decision_threshold": 0.68,
       "sim_threshold": 0.62,
-      "require_active_liveness": true,
+      "require_active_liveness": false,
       "active_timeout_sec": 8.0,
       "max_failures_before_lock": 5,
       "lockout_sec": 30,
       "gnome_keyring_impact": "NONE_KEYRING_ALREADY_UNLOCKED",
-      "auto_scan": false
+      "auto_scan": true
     },
     "windows-unlock": {
       "description": "Mo khoa man hinh Windows (Win + L Credential Provider): Mo khoa nhanh, chong gia mao",
       "decision_threshold": 0.68,
       "sim_threshold": 0.62,
-      "require_active_liveness": true,
+      "require_active_liveness": false,
       "active_timeout_sec": 8.0,
       "max_failures_before_lock": 3,
       "lockout_sec": 45,
-      "auto_scan": false
+      "auto_scan": true
     },
     "windows-logon": {
       "description": "Dang nhap Windows LogonUI: Mo khoa nhanh, tu dong vao may",
@@ -82,10 +82,10 @@
     },
     "default": {
       "description": "Chinh sach mac dinh neu service khong nam trong danh sach tren",
-      "decision_threshold": 0.7,
+      "decision_threshold": 0.68,
       "sim_threshold": 0.62,
       "require_active_liveness": false,
-      "active_timeout_sec": 5.0,
+      "active_timeout_sec": 8.0,
       "max_failures_before_lock": 3,
       "lockout_sec": 45
     }
@@ -95,5 +95,9 @@
     "zero_image_retention": true,
     "template_format": "ArcFace 512-D Normalized Vector",
     "biometric_reversible": false
+  },
+  "rate_limit": {
+    "max_consecutive_failures": 3,
+    "lockout_duration_sec": 45.0
   }
 }

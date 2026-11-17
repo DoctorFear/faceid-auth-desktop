@@ -22,6 +22,18 @@ from core.anti_spoof import MiniFASNetDetector
 from core.embedder import ArcFaceEmbedder
 from core.liveness import ChallengeResponseDetector, ActionType
 from core.fusion import MultiModalFusionEngine
+from core.constants import (
+    DEFAULT_CHALLENGE_TIMEOUT_SEC,
+    PAD_REAL_THRESHOLD,
+    DEFAULT_SIM_THRESHOLD,
+    DEFAULT_DECISION_THRESHOLD,
+    POST_LIVENESS_WINDOW_SEC,
+    MOIRE_PASSIVE_PENALTY,
+    MOIRE_FIQA_PENALTY,
+    LOW_FIQA_PENALTY,
+    TOP1_TEMPLATE_WEIGHT,
+    TOP2_TEMPLATE_WEIGHT,
+)
 
 EMB_DIR = os.path.join(BASE_DIR, "data", "embeddings")
 
@@ -128,13 +140,13 @@ def main():
         print("[*] Khoi tao module AI (preload MediaPipe & warm-up)...")
         detector = YuNetDetector()
         fiqa = FaceQualityAssessor()
-        challenge = ChallengeResponseDetector(timeout_sec=16.0, preload_hands=True)
-        anti_spoof = MiniFASNetDetector(real_threshold=0.60)
+        challenge = ChallengeResponseDetector(timeout_sec=DEFAULT_CHALLENGE_TIMEOUT_SEC, preload_hands=True)
+        anti_spoof = MiniFASNetDetector(real_threshold=PAD_REAL_THRESHOLD)
         embedder = ArcFaceEmbedder()
-        fusion = MultiModalFusionEngine(sim_threshold=0.62, decision_threshold=0.65)
+        fusion = MultiModalFusionEngine(sim_threshold=DEFAULT_SIM_THRESHOLD, decision_threshold=DEFAULT_DECISION_THRESHOLD)
 
-        ACTIVE_WINDOW_SEC = 1.2       # Thoi gian hop le toi da (giay) sau khi pass challenge de hoan tat match template
-        MAX_CONSECUTIVE_REJECTS = 3   # So frame mismatch lien tiep toi da truoc khi huy phien liveness
+        ACTIVE_WINDOW_SEC = POST_LIVENESS_WINDOW_SEC  # Thoi gian hop le toi da (giay) sau khi pass challenge de hoan tat match template
+        MAX_CONSECUTIVE_REJECTS = 5   # So frame mismatch lien tiep toi da truoc khi huy phien liveness
 
         current_action = challenge.reset_challenge()
         active_success = False
@@ -309,15 +321,15 @@ def main():
                             # Voi ke mao danh: best_sim co the do may rui mot vector cao, second_sim se tut sau -> bi ha diem ngay
                             if len(sim_pairs) >= 2:
                                 second_sim = sim_pairs[1][0]
-                                effective_sim = 0.70 * best_sim + 0.30 * second_sim
+                                effective_sim = TOP1_TEMPLATE_WEIGHT * best_sim + TOP2_TEMPLATE_WEIGHT * second_sim
                             else:
                                 effective_sim = best_sim
 
                             t0 = time.time()
                             # FFT Moire soft-indicator: neu phat hien van Moire man hinh, ap dung soft penalty
                             # ho tro MiniFASNet ha diem tin cay thay vi Hard-Reject cuc doan
-                            effective_passive = passive_score if quality.is_live_fft else (passive_score * 0.82)
-                            fiqa_weight = (1.0 if quality.passed else 0.4) * (1.0 if quality.is_live_fft else 0.85)
+                            effective_passive = passive_score if quality.is_live_fft else (passive_score * MOIRE_PASSIVE_PENALTY)
+                            fiqa_weight = (1.0 if quality.passed else LOW_FIQA_PENALTY) * (1.0 if quality.is_live_fft else MOIRE_FIQA_PENALTY)
 
                             decision = fusion.evaluate_fused(
                                 passive_score=effective_passive,

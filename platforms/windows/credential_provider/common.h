@@ -49,13 +49,13 @@ static const FIELD_STATE_PAIR s_rgFieldStatePairs[] =
 static const CREDENTIAL_PROVIDER_FIELD_DESCRIPTOR s_rgCredProvFieldDescriptors[] =
 {
     { SFI_TILEIMAGE,         CPFT_TILE_IMAGE,    L"Image",                                     CPFG_CREDENTIAL_PROVIDER_LOGO  },
-    { SFI_LABEL,             CPFT_SMALL_TEXT,    L"FaceID Hybrid",                             CPFG_CREDENTIAL_PROVIDER_LABEL },
-    { SFI_LARGE_TEXT,        CPFT_LARGE_TEXT,    L"FaceID Hybrid Authentication"                                              },
-    { SFI_PASSWORD,          CPFT_PASSWORD_TEXT, L"Mat khau du phong hoac Enter de quet FaceID"                                },
+    { SFI_LABEL,             CPFT_SMALL_TEXT,    L"VinFace Authentication",                    CPFG_CREDENTIAL_PROVIDER_LABEL },
+    { SFI_LARGE_TEXT,        CPFT_LARGE_TEXT,    L"VinFace Authentication"                                                    },
+    { SFI_PASSWORD,          CPFT_PASSWORD_TEXT, L"Nhập mật khẩu hoặc quét mặt."                                          },
     { SFI_SUBMIT_BUTTON,     CPFT_SUBMIT_BUTTON, L"Submit"                                                                    },
-    { SFI_LAUNCHWINDOW_LINK, CPFT_COMMAND_LINK,  L"Quet lai khuon mat FaceID (Camera)"                                        },
+    { SFI_LAUNCHWINDOW_LINK, CPFT_COMMAND_LINK,  L"Quét lại khuôn mặt VinFace"                                                },
     { SFI_HIDECONTROLS_LINK, CPFT_COMMAND_LINK,  L"Hide additional controls"                                                  },
-    { SFI_FULLNAME_TEXT,     CPFT_SMALL_TEXT,    L"Trang thai FaceID"                                                         },
+    { SFI_FULLNAME_TEXT,     CPFT_LARGE_TEXT,    L"Trạng thái VinFace"                                                        },
     { SFI_DISPLAYNAME_TEXT,  CPFT_SMALL_TEXT,    L"Display name: "                                                            },
     { SFI_LOGONSTATUS_TEXT,  CPFT_SMALL_TEXT,    L"Logon status: "                                                            },
     { SFI_CHECKBOX,          CPFT_CHECKBOX,      L"Checkbox"                                                                  },

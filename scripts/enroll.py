@@ -12,6 +12,7 @@ from typing import Optional
 
 import cv2
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 
 try:
     import pwd
@@ -23,6 +24,7 @@ sys.path.append(BASE_DIR)
 
 from core.detector import YuNetDetector
 from core.embedder import ArcFaceEmbedder
+from core.constants import MIN_FACE_SIZE_PX, POSE_YAW_SIGN, POSE_PITCH_SIGN, FIQA_MAX_YAW, FIQA_MAX_PITCH
 
 log = logging.getLogger("enroll")
 DEFAULT_EMBEDDINGS_DIR = os.environ.get(
@@ -42,13 +44,13 @@ class Config:
     step_timeout_sec: float = 60.0
     angle_tolerance: float = 20.0    # Dung sai 20 do giup de dat phan tram chup hon
     in_range_score: float = 0.90     # Nguong 90% de vao vung chup tu dong
-    yaw_sign: int = -1               # Huong quay dong bo theo hien thi guong
-    pitch_sign: int = -1
+    yaw_sign: int = POSE_YAW_SIGN    # Huong quay dong bo theo hien thi guong
+    pitch_sign: int = POSE_PITCH_SIGN
     max_roll_deg: float = 25.0       # Cho phep do nghieng dau thoai mai hon (25 do)
-    min_face_px: int = 80
+    min_face_px: int = MIN_FACE_SIZE_PX
     edge_margin_frac: float = 0.15
-    first_step_max_yaw: float = 22.0
-    first_step_max_pitch: float = 22.0
+    first_step_max_yaw: float = FIQA_MAX_YAW
+    first_step_max_pitch: float = FIQA_MAX_PITCH
     max_read_failures: int = 60
     debug: bool = False
 
@@ -62,17 +64,17 @@ class Step:
     target_pitch: tuple[float, float]
 
 
-# Cac moc goc da duoc ha do cao cuc doan xuong muc nguoc/cui tu nhien
+# Cac moc goc da duoc ha do cao cuc doan xuong muc nguoc/cui tu nhien (Ho tro tieng Viet co dau chuan xac)
 STEPS = [
-    Step("THANG", "BUOC 1/5: NHIN THANG", "Nhin thang truc dien vao camera",
+    Step("THANG", "BƯỚC 1/5: NHÌN THẲNG", "Vui lòng nhìn thẳng trực diện vào ống kính camera",
          target_yaw=(-8, 8), target_pitch=(-8, 8)),
-    Step("TRAI", "BUOC 2/5: QUAY TRAI", "Quay nhe mat sang ben TRAI cua ban <--",
+    Step("TRAI", "BƯỚC 2/5: QUAY TRÁI", "Nghiêng nhẹ khuôn mặt sang bên TRÁI",
          target_yaw=(-35, -12), target_pitch=(-12, 12)),
-    Step("PHAI", "BUOC 3/5: QUAY PHAI", "Quay nhe mat sang ben PHAI cua ban -->",
+    Step("PHAI", "BƯỚC 3/5: QUAY PHẢI", "Nghiêng nhẹ khuôn mặt sang bên PHẢI",
          target_yaw=(12, 35), target_pitch=(-12, 12)),
-    Step("NGUOC", "BUOC 4/5: NGUOC LEN", "Hoi nang nhe cam / mat len [^]",
+    Step("NGUOC", "BƯỚC 4/5: NGẨNG ĐẦU", "Hơi nâng nhẹ cằm lên phía trên",
          target_yaw=(-14, 14), target_pitch=(6, 22)),
-    Step("CUI", "BUOC 5/5: CUI XUONG", "Hoi cui nhe cam / dau xuong [v]",
+    Step("CUI", "BƯỚC 5/5: CÚI ĐẦU", "Hơi cúi nhẹ cằm xuống phía dưới",
          target_yaw=(-14, 14), target_pitch=(-22, -6)),
 ]
 
@@ -214,10 +216,10 @@ def check_face_basic(frame_bgr: np.ndarray, box: tuple, cfg: Config) -> str | No
     h, w = frame_bgr.shape[:2]
     bw, bh = right - left, bottom - top
     if bh < cfg.min_face_px:
-        return "Mat qua xa, lai gan hon"
+        return "Khuôn mặt quá xa, vui lòng tiến lại gần hơn"
     mx, my = bw * cfg.edge_margin_frac, bh * cfg.edge_margin_frac
     if left < -mx or top < -my or right > w + mx or bottom > h + my:
-        return "Mat bi cat o mep, lui ra giua khung hinh"
+        return "Khuôn mặt bị lệch mép, vui lòng đưa vào trung tâm"
     return None
 
 
@@ -246,43 +248,201 @@ def open_camera(cfg: Config) -> cv2.VideoCapture:
         cap.read()
     return cap
 
-# ve thong bao dieu chinh khi chup hinh
-def draw_hud(img, step: Step, yaw: float, pitch: float, percent: int, in_range: bool,
-             hold_frac: float, warning: str, flash: bool, box_mirrored: tuple | None):
-    h, w = img.shape[:2]
-    status_color = (0, 255, 0) if in_range else (0, 200, 255) if percent >= 60 else (0, 0, 255)
+# Ham ve text Unicode tieng Viet co dau sac net bang PIL voi Font Segoe UI (Font chuan hien dai cua Windows)
+_FONT_CACHE = {}
+def get_font(size: int = 18, bold: bool = False):
+    font_key = (size, bold)
+    if font_key not in _FONT_CACHE:
+        font_path = "C:\\Windows\\Fonts\\segoeuib.ttf" if bold else "C:\\Windows\\Fonts\\segoeui.ttf"
+        if not os.path.exists(font_path):
+            font_path = "C:\\Windows\\Fonts\\arial.ttf"
+        try:
+            _FONT_CACHE[font_key] = ImageFont.truetype(font_path, size)
+        except Exception:
+            _FONT_CACHE[font_key] = ImageFont.load_default()
+    return _FONT_CACHE[font_key]
+
+def draw_vn_text(img: np.ndarray, text: str, pos: tuple[int, int],
+                 size: int = 18, color_bgr: tuple[int, int, int] = (255, 255, 255), bold: bool = False) -> None:
+    font = get_font(size, bold)
+    color_rgb = (color_bgr[2], color_bgr[1], color_bgr[0])
+    
+    pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    draw = ImageDraw.Draw(pil_img)
+    draw.text(pos, text, font=font, fill=color_rgb)
+    
+    res_bgr = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
+    img[:] = res_bgr[:]
+
+def draw_vn_text_centered(img: np.ndarray, text: str, center_rect: tuple[int, int, int, int],
+                          size: int = 18, color_bgr: tuple[int, int, int] = (255, 255, 255), bold: bool = False) -> None:
+    """Can giua chinh xac tuyet doi ca chieu ngang (X) va chieu doc (Y) trong khung chu nhat."""
+    font = get_font(size, bold)
+    rx1, ry1, rx2, ry2 = center_rect
+    rw, rh = rx2 - rx1, ry2 - ry1
+
+    # Do kich thuoc bounding box cua doan chu bang PIL bbox
+    bbox = font.getbbox(text)  # (left, top, right, bottom)
+    tw = bbox[2] - bbox[0]
+    th = bbox[3] - bbox[1]
+
+    tx = int(rx1 + (rw - tw) / 2.0 - bbox[0])
+    ty = int(ry1 + (rh - th) / 2.0 - bbox[1])
+
+    color_rgb = (color_bgr[2], color_bgr[1], color_bgr[0])
+    pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    draw = ImageDraw.Draw(pil_img)
+    draw.text((tx, ty), text, font=font, fill=color_rgb)
+
+    res_bgr = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
+    img[:] = res_bgr[:]
+
+def draw_rounded_card(img: np.ndarray, pt1: tuple[int, int], pt2: tuple[int, int],
+                      bg_bgr: tuple[int, int, int], border_bgr: tuple[int, int, int] | None = None,
+                      radius: int = 12) -> None:
+    """Ve hop Card bo tron 4 goc phong cach UI hien dai bang PIL."""
+    x1, y1 = pt1
+    x2, y2 = pt2
+    pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    draw = ImageDraw.Draw(pil_img)
+    
+    fill_rgb = (bg_bgr[2], bg_bgr[1], bg_bgr[0])
+    outline_rgb = (border_bgr[2], border_bgr[1], border_bgr[0]) if border_bgr else None
+    
+    draw.rounded_rectangle([x1, y1, x2, y2], radius=radius, fill=fill_rgb, outline=outline_rgb, width=1)
+    
+    res_bgr = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
+    img[:] = res_bgr[:]
+
+# Canvas layout: Giu nguyen video camera 640x480 o giua, them 2 banner rieng:
+# Top Bar: 76px (chua tieu de, chi dan hanh dong, phan tram %)
+# Bottom Bar: 64px (chua thanh tien do giu goc, canh bao)
+# Tong kich thuoc: 640 x (76 + 480 + 64) = 640 x 620
+HEADER_HEIGHT = 76
+CAM_HEIGHT = 480
+CAM_WIDTH = 640
+FOOTER_HEIGHT = 64
+TOTAL_WIDTH = CAM_WIDTH
+TOTAL_HEIGHT = HEADER_HEIGHT + CAM_HEIGHT + FOOTER_HEIGHT  # 620px
+
+def make_enroll_canvas(cam_frame_bgr: np.ndarray) -> np.ndarray:
+    canvas = np.zeros((TOTAL_HEIGHT, TOTAL_WIDTH, 3), dtype=np.uint8)
+    # Nen Background toan man hinh: Mau sang tinh te #f0f7ff giong het Modern GUI (BGR: 255, 247, 240)
+    canvas[:, :] = (255, 247, 240)
+    # Dat tron ven camera vao giua (khong bi che 1 pixel nao!)
+    canvas[HEADER_HEIGHT:HEADER_HEIGHT + CAM_HEIGHT, :CAM_WIDTH] = cam_frame_bgr
+    return canvas
+
+# ve man hinh cho (Welcome / Ready Screen)
+def draw_welcome_hud(canvas: np.ndarray, username: str, box_mirrored: tuple | None, warning: str = ""):
+    if box_mirrored is not None:
+        x1, y1, x2, y2 = (int(v) for v in box_mirrored)
+        cy1, cy2 = y1 + HEADER_HEIGHT, y2 + HEADER_HEIGHT
+        cv2.rectangle(canvas, (x1, cy1), (x2, cy2), (235, 99, 37), 2)  # Xanh Blue Modern GUI
+        clen = 16
+        for bx, by, dx, dy in [(x1, cy1, 1, 1), (x2, cy1, -1, 1), (x1, cy2, 1, -1), (x2, cy2, -1, -1)]:
+            cv2.line(canvas, (bx, by), (bx + dx * clen, by), (235, 99, 37), 3)
+            cv2.line(canvas, (bx, by), (bx, by + dy * clen), (235, 99, 37), 3)
+
+    # 1. Top Card Header: Nen trang tinh, vien xanh nhe giong Modern GUI
+    draw_rounded_card(canvas, (12, 10), (TOTAL_WIDTH - 12, HEADER_HEIGHT - 8),
+                      bg_bgr=(255, 255, 255), border_bgr=(254, 242, 224), radius=12)
+    name_display = username.upper() if username else "NGƯỜI DÙNG"
+    draw_vn_text(canvas, "FACEID HYBRID  •  ĐĂNG KÝ KHUÔN MẶT", (26, 17), size=16, color_bgr=(235, 99, 37), bold=True)
+    draw_vn_text(canvas, f"Tài khoản: {name_display}   |   Quy trình lấy mẫu: 5 góc cử động", (26, 42), size=13, color_bgr=(100, 116, 139))
+
+    # 2. Bottom Card Footer (Can giua toan bo thong diep)
+    fy = HEADER_HEIGHT + CAM_HEIGHT
+    card_rect = (12, fy + 8, TOTAL_WIDTH - 12, TOTAL_HEIGHT - 10)
+    if warning:
+        draw_rounded_card(canvas, (12, fy + 8), (TOTAL_WIDTH - 12, TOTAL_HEIGHT - 10),
+                          bg_bgr=(242, 242, 254), border_bgr=(180, 180, 244), radius=12)
+        draw_vn_text_centered(canvas, warning.upper(), card_rect, size=15, color_bgr=(60, 60, 220), bold=True)
+    else:
+        draw_rounded_card(canvas, (12, fy + 8), (TOTAL_WIDTH - 12, TOTAL_HEIGHT - 10),
+                          bg_bgr=(255, 255, 255), border_bgr=(254, 242, 224), radius=12)
+        draw_vn_text_centered(canvas, "NHẤN PHÍM [ SPACE ] ĐỂ BẮT ĐẦU CHỤP", card_rect, size=16, color_bgr=(105, 185, 16), bold=True)
+
+# ve thong bao dieu chinh khi chup hinh (Top & Bottom Bar - Dong bo Style Modern GUI)
+def draw_hud(canvas: np.ndarray, step: Step, percent: int, in_range: bool,
+             hold_frac: float, warning: str, flash: bool, box_mirrored: tuple | None,
+             extra_boxes_mirrored: list | None = None):
+    # Palette mau giong Modern GUI Vibrant:
+    # 100%: Xanh la Emerald (105, 185, 16), >=60%: Xanh duong Sky (235, 99, 37), <60%: Cam/Do Rose (60, 60, 230)
+    status_bgr = (105, 185, 16) if in_range else ((235, 99, 37) if percent >= 60 else (60, 60, 230))
+
+    # 1. Ve khung khuon mat tren vung camera
+    if extra_boxes_mirrored:
+        for eb in extra_boxes_mirrored:
+            ex1, ey1, ex2, ey2 = (int(v) for v in eb)
+            cy1, cy2 = ey1 + HEADER_HEIGHT, ey2 + HEADER_HEIGHT
+            cv2.rectangle(canvas, (ex1, cy1), (ex2, cy2), (60, 60, 230), 2)
+            draw_vn_text(canvas, "NGƯỜI PHỤ", (ex1, max(HEADER_HEIGHT + 8, cy1 - 22)), size=12, color_bgr=(60, 60, 230), bold=True)
 
     if box_mirrored is not None:
         x1, y1, x2, y2 = (int(v) for v in box_mirrored)
-        cv2.rectangle(img, (x1, y1), (x2, y2), status_color, 2)
-
-    cv2.rectangle(img, (0, 0), (w, 75), (20, 20, 20), -1)
-    cv2.putText(img, step.title, (15, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(img, step.guide, (15, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 1, cv2.LINE_AA)
-
-    cv2.rectangle(img, (w - 120, 8), (w - 12, 68), (35, 35, 35), -1)
-    cv2.putText(img, f"{percent}%", (w - 108, 52), cv2.FONT_HERSHEY_SIMPLEX, 1.0, status_color, 3, cv2.LINE_AA)
-
-    cv2.rectangle(img, (0, 75), (w, 86), (40, 40, 40), -1)
-    if hold_frac > 0:
-        fill_w = int(w * hold_frac)
-        cv2.rectangle(img, (0, 75), (fill_w, 86), (0, 255, 0), -1)
-
-    target_info = f"Muc tieu: Yaw[{step.target_yaw[0]}..{step.target_yaw[1]}]  Pitch[{step.target_pitch[0]}..{step.target_pitch[1]}]"
-    actual_info = f"Hien tai: Yaw = {yaw:+.1f}   Pitch = {pitch:+.1f}"
-    cv2.putText(img, target_info, (15, h - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (180, 180, 180), 1, cv2.LINE_AA)
-    cv2.putText(img, actual_info, (15, h - 42), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 255), 2, cv2.LINE_AA)
-
-    if warning:
-        cv2.putText(img, warning, (15, h - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 100, 255), 2, cv2.LINE_AA)
-    elif in_range:
-        cv2.putText(img, "DANG GIU TU THE... TU DONG CHUP!", (15, h - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 0), 2, cv2.LINE_AA)
+        cy1, cy2 = y1 + HEADER_HEIGHT, y2 + HEADER_HEIGHT
+        cv2.rectangle(canvas, (x1, cy1), (x2, cy2), status_bgr, 2)
+        clen = 16
+        for bx, by, dx, dy in [(x1, cy1, 1, 1), (x2, cy1, -1, 1), (x1, cy2, 1, -1), (x2, cy2, -1, -1)]:
+            cv2.line(canvas, (bx, by), (bx + dx * clen, by), status_bgr, 3)
+            cv2.line(canvas, (bx, by), (bx, by + dy * clen), status_bgr, 3)
 
     if flash:
-        cv2.putText(img, "DA CHUP!", (w // 2 - 90, h // 2), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
+        cam_roi = canvas[HEADER_HEIGHT:HEADER_HEIGHT + CAM_HEIGHT, :CAM_WIDTH]
+        flash_overlay = np.full_like(cam_roi, 255)
+        cv2.addWeighted(flash_overlay, 0.40, cam_roi, 0.60, 0, cam_roi)
+        draw_rounded_card(canvas, (CAM_WIDTH // 2 - 140, HEADER_HEIGHT + CAM_HEIGHT // 2 - 28),
+                          (CAM_WIDTH // 2 + 140, HEADER_HEIGHT + CAM_HEIGHT // 2 + 28),
+                          bg_bgr=(255, 255, 255), border_bgr=(105, 185, 16), radius=14)
+        draw_vn_text_centered(canvas, "ĐÃ LƯU GÓC CHỤP!",
+                              (CAM_WIDTH // 2 - 140, HEADER_HEIGHT + CAM_HEIGHT // 2 - 28,
+                               CAM_WIDTH // 2 + 140, HEADER_HEIGHT + CAM_HEIGHT // 2 + 28),
+                              size=18, color_bgr=(105, 185, 16), bold=True)
+
+    # 2. TOP CARD: Nen trang sang trong (#ffffff), vien nhe sky (#e0f2fe)
+    draw_rounded_card(canvas, (12, 10), (TOTAL_WIDTH - 12, HEADER_HEIGHT - 8),
+                      bg_bgr=(255, 255, 255), border_bgr=(254, 242, 224), radius=12)
+    
+    # Chu mau xanh dam Navy (#0f172a) va xam hien dai (#334155)
+    draw_vn_text(canvas, step.title, (26, 16), size=16, color_bgr=(199, 132, 2), bold=True)  # Xanh Blue Modern GUI
+    draw_vn_text(canvas, step.guide, (26, 42), size=14, color_bgr=(71, 85, 105))
+
+    # Badge % hình Pill bo tròn: Nen nhe, vien status_bgr, so can giua tuyet doi
+    pill_rect = (TOTAL_WIDTH - 105, 14, TOTAL_WIDTH - 22, HEADER_HEIGHT - 14)
+    # Mau nen pill: Xanh la nhe (235, 253, 240) neu 100%, Xanh duong nhe neu >=60%
+    pill_bg = (235, 253, 240) if in_range else ((254, 245, 235) if percent >= 60 else (240, 240, 254))
+    draw_rounded_card(canvas, (pill_rect[0], pill_rect[1]), (pill_rect[2], pill_rect[3]),
+                      bg_bgr=pill_bg, border_bgr=status_bgr, radius=18)
+    draw_vn_text_centered(canvas, f"{percent}%", pill_rect, size=18, color_bgr=status_bgr, bold=True)
+
+    # 3. BOTTOM CARD: Nen trang sang trong
+    fy = HEADER_HEIGHT + CAM_HEIGHT
+    draw_rounded_card(canvas, (12, fy + 8), (TOTAL_WIDTH - 12, TOTAL_HEIGHT - 10),
+                      bg_bgr=(255, 255, 255), border_bgr=(254, 242, 224), radius=12)
+
+    # Thanh tiến độ nhuyễn mịn (Smooth Progress Bar)
+    bar_x1, bar_x2 = 24, TOTAL_WIDTH - 24
+    bar_y1, bar_y2 = fy + 16, fy + 24
+    cv2.rectangle(canvas, (bar_x1, bar_y1), (bar_x2, bar_y2), (240, 247, 255), -1)  # Nen ranh nhe
+    if hold_frac > 0:
+        fill_w = int((bar_x2 - bar_x1) * hold_frac)
+        cv2.rectangle(canvas, (bar_x1, bar_y1), (bar_x1 + fill_w, bar_y2), (105, 185, 16), -1)
+
+    # Dòng chữ trạng thái duoc can giua hoan toan
+    text_rect = (24, fy + 28, TOTAL_WIDTH - 24, TOTAL_HEIGHT - 12)
+    if warning:
+        if "nguoi" in warning.lower() or "người" in warning.lower():
+            draw_vn_text_centered(canvas, warning.upper(), text_rect, size=14, color_bgr=(60, 60, 230), bold=True)
+        else:
+            draw_vn_text_centered(canvas, warning, text_rect, size=14, color_bgr=(60, 60, 230), bold=True)
+    elif in_range:
+        draw_vn_text_centered(canvas, "Tư thế chuẩn xác • Vui lòng giữ yên để lưu mẫu...", text_rect, size=14, color_bgr=(105, 185, 16), bold=True)
+    else:
+        draw_vn_text_centered(canvas, "Điều chỉnh hướng mặt theo chỉ dẫn để đạt 100%", text_rect, size=14, color_bgr=(100, 116, 139))
 
 # Chup anh + validate
-def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
+def capture_encodings(cfg: Config, username: str = "") -> Optional[list[np.ndarray]]:
     from core.fiqa import FaceQualityAssessor
 
     detector = YuNetDetector()
@@ -291,19 +451,80 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
 
     cap = open_camera(cfg)
 
-    encodings: list[np.ndarray] = []
-    step_idx = 0
-    step_start = time.time()
-    hold_start = None
-    cooldown_until = 0.0
-    flash_until = 0.0
-    smooth: tuple[float, float] | None = None
-    baseline = (0.0, 0.0)
-    best = None
-    read_fail = 0
-    last_debug = 0.0
+    # -------------------------------------------------------------
+    # GIAI DOAN 0: MAN HINH CHO (WELCOME & READY SCREEN)
+    # Nguoi dung can chu dong nhan phim [SPACE] de bat dau tien trinh chup!
+    # -------------------------------------------------------------
+    cv2.namedWindow(WINDOW, cv2.WINDOW_AUTOSIZE)
+    # Can giua cua so man hinh may tinh tren Windows
+    try:
+        import ctypes
+        u32 = ctypes.windll.user32
+        sw, sh = u32.GetSystemMetrics(0), u32.GetSystemMetrics(1)
+        win_x = max(0, (sw - TOTAL_WIDTH) // 2)
+        win_y = max(0, (sh - TOTAL_HEIGHT) // 2 - 30)
+        cv2.moveWindow(WINDOW, win_x, win_y)
+    except Exception:
+        pass
+    ready_to_start = False
+    read_fail_welcome = 0
 
     try:
+        while not ready_to_start:
+            ok, frame = cap.read()
+            if not ok or frame is None:
+                read_fail_welcome += 1
+                if read_fail_welcome > cfg.max_read_failures:
+                    log.error("Camera khong tra ve khung hinh tai man hinh cho.")
+                    return None
+                time.sleep(0.02)
+                continue
+            read_fail_welcome = 0
+
+            h, w = frame.shape[:2]
+            dets = detector.detect(frame)
+            prev_box_mirrored = None
+            prev_warning = ""
+
+            if len(dets) > 0:
+                dets.sort(key=lambda d: (d[0][2] - d[0][0]) * (d[0][1] - d[0][3]), reverse=True)
+                pb = dets[0][0]
+                prev_box_mirrored = (w - pb[1], pb[0], w - pb[3], pb[2])
+                if len(dets) > 1:
+                    p_area = (pb[2] - pb[0]) * (pb[1] - pb[3])
+                    for od in dets[1:]:
+                        ob = od[0]
+                        if (ob[2] - ob[0]) * (ob[1] - ob[3]) > 0.55 * p_area:
+                            prev_warning = "Phat hien 2 nguoi: Vui long de nguoi ben canh tranh khoi camera"
+                            break
+
+            cam_mirrored = cv2.flip(frame, 1)
+            canvas = make_enroll_canvas(cam_mirrored)
+            draw_welcome_hud(canvas, username, prev_box_mirrored, prev_warning)
+            cv2.imshow(WINDOW, canvas)
+
+            k = cv2.waitKey(15) & 0xFF
+            if k == ord(" "):  # Phím Space
+                ready_to_start = True
+            elif k in (ord("q"), 27):  # Phím Q hoặc ESC
+                log.info("Nguoi dung da huy bo qua trinh dang ky.")
+                return None
+
+        # -------------------------------------------------------------
+        # GIAI DOAN 1: TIEN TRINH CHUP 5 GOC CHUAN
+        # -------------------------------------------------------------
+        encodings: list[np.ndarray] = []
+        step_idx = 0
+        step_start = time.time()
+        hold_start = None
+        cooldown_until = 0.0
+        flash_until = 0.0
+        smooth: tuple[float, float] | None = None
+        baseline = (0.0, 0.0)
+        best = None
+        read_fail = 0
+        last_debug = 0.0
+
         while step_idx < len(STEPS):
             now = time.time()
             if now - step_start > cfg.step_timeout_sec:
@@ -322,13 +543,17 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
 
             step = STEPS[step_idx]
             h, w = frame.shape[:2]
-            detections = detector.detect(frame)
+            raw_detections = detector.detect(frame)
+            
+            # 1. Loc khuon mat rac o qua xa (chieu rong hoac cao < 70px)
+            detections = [d for d in raw_detections if (d[0][2] - d[0][0]) >= 70 and (d[0][1] - d[0][3]) >= 70]
             n_faces = len(detections)
 
             percent, in_range = 0, False
             warning = ""
             hold_frac = 0.0
             box_mirrored = None
+            extra_boxes_mirrored = []
             can_capture = False
             active_box = None
             active_landmarks = None
@@ -338,52 +563,68 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
             if n_faces == 0:
                 warning = "Khong tim thay mat"
                 smooth = None
-            elif n_faces > 1:
-                warning = "Chi 1 nguoi trong khung hinh"
             else:
-                box, landmarks, _ = detections[0]
+                # Sap xep theo dien tich Bounding Box giam dan de tim chu the chinh
+                detections.sort(key=lambda d: (d[0][2] - d[0][0]) * (d[0][1] - d[0][3]), reverse=True)
+                primary_det = detections[0]
+                box, landmarks, _ = primary_det
                 top, right, bottom, left = box
                 box_mirrored = (w - right, top, w - left, bottom)
+                primary_area = (bottom - top) * (right - left)
 
-                pose = assessor.estimate_pose(landmarks, w, h, cfg.yaw_sign, cfg.pitch_sign)
-                if pose is None:
-                    warning = "Dang do goc..."
+                # Kiem tra cac khuon mat phu con lai
+                crowded = False
+                for other_det in detections[1:]:
+                    ob = other_det[0]
+                    other_area = (ob[2] - ob[0]) * (ob[1] - ob[3])
+                    # Neu co khuon mat phu lon (dien tich > 55% chu the chinh) -> Nguy co co nguoi dung ngay ben canh
+                    if other_area > 0.55 * primary_area:
+                        crowded = True
+                        extra_boxes_mirrored.append((w - ob[1], ob[0], w - ob[3], ob[2]))
+
+                if crowded:
+                    warning = "Phát hiện nhiều người: Vui lòng để người phía sau tránh khỏi camera"
+                    smooth = None
                 else:
-                    raw_yaw, raw_pitch, roll = pose
-                    if smooth is None:
-                        smooth = (raw_yaw, raw_pitch)
+                    pose = assessor.estimate_pose(landmarks, w, h, cfg.yaw_sign, cfg.pitch_sign)
+                    if pose is None:
+                        warning = "Đang phân tích hướng khuôn mặt..."
                     else:
-                        smooth = (0.5 * raw_yaw + 0.5 * smooth[0], 0.5 * raw_pitch + 0.5 * smooth[1])
-                    rel_yaw = smooth[0] - baseline[0]
-                    rel_pitch = smooth[1] - baseline[1]
+                        raw_yaw, raw_pitch, roll = pose
+                        if smooth is None:
+                            smooth = (raw_yaw, raw_pitch)
+                        else:
+                            smooth = (0.5 * raw_yaw + 0.5 * smooth[0], 0.5 * raw_pitch + 0.5 * smooth[1])
+                        rel_yaw = smooth[0] - baseline[0]
+                        rel_pitch = smooth[1] - baseline[1]
 
-                    if cfg.debug and now - last_debug > 0.5:
-                        last_debug = now
-                        log.info("[%s] raw yaw=%+.1f pitch=%+.1f roll=%+.1f | rel yaw=%+.1f pitch=%+.1f",
-                                 step.name, raw_yaw, raw_pitch, roll, rel_yaw, rel_pitch)
+                        if cfg.debug and now - last_debug > 0.5:
+                            last_debug = now
+                            log.info("[%s] raw yaw=%+.1f pitch=%+.1f roll=%+.1f | rel yaw=%+.1f pitch=%+.1f",
+                                     step.name, raw_yaw, raw_pitch, roll, rel_yaw, rel_pitch)
 
-                    if step_idx == 0:
-                        ok_pose = (abs(smooth[0]) <= cfg.first_step_max_yaw
-                                   and abs(smooth[1]) <= cfg.first_step_max_pitch)
-                        percent = 100 if ok_pose else 0
-                        in_range = ok_pose
-                    else:
-                        score = min(calc_score(rel_yaw, step.target_yaw, cfg.angle_tolerance),
-                                    calc_score(rel_pitch, step.target_pitch, cfg.angle_tolerance))
-                        percent = int(round(score * 100))
-                        in_range = score >= cfg.in_range_score
+                        if step_idx == 0:
+                            ok_pose = (abs(smooth[0]) <= cfg.first_step_max_yaw
+                                       and abs(smooth[1]) <= cfg.first_step_max_pitch)
+                            percent = 100 if ok_pose else 0
+                            in_range = ok_pose
+                        else:
+                            score = min(calc_score(rel_yaw, step.target_yaw, cfg.angle_tolerance),
+                                        calc_score(rel_pitch, step.target_pitch, cfg.angle_tolerance))
+                            percent = int(round(score * 100))
+                            in_range = score >= cfg.in_range_score
 
-                    basic_err = check_face_basic(frame, box, cfg)
-                    if basic_err:
-                        warning = basic_err
-                    elif abs(roll) > cfg.max_roll_deg:
-                        warning = "Dung nghieng dau sang hai ben"
-                    elif now < cooldown_until:
-                        warning = "Vua chup xong, chuan bi buoc tiep theo..."
-                    else:
-                        can_capture = True
-                        active_box = box
-                        active_landmarks = landmarks
+                        basic_err = check_face_basic(frame, box, cfg)
+                        if basic_err:
+                            warning = basic_err
+                        elif abs(roll) > cfg.max_roll_deg:
+                            warning = "Vui lòng giữ thẳng đầu, không nghiêng sang hai bên"
+                        elif now < cooldown_until:
+                            warning = "Đã lưu góc thành công, chuẩn bị góc tiếp theo..."
+                        else:
+                            can_capture = True
+                            active_box = box
+                            active_landmarks = landmarks
 
             # Kiem tra do on dinh cua dau, dung sai 5.0 giup khong bi reset do run nhe
             is_head_still = False
@@ -405,10 +646,11 @@ def capture_encodings(cfg: Config) -> Optional[list[np.ndarray]]:
                 best = None
                 auto_ready = False
 
-            display = cv2.flip(frame, 1)
-            draw_hud(display, step, rel_yaw, rel_pitch, percent, in_range, hold_frac,
-                     warning, now < flash_until, box_mirrored)
-            cv2.imshow(WINDOW, display)
+            cam_mirrored = cv2.flip(frame, 1)
+            canvas = make_enroll_canvas(cam_mirrored)
+            draw_hud(canvas, step, percent, in_range, hold_frac,
+                     warning, now < flash_until, box_mirrored, extra_boxes_mirrored)
+            cv2.imshow(WINDOW, canvas)
 
             key = cv2.waitKey(1) & 0xFF
             if key in (ord("q"), 27):
@@ -471,7 +713,7 @@ def main() -> int:
     cfg = Config(cam_index=args.camera, debug=args.debug)
     log.info("Bat dau tu dong dang ky cho: %s", username)
 
-    encodings = capture_encodings(cfg)
+    encodings = capture_encodings(cfg, username=username)
     if encodings is None or len(encodings) != len(STEPS):
         log.error("Chua hoan tat dang ky.")
         return 1

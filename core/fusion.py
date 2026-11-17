@@ -2,6 +2,7 @@ import os
 import json
 import numpy as np
 from dataclasses import dataclass
+from core.constants import DEFAULT_SIM_THRESHOLD, DEFAULT_DECISION_THRESHOLD
 
 
 @dataclass
@@ -23,13 +24,13 @@ class MultiModalFusionEngine:
         cohort_size: int = 128,
         embedding_dim: int = 512,
         temperature: float = 1.65,
-        sim_threshold: float = 0.62,
+        sim_threshold: float = DEFAULT_SIM_THRESHOLD,
         decision_threshold: float | None = None
     ):
         self.temperature = temperature
         self.sim_threshold = sim_threshold
         custom_threshold_passed = decision_threshold is not None
-        self.decision_threshold = decision_threshold if custom_threshold_passed else 0.65
+        self.decision_threshold = decision_threshold if custom_threshold_passed else DEFAULT_DECISION_THRESHOLD
         self.embedding_dim = embedding_dim
 
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

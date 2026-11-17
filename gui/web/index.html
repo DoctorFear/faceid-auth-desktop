@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FaceID Hybrid - Modern Vibrant Dashboard</title>
+  <title>VinFace Authentication - Trung Tâm Quản Trị Hệ Thống</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -63,26 +63,26 @@
         <i class="fa-solid fa-shield-halved text-white text-xl"></i>
       </div>
       <div>
-        <h1 class="text-base font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-          FACEID HYBRID <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-sm">V2.1 PRO</span>
+        <h1 class="text-base font-black text-slate-900 tracking-tight flex items-center gap-2">
+          VINFACE AUTHENTICATION <span class="text-[10px] tracking-wider uppercase font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-xs">PRO EDITION</span>
         </h1>
-        <p class="text-xs text-sky-700 font-semibold">Trung Tâm Quản Trị Hệ Thống Sinh Trắc Học Cao Cấp</p>
+        <p class="text-xs text-sky-700 font-semibold">Hệ Thống Xác Thực Sinh Trắc Học Khuôn Mặt</p>
       </div>
     </div>
 
     <!-- NAVIGATION TABS (IN HEADER) -->
     <div class="flex flex-wrap items-center gap-1.5">
       <button onclick="switchTab('tab-control')" id="btn-tab-control" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-sky-700 border border-sky-300 shadow-sm shadow-sky-100">
-        <i class="fa-solid fa-sliders text-sky-600"></i> Bảng Điều Khiển & Cài Đặt
+        <i class="fa-solid fa-sliders text-sky-600"></i> Tổng Quan & Cài Đặt
       </button>
       <button onclick="switchTab('tab-monitor')" id="btn-tab-monitor" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all text-slate-600 hover:text-sky-700 hover:bg-white/80">
-        <i class="fa-solid fa-camera text-sky-500"></i> Camera Thử Nghiệm Realtime
+        <i class="fa-solid fa-camera text-sky-500"></i> Kiểm Tra Camera
       </button>
       <button onclick="switchTab('tab-users')" id="btn-tab-users" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all text-slate-600 hover:text-sky-700 hover:bg-white/80">
-        <i class="fa-solid fa-users-viewfinder text-sky-500"></i> Danh Sách Khuôn Mặt
+        <i class="fa-solid fa-users-viewfinder text-sky-500"></i> Quản Lý Khuôn Mặt
       </button>
       <button onclick="switchTab('tab-logs')" id="btn-tab-logs" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all text-slate-600 hover:text-sky-700 hover:bg-white/80">
-        <i class="fa-solid fa-scroll text-sky-500"></i> Nhật Ký Hoạt Động
+        <i class="fa-solid fa-scroll text-sky-500"></i> Nhật Ký & Bảo Mật
       </button>
     </div>
   </header>
@@ -100,10 +100,10 @@
         <div class="vibrant-card rounded-2xl p-6 lg:col-span-2 space-y-4">
           <div class="flex items-center justify-between border-b border-sky-100 pb-3">
             <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-              <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
-                <i class="fa-solid fa-gear"></i>
+              <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs shadow-2xs">
+                <i class="fa-solid fa-server"></i>
               </span>
-              Trạng Thái Hoạt Động Của Hệ Thống
+              Trạng Thái Dịch Vụ Hệ Thống
             </h3>
             <span id="daemonStatusBadge" class="text-xs px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold flex items-center gap-1.5 shadow-xs">
               <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Đang hoạt động tốt
@@ -112,19 +112,19 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
             <div class="p-3.5 rounded-xl bg-gradient-to-r from-sky-50/60 to-white border border-sky-100 flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Dịch vụ nhận diện nền:</span>
+              <span class="text-slate-500 font-medium">Tiến trình nhận diện:</span>
               <span id="txtDaemonPid" class="font-extrabold text-slate-800 bg-white px-2 py-0.5 rounded-md border border-slate-200 shadow-2xs">PID: 15320</span>
             </div>
             <div class="p-3.5 rounded-xl bg-gradient-to-r from-sky-50/60 to-white border border-sky-100 flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Tự khởi động cùng máy:</span>
+              <span class="text-slate-500 font-medium">Khởi động cùng hệ thống:</span>
               <span id="txtAutostart" class="font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">ĐÃ BẬT</span>
             </div>
             <div class="p-3.5 rounded-xl bg-gradient-to-r from-sky-50/60 to-white border border-sky-100 flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Cổng giao tiếp ngầm:</span>
+              <span class="text-slate-500 font-medium">Cổng kết nối nội bộ:</span>
               <span class="font-extrabold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200 font-mono">127.0.0.1:9876</span>
             </div>
             <div class="p-3.5 rounded-xl bg-gradient-to-r from-sky-50/60 to-white border border-sky-100 flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Màn hình khóa Windows:</span>
+              <span class="text-slate-500 font-medium">Mô-đun bảo vệ màn hình khóa:</span>
               <span id="txtWinlockStatus" class="font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">ĐÃ KÍCH HOẠT</span>
             </div>
           </div>
@@ -146,25 +146,42 @@
 
         <!-- CARD 2: TÍCH HỢP MÀN HÌNH KHÓA -->
         <div class="vibrant-card rounded-2xl p-6 flex flex-col justify-between space-y-4">
-          <div>
-            <div class="flex items-center gap-2 text-sm font-extrabold text-slate-900 border-b border-sky-100 pb-3">
-              <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xs">
-                <i class="fa-brands fa-windows"></i>
+          <div class="border-b border-sky-100 pb-3">
+            <div class="flex items-center gap-2 text-sm font-extrabold text-slate-900">
+              <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs shadow-2xs">
+                <i class="fa-solid fa-lock"></i>
               </span>
-              Mở Khóa Windows (Win + L)
+              Mở Khóa Màn Hình
             </div>
-            <p class="text-xs text-slate-500 mt-3 leading-relaxed font-normal">
-              Tích hợp module mở khóa bằng khuôn mặt trực tiếp vào màn hình khóa và màn hình khởi động của Windows.
-            </p>
           </div>
 
           <div class="space-y-2.5">
+            <!-- Mức Độ Bảo Mật Khuôn Mặt -->
+            <div class="space-y-1 text-xs">
+              <label class="text-slate-700 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-shield-virus text-sky-600"></i> Ngưỡng Độ Nhạy & Bảo Mật:
+              </label>
+              <select id="selSecurityLevel" onchange="scheduleAutoSave()" class="w-full bg-white border border-sky-200 rounded-xl px-3 py-2 text-slate-800 font-semibold focus:outline-none focus:border-sky-500 transition shadow-2xs">
+                <option value="0">Độ nhạy cao (Mở nhanh, phòng ánh sáng yếu)</option>
+                <option value="1" selected>Tiêu chuẩn (Cân bằng tốc độ & an toàn - Khuyên dùng)</option>
+                <option value="2">Nghiêm ngặt (Bảo mật tối đa, chống giả mạo cao)</option>
+              </select>
+            </div>
+            <!-- Mật Khẩu Dự Phòng -->
+            <div class="flex items-center justify-between bg-slate-50 border border-sky-200 rounded-xl px-3 py-2 shadow-2xs">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <i class="fa-solid fa-key text-sky-600"></i> Mật khẩu mở máy dự phòng
+              </span>
+              <button onclick="openChangePwModal()" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white hover:bg-sky-50 text-sky-700 border border-sky-200 transition shadow-2xs whitespace-nowrap ml-2">
+                <i class="fa-solid fa-pen-to-square mr-1"></i> Đổi Mật Khẩu
+              </button>
+            </div>
             <!-- Chỉ hiện 1 trong 2 nút tùy trạng thái cài đặt -->
             <button id="btnWinlockInstall" onclick="installWindowsLock()" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-white hover:bg-sky-50 text-sky-800 border border-sky-200 transition flex items-center justify-center gap-2 shadow-2xs">
               <i class="fa-solid fa-shield text-sky-600"></i> Kích Hoạt Mở Khóa Màn Hình
             </button>
             <button id="btnWinlockUninstall" onclick="uninstallWindowsLock()" class="hidden w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 hover:border-rose-300 transition flex items-center justify-center gap-2 shadow-2xs">
-              <i class="fa-solid fa-trash-can text-rose-500"></i> Gỡ Khỏi Màn Hình Khóa
+              <i class="fa-solid fa-trash-can text-rose-500"></i> Hủy Kích Hoạt Màn Hình Khóa
             </button>
           </div>
         </div>
@@ -175,114 +192,84 @@
       <div class="vibrant-card rounded-2xl p-6 space-y-6">
         <div class="flex items-center justify-between border-b border-sky-100 pb-3">
           <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-            <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
-              <i class="fa-solid fa-lock"></i>
+            <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs shadow-2xs">
+              <i class="fa-solid fa-shield-halved"></i>
             </span>
-            Thiết Lập Mở Khóa & Cấu Hình Thiết Bị
+            Chính Sách Xác Thực & Giới Hạn An Toàn
           </h3>
-          <span class="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">
-            <i class="fa-solid fa-bolt text-amber-500"></i> Áp dụng ngay (Hot-Reload)
+          <span id="autoSaveBadge" class="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200 transition-all shadow-2xs">
+            <i class="fa-solid fa-bolt text-amber-500"></i> Tự động lưu cấu hình
           </span>
         </div>
 
         <!-- TWO-COLUMNS CONDITIONAL UNLOCK STYLES -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <!-- UNLOCK WIN+L -->
-          <div class="p-4 rounded-2xl bg-gradient-to-b from-sky-50/70 to-white border border-sky-200/80 space-y-3.5 shadow-2xs">
-            <div class="text-xs font-extrabold text-sky-800 flex items-center gap-2">
-              <i class="fa-solid fa-key text-sky-600"></i> 1. Khi Khóa Tạm Thời (Win + L)
+          <!-- UNLOCK -->
+          <div class="p-4 rounded-2xl bg-gradient-to-b from-sky-50/70 to-white border border-sky-200/80 space-y-3 shadow-2xs">
+            <div class="text-xs font-extrabold text-sky-900 flex items-center gap-2">
+              <i class="fa-solid fa-lock text-sky-600"></i> 1. Khi Khóa Màn Hình Tạm Thời
             </div>
             <div class="space-y-2 text-xs">
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_unlock" id="unlock_instant" checked class="w-4 h-4 text-sky-600 focus:ring-0">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-keyboard text-amber-500"></i> Bấm Enter Để Nhận Diện Nhanh</span>
+                <input type="radio" name="style_unlock" id="unlock_instant" onchange="scheduleAutoSave()" checked class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500"></i> Nhận Diện Nhanh (Bấm Enter hoặc nhìn camera)</span>
               </label>
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_unlock" id="unlock_enter" class="w-4 h-4 text-sky-600 focus:ring-0">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử Thách Liveness (Chớp mắt / Quay đầu)</span>
+                <input type="radio" name="style_unlock" id="unlock_enter" onchange="scheduleAutoSave()" class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử Thách Liveness (Chớp mắt, quay đầu, cười)</span>
               </label>
             </div>
           </div>
 
-          <!-- LOGON BOOT -->
-          <div class="p-4 rounded-2xl bg-gradient-to-b from-sky-50/70 to-white border border-sky-200/80 space-y-3.5 shadow-2xs">
-            <div class="text-xs font-extrabold text-sky-800 flex items-center gap-2">
-              <i class="fa-solid fa-power-off text-sky-600"></i> 2. Khi Bật / Khởi Động Lại Máy (Boot)
+          <!-- LOGON -->
+          <div class="p-4 rounded-2xl bg-gradient-to-b from-sky-50/70 to-white border border-sky-200/80 space-y-3 shadow-2xs">
+            <div class="text-xs font-extrabold text-sky-900 flex items-center gap-2">
+              <i class="fa-solid fa-power-off text-sky-600"></i> 2. Khi Bật / Đăng Nhập Máy
             </div>
             <div class="space-y-2 text-xs">
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_logon" id="logon_instant" checked class="w-4 h-4 text-sky-600 focus:ring-0">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-keyboard text-amber-500"></i> Bấm Enter Để Nhận Diện Nhanh</span>
+                <input type="radio" name="style_logon" id="logon_instant" onchange="scheduleAutoSave()" checked class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500"></i> Nhận Diện Nhanh (Bấm Enter hoặc nhìn camera)</span>
               </label>
               <label class="flex items-center space-x-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-sky-100 hover:border-sky-300 transition shadow-2xs">
-                <input type="radio" name="style_logon" id="logon_enter" class="w-4 h-4 text-sky-600 focus:ring-0">
-                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử Thách Liveness (Chớp mắt / Quay đầu)</span>
+                <input type="radio" name="style_logon" id="logon_enter" onchange="scheduleAutoSave()" class="w-4 h-4 text-sky-600 focus:ring-0">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-600"></i> Thử Thách Liveness (Chớp mắt, quay đầu, cười)</span>
               </label>
             </div>
           </div>
 
         </div>
 
-        <!-- CAMERA, PASSWORD, PARAMETERS GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
-          
-          <div class="space-y-1.5">
-            <label class="text-slate-700 font-bold flex items-center gap-1.5">
-              <i class="fa-solid fa-video text-sky-600"></i> Chọn Camera Sử Dụng:
+        <!-- PARAMETERS GRID (1 HÀNG 3 CỘT) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-1">
+          <div class="space-y-1.5 p-3.5 rounded-xl bg-slate-50/70 border border-sky-100">
+            <label class="text-slate-800 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Giới Hạn Thử Sai Liên Tiếp:
             </label>
-            <select id="selCameraIdx" class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2.5 text-slate-800 font-semibold focus:outline-none focus:border-sky-500 transition shadow-xs">
-              <option value="0">Camera 0 (Camera Mặc Định / Laptop)</option>
-              <option value="1">Camera 1 (Webcam Rời USB / Phụ)</option>
-              <option value="2">Camera 2 (Camera Ngoài Phụ)</option>
-            </select>
+            <input type="number" id="numMaxFailures" onchange="scheduleAutoSave()" oninput="scheduleAutoSave()" min="1" max="20" value="3" class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2 text-slate-800 font-bold focus:outline-none focus:border-sky-500 transition shadow-xs mt-1">
           </div>
-
-          <div class="space-y-1.5">
-            <label class="text-slate-700 font-bold flex items-center gap-1.5">
-              <i class="fa-solid fa-key text-sky-600"></i> Mật Khẩu Dự Phòng Windows:
+          <div class="space-y-1.5 p-3.5 rounded-xl bg-slate-50/70 border border-sky-100">
+            <label class="text-slate-800 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-clock text-rose-500"></i> Thời Gian Tạm Khóa (Giây):
             </label>
-            <div class="flex items-center justify-between bg-slate-50 border border-sky-200 rounded-xl px-3.5 py-2 shadow-xs">
-              <span class="text-xs font-bold text-slate-600 flex items-center gap-2">
-                <i class="fa-solid fa-lock text-emerald-600"></i> Đã thiết lập (được bảo vệ)
-              </span>
-              <button onclick="openChangePwModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white hover:bg-sky-50 text-sky-700 border border-sky-200 transition shadow-2xs">
-                <i class="fa-solid fa-pen-to-square mr-1"></i> Đổi Mật Khẩu
-              </button>
-            </div>
+            <input type="number" id="numLockoutSec" onchange="scheduleAutoSave()" oninput="scheduleAutoSave()" min="5" max="600" value="45" class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2 text-slate-800 font-bold focus:outline-none focus:border-sky-500 transition shadow-xs mt-1">
           </div>
-
-          <div class="space-y-1.5">
-            <label class="text-slate-700 font-bold flex items-center gap-1.5">
-              <i class="fa-solid fa-shield-virus text-sky-600"></i> Mức Độ Bảo Mật Khuôn Mặt:
+          <div class="space-y-1.5 p-3.5 rounded-xl bg-slate-50/70 border border-sky-100">
+            <label class="text-slate-800 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-hourglass-half text-sky-600"></i> Thời Gian Quét Tối Đa (Giây):
             </label>
-            <select id="selSecurityLevel" class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2.5 text-slate-800 font-semibold focus:outline-none focus:border-sky-500 transition shadow-xs">
-              <option value="0">Thấp (Nhận diện nhạy, dễ mở)</option>
-              <option value="1" selected>Trung bình (Cân bằng - Khuyên dùng)</option>
-              <option value="2">Cao (Bảo mật tối đa)</option>
-            </select>
+            <input type="number" id="numTimeout" onchange="scheduleAutoSave()" oninput="scheduleAutoSave()" min="5" max="10" value="8" class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2 text-slate-800 font-bold focus:outline-none focus:border-sky-500 transition shadow-xs mt-1">
           </div>
-
-          <div class="space-y-1.5">
-            <label class="text-slate-700 font-bold flex items-center gap-1.5">
-              <i class="fa-solid fa-clock text-sky-600"></i> Thời Gian Quét Tối Đa (5 - 10s):
-            </label>
-            <input type="number" id="numTimeout" min="5" max="10" value="8" class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2.5 text-slate-800 font-bold focus:outline-none focus:border-sky-500 transition shadow-xs">
-          </div>
-
         </div>
 
-        <div class="flex justify-end pt-3 border-t border-sky-100">
-          <button onclick="saveSettings()" class="px-5 py-2.5 rounded-xl font-bold text-xs bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border border-slate-200 hover:border-emerald-300 transition flex items-center gap-2 shadow-2xs">
-            <i class="fa-solid fa-floppy-disk text-emerald-600"></i> Lưu Cài Đặt & Áp Dụng Ngay
-          </button>
-        </div>
+
 
       </div>
 
     </div>
 
-    <!-- TAB 2: CAMERA THỬ NGHIỆM REALTIME -->
+    <!-- TAB 2: CAMERA THỬ NGHIỆM -->
     <div id="tab-monitor" class="tab-content hidden space-y-4">
       
       <!-- MODE SWITCHER & CHALLENGE TARGET BAR -->
@@ -291,22 +278,19 @@
           <span class="w-8 h-8 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-sm shadow-2xs">
             <i class="fa-solid fa-sliders"></i>
           </span>
-          <div>
-            <div class="text-xs font-extrabold text-slate-800">Chế Độ Thử Nghiệm Camera</div>
-            <div class="text-[11px] text-slate-500 font-medium">Chọn soi gương tự động hoặc diễn tập thử thách mở khóa thực tế</div>
-          </div>
+          <div class="text-xs font-extrabold text-slate-800">Chế Độ Thử Nghiệm Camera</div>
         </div>
         
         <div class="flex flex-wrap items-center gap-2.5">
           <div class="inline-flex flex-wrap p-1 rounded-xl bg-sky-100/70 border border-sky-200 gap-1">
             <button id="btnModeTelemetry" onclick="setCamViewMode('telemetry')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white text-sky-700 shadow-2xs">
-              <i class="fa-solid fa-chart-simple"></i> 1. Quét Nhanh
+              <i class="fa-solid fa-chart-simple"></i> 1. Kiểm Tra Trực Tiếp
             </button>
             <button id="btnModeDrillFast" onclick="setCamViewMode('drill_fast')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-sky-700">
-              <i class="fa-solid fa-bolt"></i> 2. Diễn Tập Mở Khóa Nhanh
+              <i class="fa-solid fa-bolt"></i> 2. Thử Mở Khóa Nhanh
             </button>
             <button id="btnModeInteractive" onclick="setCamViewMode('interactive')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-sky-700">
-              <i class="fa-solid fa-shield-halved"></i> 3. Diễn Tập Mở Khóa Liveness
+              <i class="fa-solid fa-shield-halved"></i> 3. Thử Mở Khóa Tương Tác
             </button>
           </div>
 
@@ -324,29 +308,39 @@
                 <span id="pnlHeaderIcon" class="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xs">
                   <i class="fa-solid fa-eye"></i>
                 </span>
-                <span id="pnlHeaderTitle">Kiểm Tra Khuôn Mặt</span>
+                <span id="pnlHeaderTitle">Phân Tích Đầu Vào</span>
               </div>
             </div>
 
             <div class="space-y-3 text-xs">
               <div class="p-3 rounded-xl bg-sky-50/50 border border-sky-100 flex items-center justify-between">
-                <span class="text-slate-600 font-medium">Nhìn thấy khuôn mặt:</span>
-                <span id="telFaceDet" class="font-extrabold text-slate-400">CHƯA THẤY</span>
+                <span class="text-slate-600 font-medium">Nhận diện diện mạo:</span>
+                <span id="telFaceDet" class="font-extrabold text-slate-400">CHƯA PHÁT HIỆN</span>
               </div>
 
               <div class="p-3 rounded-xl bg-sky-50/50 border border-sky-100 flex items-center justify-between">
-                <span class="text-slate-600 font-medium">Độ rõ nét & ánh sáng:</span>
+                <span class="text-slate-600 font-medium">Chất lượng hình ảnh:</span>
                 <span id="telFiqa" class="font-extrabold text-slate-400">Đang chờ</span>
               </div>
 
               <div class="p-3 rounded-xl bg-sky-50/50 border border-sky-100 flex items-center justify-between">
-                <span class="text-slate-600 font-medium">Màn hình giả lập:</span>
+                <span class="text-slate-600 font-medium">Kiểm tra màn hình giả lập:</span>
                 <span id="telMoire" class="font-extrabold text-slate-400">Đang chờ</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-sky-50/50 border border-sky-100 flex items-center justify-between">
+                <span class="text-slate-600 font-medium">Chủ thể đối khớp:</span>
+                <span id="telMatchedUser" class="font-extrabold text-slate-400">Chưa xác định</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-sky-50/50 border border-sky-100 flex items-center justify-between">
+                <span class="text-slate-600 font-medium">Góc nghiêng khuôn mặt:</span>
+                <span id="telHeadPose" class="font-extrabold text-slate-400">Đang chờ</span>
               </div>
             </div>
           </div>
           <div class="text-[11px] text-slate-400 text-center pt-2 border-t border-sky-50">
-            Thông số chất lượng hình ảnh đầu vào
+            Thông số phân tích hình ảnh đầu vào
           </div>
         </div>
 
@@ -361,14 +355,13 @@
             </h3>
             <span id="camFpsBadge" class="text-sm px-5 py-2 rounded-full bg-sky-50 text-sky-800 font-extrabold border border-sky-200 flex items-center gap-2.5 truncate max-w-[420px] shadow-xs">
               <span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
-              <span id="camHintText">Sẵn sàng thử nghiệm</span>
+              <span id="camHintText">Sẵn sàng nhận diện</span>
             </span>
           </div>
 
-          <div class="relative w-full h-[400px] bg-slate-950 rounded-2xl overflow-hidden flex items-center justify-center border-2 border-sky-200 shadow-inner">
-            <img id="camBlurBg" src="" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-65 pointer-events-none hidden">
-            <img id="camStream" src="" alt="" class="relative z-10 max-w-full max-h-full object-contain hidden">
-            <div id="camPlaceholder" class="text-center p-6 text-slate-400">
+          <div class="relative w-fit max-w-full h-[400px] mx-auto bg-white rounded-2xl overflow-hidden flex items-center justify-center border-2 border-sky-200 shadow-inner">
+            <img id="camStream" src="" alt="" class="relative z-10 h-[400px] w-auto max-w-full object-contain rounded-2xl hidden">
+            <div id="camPlaceholder" class="w-[533px] max-w-full h-[400px] flex flex-col items-center justify-center text-center p-6 text-slate-400">
               <i class="fa-solid fa-camera-retro text-4xl mb-3 text-sky-500/50"></i>
               <p class="text-xs font-medium">Camera đang tắt. Bấm nút bên dưới để bắt đầu soi gương thử nghiệm.</p>
             </div>
@@ -378,7 +371,7 @@
             <i class="fa-solid fa-play"></i> Mở Camera Thử Nghiệm
           </button>
           <p id="spaceHintText" class="hidden text-[11px] text-slate-500 text-center font-medium">
-            <i class="fa-regular fa-keyboard mr-1 text-sky-600"></i> Bấm phím <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-700 font-bold">Space</kbd> để đổi thử thách
+            <i class="fa-regular fa-keyboard mr-1 text-sky-600"></i> Bấm phím <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-700 font-bold">Space</kbd> <span id="spaceHintActionText">để làm mới thời gian</span>
           </p>
         </div>
 
@@ -389,14 +382,14 @@
               <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs">
                 <i class="fa-solid fa-chart-simple"></i>
               </span>
-              <span>Điểm Số & Kết Quả</span>
+              <span>Kết Quả Xác Thực</span>
             </div>
 
             <div class="space-y-4 text-xs">
               <!-- CHỐNG GIẢ MẠO -->
               <div class="space-y-1.5">
                 <div class="flex justify-between text-slate-600 font-semibold">
-                  <span>Chân thực người thật:</span>
+                  <span>Độ xác thực người thật:</span>
                   <span id="txtPadPct" class="font-extrabold text-sky-700">0%</span>
                 </div>
                 <div class="w-full h-2.5 rounded-full bg-sky-100 overflow-hidden">
@@ -407,7 +400,7 @@
               <!-- ĐỘ KHỚP KHUÔN MẶT -->
               <div class="space-y-1.5">
                 <div class="flex justify-between text-slate-600 font-semibold">
-                  <span>Độ khớp khuôn mặt:</span>
+                  <span>Mức độ trùng khớp diện mạo:</span>
                   <span id="txtSimPct" class="font-extrabold text-blue-700">0%</span>
                 </div>
                 <div class="w-full h-2.5 rounded-full bg-blue-100 overflow-hidden">
@@ -418,7 +411,7 @@
               <!-- ĐIỂM TIN CẬY HỢP NHẤT -->
               <div class="space-y-1.5">
                 <div class="flex justify-between text-slate-600 font-semibold">
-                  <span>Điểm tin cậy mở khóa:</span>
+                  <span>Điểm tin cậy tổng hợp:</span>
                   <span id="txtFusedPct" class="font-extrabold text-emerald-700">0%</span>
                 </div>
                 <div class="w-full h-2.5 rounded-full bg-emerald-100 overflow-hidden">
@@ -431,7 +424,7 @@
           <!-- KẾT LUẬN -->
           <div class="pt-2">
             <div id="telDecisionBox" class="p-3.5 rounded-xl bg-slate-100 border border-slate-200 text-center font-black text-slate-500 text-xs tracking-wider shadow-2xs">
-              KẾT QUẢ: ĐANG CHỜ KHUÔN MẶT...
+              KẾT QUẢ: ĐANG CHỜ DIỆN MẠO...
             </div>
           </div>
         </div>
@@ -445,19 +438,24 @@
         
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-sky-100 pb-4">
           <div>
-            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-              <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
-                <i class="fa-solid fa-users"></i>
+            <div class="flex items-center gap-2.5">
+              <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
+                  <i class="fa-solid fa-users"></i>
+                </span>
+                Khuôn Mặt Được Phép Mở Khóa Máy
+              </h3>
+              <span id="userCountBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-100 text-sky-700 border border-sky-200">
+                0 / 5 khuôn mặt
               </span>
-              Khuôn Mặt Được Phép Mở Khóa Máy
-            </h3>
-            <p class="text-xs text-sky-700 font-medium">Bất kỳ khuôn mặt nào trong danh sách đều có thể mở khóa vào máy tính.</p>
+            </div>
+            <p class="text-xs text-sky-700 font-medium mt-1">Hệ thống cho phép lưu tối đa 5 khuôn mặt khác nhau để xác thực mở khóa máy tính.</p>
           </div>
           <div class="flex gap-2.5">
             <button onclick="loadUserList()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white hover:bg-sky-50 text-sky-800 transition flex items-center gap-2 border border-sky-200 shadow-2xs">
               <i class="fa-solid fa-arrows-rotate text-sky-600"></i> Tải Lại
             </button>
-            <button onclick="enrollNewFace()" class="px-4 py-2 rounded-xl text-xs font-bold btn-gradient-primary text-white flex items-center gap-2">
+            <button id="btnEnrollNewFace" onclick="enrollNewFace()" class="px-4 py-2 rounded-xl text-xs font-bold btn-gradient-primary text-white flex items-center gap-2 shadow-sm">
               <i class="fa-solid fa-plus"></i> Đăng Ký Khuôn Mặt Mới
             </button>
           </div>
@@ -482,37 +480,155 @@
       </div>
     </div>
 
-    <!-- TAB 4: NHẬT KÝ HOẠT ĐỘNG -->
+    <!-- TAB 4: LỊCH SỬ BẢO MẬT & MỞ MÁY -->
     <div id="tab-logs" class="tab-content hidden space-y-4">
-      <div class="vibrant-card rounded-2xl p-6 space-y-4">
-        <div class="flex items-center justify-between border-b border-sky-100 pb-3">
-          <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-            <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
-              <i class="fa-solid fa-terminal"></i>
-            </span>
-            Nhật Ký Hoạt Động Của Hệ Thống (Logs)
-          </h3>
-          <div class="flex gap-2">
-            <button onclick="loadDaemonLogs()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-sky-50 text-sky-800 border border-sky-200 shadow-2xs transition">
-              <i class="fa-solid fa-arrows-rotate text-sky-600"></i> Tải Lại Log
+      <div class="vibrant-card rounded-2xl p-6 space-y-5">
+        
+        <!-- Header & Thao tác -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-sky-100 pb-4">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+                </span>
+                Lịch Sử Mở Máy & Hoạt Động Bảo Mật
+              </h3>
+              <span id="auditEventCountBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-100 text-sky-700 border border-sky-200">
+                0 sự kiện
+              </span>
+            </div>
+            <p class="text-xs text-sky-700 font-medium mt-1">Theo dõi thời gian, danh tính khuôn mặt đã mở khóa và các cảnh báo an ninh.</p>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <button onclick="loadDaemonLogs()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white hover:bg-sky-50 text-sky-800 transition flex items-center gap-2 border border-sky-200 shadow-2xs">
+              <i class="fa-solid fa-arrows-rotate text-sky-600"></i> Làm Mới
             </button>
-            <button onclick="clearLogScreen()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 hover:border-rose-200 shadow-2xs transition">
-              <i class="fa-solid fa-broom"></i> Xóa Màn Hình
+            <button onclick="clearSystemLogs()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-600 transition flex items-center gap-2 border border-slate-200 hover:border-rose-200 shadow-2xs">
+              <i class="fa-solid fa-broom"></i> Xóa Nhật Ký
             </button>
           </div>
         </div>
 
-        <div id="logConsole" class="w-full h-96 p-4 rounded-xl bg-slate-900 font-mono text-xs text-sky-300 overflow-y-auto leading-relaxed border-2 border-sky-950 shadow-inner">
-          [HỆ THỐNG] Đang tải nhật ký...
+        <!-- Bộ lọc phân loại & Chọn số lượng trên trang -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-sky-50 border border-sky-200/60 text-xs font-bold">
+            <button onclick="filterAuditEvents('all')" id="btnFilter-all" class="px-3 py-1.5 rounded-lg bg-white text-sky-700 shadow-2xs transition">Tất Cả</button>
+            <button onclick="filterAuditEvents('auth')" id="btnFilter-auth" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-700 transition">Mở Khóa</button>
+            <button onclick="filterAuditEvents('security')" id="btnFilter-security" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-700 transition">Cảnh Báo An Ninh</button>
+            <button onclick="filterAuditEvents('system')" id="btnFilter-system" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-700 transition">Hệ Thống</button>
+          </div>
+          
+          <div class="flex items-center gap-2 text-xs font-semibold text-slate-600">
+            <span>Hiển thị:</span>
+            <select id="selAuditPageSize" onchange="changeAuditPageSize(this.value)" class="bg-white border border-sky-200 rounded-lg px-2.5 py-1 text-xs font-bold text-sky-800 focus:outline-none focus:ring-1 focus:ring-sky-500">
+              <option value="10" selected>10 dòng / trang</option>
+              <option value="20">20 dòng / trang</option>
+              <option value="50">50 dòng / trang</option>
+            </select>
+          </div>
         </div>
+
+        <!-- Bảng danh sách sự kiện người dùng -->
+        <div class="overflow-x-auto rounded-xl border border-sky-100">
+          <table class="w-full text-left text-xs">
+            <thead class="text-sky-900 border-b border-sky-200 bg-sky-50/70">
+              <tr>
+                <th class="py-3 px-4 font-extrabold w-44">Thời Gian</th>
+                <th class="py-3 px-4 font-extrabold w-36">Trạng Thái</th>
+                <th class="py-3 px-4 font-extrabold">Hành Động / Sự Kiện</th>
+                <th class="py-3 px-4 font-extrabold">Chi Tiết Nhận Diện</th>
+                <th class="py-3 px-4 text-right font-extrabold w-28">Tài Khoản</th>
+              </tr>
+            </thead>
+            <tbody id="auditTableBody" class="divide-y divide-sky-100 text-slate-700 bg-white">
+              <tr>
+                <td colspan="5" class="py-8 text-center text-slate-400 font-medium">
+                  <i class="fa-solid fa-spinner fa-spin text-xl text-sky-600 mb-2"></i>
+                  <p>Đang tải dữ liệu lịch sử bảo mật...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Thanh phân trang (Pagination Bar) -->
+        <div id="auditPagination" class="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs border-t border-sky-100">
+          <div class="text-slate-500 font-medium" id="auditPageInfo">
+            Hiển thị 0 - 0 trong 0 sự kiện
+          </div>
+          <div class="flex items-center gap-1.5" id="auditPaginationBtns">
+            <!-- Nút phân trang render bởi JS -->
+          </div>
+        </div>
+
       </div>
     </div>
 
   </main>
 
+  <!-- MODAL ĐĂNG KÝ KHUÔN MẶT MỚI -->
+  <div id="modalEnrollFace" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="vibrant-card rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200 border border-sky-200">
+      
+      <div class="flex items-start justify-between border-b border-sky-100 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 text-white flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-900">Đăng Ký Khuôn Mặt Mới</h3>
+            <p class="text-xs text-sky-700 font-medium">Nhập tên định danh trước khi ghi nhận góc mặt</p>
+          </div>
+        </div>
+        <button onclick="closeEnrollModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <label class="block text-xs font-bold text-slate-700">
+          Tên người dùng / Định danh:
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i class="fa-solid fa-id-card text-xs"></i>
+          </div>
+          <input type="text" id="inputEnrollName" placeholder="Ví dụ: Ha Thai Son, Nguoi Than..." 
+            class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-sky-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 bg-white"
+            onkeydown="if(event.key === 'Enter') confirmEnrollFace()"
+            oninput="clearEnrollError()"
+          />
+        </div>
+        <div id="enrollErrorHint" class="hidden text-[11px] font-bold text-rose-600 flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="enrollErrorMsg">Tên không hợp lệ</span>
+        </div>
+        <p class="text-[11px] text-slate-500 leading-relaxed">
+          <i class="fa-solid fa-circle-info text-sky-600 mr-1"></i>
+          Quy định đặt tên: Không chứa số (0-9), không trùng tên với danh sách đã đăng ký, tối đa 5 khuôn mặt toàn hệ thống.
+        </p>
+      </div>
+
+      <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-sky-100">
+        <button onclick="closeEnrollModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+          Hủy Bỏ
+        </button>
+        <button onclick="confirmEnrollFace()" class="px-4 py-2 rounded-xl text-xs font-bold btn-gradient-primary text-white flex items-center gap-2 shadow-sm">
+          <i class="fa-solid fa-camera"></i> Bắt Đầu Chụp Mặt
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- JAVASCRIPT LOGIC -->
   <script>
     function switchTab(tabId) {
+      if (tabId !== 'tab-monitor' && typeof isCamRunning !== 'undefined' && isCamRunning) {
+        toggleCameraStream();
+      }
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.getElementById(tabId).classList.remove('hidden');
 
@@ -583,25 +699,49 @@
             openSetupPwModal();
             return;
           }
+          // Optimistic UI: Đổi trạng thái giao diện ngay lập tức, nghiệp vụ chạy ngầm sau
+          updateUIState({ daemon_running: true, enabled: true, pid: "Đang khởi động..." });
+        } else if (act === 'stop') {
+          updateUIState({ daemon_running: false, enabled: false });
+        } else if (act === 'restart') {
+          updateUIState({ daemon_running: true, enabled: true, pid: "Đang khởi động lại..." });
         }
         const res = await window.pywebview.api.daemon_ctl(act);
         updateUIState(res);
       }
     }
 
-    async function saveSettings() {
+    let autoSaveTimer = null;
+    function scheduleAutoSave() {
+      if (autoSaveTimer) clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => saveSettings(true), 350);
+    }
+
+    async function saveSettings(silent = true) {
       const payload = {
         unlock_liveness: document.getElementById('unlock_enter').checked,
         logon_liveness: document.getElementById('logon_enter').checked,
-        unlock_instant: false,
-        logon_instant: false,
-        camera_idx: parseInt(document.getElementById('selCameraIdx').value),
+        unlock_instant: document.getElementById('unlock_instant').checked,
+        logon_instant: document.getElementById('logon_instant').checked,
+        camera_idx: 0,
         security_level: parseInt(document.getElementById('selSecurityLevel').value),
-        timeout_sec: parseInt(document.getElementById('numTimeout').value)
+        timeout_sec: parseInt(document.getElementById('numTimeout').value),
+        max_failures: parseInt(document.getElementById('numMaxFailures').value || 3),
+        lockout_sec: parseInt(document.getElementById('numLockoutSec').value || 45)
       };
       if (window.pywebview) {
         const ok = await window.pywebview.api.save_settings(payload);
-        alert(ok ? "Đã lưu cài đặt và áp dụng ngay lập tức!" : "Không thể lưu cài đặt!");
+        const badge = document.getElementById('autoSaveBadge');
+        if (ok && badge) {
+          badge.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i> Đã tự động lưu!';
+          badge.className = "text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 transition-all";
+          setTimeout(() => {
+            badge.innerHTML = '<i class="fa-solid fa-bolt text-amber-500"></i> Tự động lưu (Hot-Reload)';
+            badge.className = "text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200 transition-all";
+          }, 1500);
+        } else if (!silent) {
+          alert(ok ? "Đã lưu cài đặt!" : "Không thể lưu cài đặt!");
+        }
       }
     }
 
@@ -648,15 +788,40 @@
       } catch (e) {}
     });
 
+    let cachedUserList = [];
+
     async function loadUserList() {
       if (window.pywebview) {
         const users = await window.pywebview.api.get_users();
+        cachedUserList = users || [];
         const tbody = document.getElementById('userTableBody');
         const selTarget = document.getElementById('selCamTargetUser');
+        const countBadge = document.getElementById('userCountBadge');
         
+        if (countBadge) {
+          countBadge.innerText = `${cachedUserList.length} / 5 khuôn mặt`;
+          if (cachedUserList.length >= 5) {
+            countBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300";
+          } else {
+            countBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-100 text-sky-700 border border-sky-200";
+          }
+        }
+
         tbody.innerHTML = '';
         if (selTarget) {
           selTarget.innerHTML = '<option value="ALL">Tất cả khuôn mặt đã lưu</option>';
+        }
+
+        if (users.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="4" class="py-8 text-center text-slate-400 font-medium">
+                <i class="fa-regular fa-face-smile text-2xl mb-1 text-slate-300"></i>
+                <p>Chưa có khuôn mặt nào được đăng ký. Bấm "Đăng Ký Khuôn Mặt Mới" để bắt đầu.</p>
+              </td>
+            </tr>
+          `;
+          return;
         }
 
         users.forEach(u => {
@@ -679,10 +844,88 @@
       }
     }
 
+    function showEnrollError(msg) {
+      const hint = document.getElementById('enrollErrorHint');
+      const text = document.getElementById('enrollErrorMsg');
+      if (hint && text) {
+        text.innerText = msg;
+        hint.classList.remove('hidden');
+      }
+    }
+
+    function clearEnrollError() {
+      const hint = document.getElementById('enrollErrorHint');
+      if (hint) hint.classList.add('hidden');
+    }
+
     async function enrollNewFace() {
-      const name = prompt("Nhập tên khuôn mặt (Ví dụ: Tôi, Hà Thái Sơn, Người Thân):");
-      if (name && name.trim()) {
-        if (window.pywebview) await window.pywebview.api.enroll_face(name.trim());
+      // Đảm bảo dữ liệu người dùng mới nhất
+      if (window.pywebview) {
+        cachedUserList = (await window.pywebview.api.get_users()) || [];
+      }
+      
+      // Giới hạn tối đa 5 khuôn mặt
+      if (cachedUserList.length >= 5) {
+        alert("Hệ thống đã đạt giới hạn tối đa 5 khuôn mặt được phép mở máy.\nVui lòng xóa bớt khuôn mặt không dùng trước khi thêm mới!");
+        return;
+      }
+
+      // Mở modal nhập tên
+      const modal = document.getElementById('modalEnrollFace');
+      const input = document.getElementById('inputEnrollName');
+      clearEnrollError();
+      if (input) input.value = '';
+      if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => input && input.focus(), 50);
+      }
+    }
+
+    function closeEnrollModal() {
+      const modal = document.getElementById('modalEnrollFace');
+      if (modal) modal.classList.add('hidden');
+      clearEnrollError();
+    }
+
+    async function confirmEnrollFace() {
+      const input = document.getElementById('inputEnrollName');
+      if (!input) return;
+      const rawName = input.value.trim();
+
+      if (!rawName) {
+        showEnrollError("Vui lòng nhập tên định danh khuôn mặt.");
+        input.focus();
+        return;
+      }
+
+      // Kiểm tra không được chứa số
+      if (/\d/.test(rawName)) {
+        showEnrollError("Tên khuôn mặt không được chứa chữ số (0-9).");
+        input.focus();
+        return;
+      }
+
+      // Kiểm tra trùng tên (không phân biệt hoa thường)
+      const isDuplicate = cachedUserList.some(u => u.name.trim().toLowerCase() === rawName.toLowerCase());
+      if (isDuplicate) {
+        showEnrollError(`Tên '${rawName}' đã tồn tại trong danh sách. Vui lòng chọn tên khác.`);
+        input.focus();
+        return;
+      }
+
+      // Kiểm tra lại giới hạn tối đa 5
+      if (cachedUserList.length >= 5) {
+        showEnrollError("Hệ thống đã đạt giới hạn tối đa 5 khuôn mặt.");
+        return;
+      }
+
+      closeEnrollModal();
+
+      if (window.pywebview) {
+        const res = await window.pywebview.api.enroll_face(rawName);
+        if (res && res.ok === false) {
+          alert(res.msg || "Không thể khởi động tiến trình đăng ký.");
+        }
       }
     }
 
@@ -695,15 +938,176 @@
       }
     }
 
+    let allAuditEvents = [];
+    let currentAuditFilter = 'all';
+    let auditCurrentPage = 1;
+    let auditPageSize = 10;
+
     async function loadDaemonLogs() {
       if (window.pywebview) {
-        const logs = await window.pywebview.api.get_logs();
-        document.getElementById('logConsole').innerText = logs;
+        try {
+          const events = await window.pywebview.api.get_audit_events();
+          allAuditEvents = events || [];
+          auditCurrentPage = 1; // Reset về trang 1 khi nạp lại
+          renderAuditTable();
+        } catch (e) {
+          console.error("Lỗi tải lịch sử bảo mật:", e);
+        }
       }
     }
 
-    function clearLogScreen() {
-      document.getElementById('logConsole').innerText = "";
+    function changeAuditPageSize(newSize) {
+      auditPageSize = parseInt(newSize, 10) || 10;
+      auditCurrentPage = 1;
+      renderAuditTable();
+    }
+
+    function goToAuditPage(pageNum) {
+      auditCurrentPage = pageNum;
+      renderAuditTable();
+    }
+
+    function filterAuditEvents(category) {
+      currentAuditFilter = category;
+      auditCurrentPage = 1;
+      ['all', 'auth', 'security', 'system'].forEach(c => {
+        const btn = document.getElementById('btnFilter-' + c);
+        if (btn) {
+          if (c === category) {
+            btn.className = "px-3 py-1.5 rounded-lg bg-white text-sky-700 shadow-2xs transition";
+          } else {
+            btn.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-700 transition";
+          }
+        }
+      });
+      renderAuditTable();
+    }
+
+    function renderAuditTable() {
+      const tbody = document.getElementById('auditTableBody');
+      const countBadge = document.getElementById('auditEventCountBadge');
+      const pageInfo = document.getElementById('auditPageInfo');
+      const paginationBtns = document.getElementById('auditPaginationBtns');
+      if (!tbody) return;
+
+      const filtered = currentAuditFilter === 'all' 
+        ? allAuditEvents 
+        : allAuditEvents.filter(e => e.category === currentAuditFilter);
+
+      const totalItems = filtered.length;
+      if (countBadge) {
+        countBadge.innerText = `${totalItems} sự kiện`;
+      }
+
+      if (totalItems === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-10 text-center text-slate-400 font-medium">
+              <i class="fa-solid fa-clipboard-check text-2xl mb-1 text-slate-300"></i>
+              <p>Chưa có sự kiện nào được ghi nhận trong danh mục này.</p>
+            </td>
+          </tr>
+        `;
+        if (pageInfo) pageInfo.innerText = "Hiển thị 0 - 0 trong 0 sự kiện";
+        if (paginationBtns) paginationBtns.innerHTML = "";
+        return;
+      }
+
+      // Tính toán phân trang
+      const totalPages = Math.ceil(totalItems / auditPageSize);
+      if (auditCurrentPage > totalPages) auditCurrentPage = totalPages;
+      if (auditCurrentPage < 1) auditCurrentPage = 1;
+
+      const startIndex = (auditCurrentPage - 1) * auditPageSize;
+      const endIndex = Math.min(startIndex + auditPageSize, totalItems);
+      const pageSlice = filtered.slice(startIndex, endIndex);
+
+      if (pageInfo) {
+        pageInfo.innerText = `Hiển thị ${startIndex + 1} - ${endIndex} trong tổng số ${totalItems} sự kiện (Trang ${auditCurrentPage}/${totalPages})`;
+      }
+
+      // Render danh sách sự kiện trang hiện tại
+      tbody.innerHTML = '';
+      pageSlice.forEach(item => {
+        let badgeStyle = "bg-sky-50 text-sky-700 border-sky-200";
+        if (item.badge_color === 'emerald') {
+          badgeStyle = "bg-emerald-50 text-emerald-700 border-emerald-200";
+        } else if (item.badge_color === 'rose') {
+          badgeStyle = "bg-rose-50 text-rose-700 border-rose-200";
+        } else if (item.badge_color === 'amber') {
+          badgeStyle = "bg-amber-50 text-amber-700 border-amber-200";
+        } else if (item.badge_color === 'slate') {
+          badgeStyle = "bg-slate-100 text-slate-600 border-slate-200";
+        }
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-sky-50/40 transition">
+            <td class="py-3 px-4 font-mono text-[11px] text-slate-500 font-semibold">${item.time || 'Vừa xong'}</td>
+            <td class="py-3 px-4">
+              <span class="px-2.5 py-0.5 rounded-full border text-[11px] font-bold inline-flex items-center gap-1.5 ${badgeStyle}">
+                <i class="${item.icon || 'fa-solid fa-circle-dot'} text-[10px]"></i>
+                ${item.badge}
+              </span>
+            </td>
+            <td class="py-3 px-4 font-bold text-slate-900">${item.title}</td>
+            <td class="py-3 px-4 text-slate-600 font-medium">${item.details}</td>
+            <td class="py-3 px-4 text-right font-mono font-bold text-slate-700">${item.user || 'ADMIN'}</td>
+          </tr>
+        `;
+      });
+
+      // Render các nút bấm chuyển trang
+      if (paginationBtns) {
+        let btnsHtml = `
+          <button onclick="goToAuditPage(${auditCurrentPage - 1})" ${auditCurrentPage === 1 ? 'disabled' : ''} 
+            class="px-2.5 py-1 rounded-lg border border-sky-200 font-bold transition text-xs ${auditCurrentPage === 1 ? 'opacity-40 cursor-not-allowed bg-slate-50 text-slate-400' : 'bg-white text-sky-800 hover:bg-sky-50'}">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+        `;
+
+        // Render tối đa 5 số trang xung quanh trang hiện tại
+        let startP = Math.max(1, auditCurrentPage - 2);
+        let endP = Math.min(totalPages, startP + 4);
+        if (endP - startP < 4) {
+          startP = Math.max(1, endP - 4);
+        }
+
+        for (let p = startP; p <= endP; p++) {
+          if (p === auditCurrentPage) {
+            btnsHtml += `
+              <button class="w-7 h-7 rounded-lg bg-sky-600 text-white font-extrabold text-xs shadow-2xs">
+                ${p}
+              </button>
+            `;
+          } else {
+            btnsHtml += `
+              <button onclick="goToAuditPage(${p})" class="w-7 h-7 rounded-lg bg-white border border-sky-200 text-slate-700 hover:bg-sky-50 font-bold text-xs transition">
+                ${p}
+              </button>
+            `;
+          }
+        }
+
+        btnsHtml += `
+          <button onclick="goToAuditPage(${auditCurrentPage + 1})" ${auditCurrentPage === totalPages ? 'disabled' : ''} 
+            class="px-2.5 py-1 rounded-lg border border-sky-200 font-bold transition text-xs ${auditCurrentPage === totalPages ? 'opacity-40 cursor-not-allowed bg-slate-50 text-slate-400' : 'bg-white text-sky-800 hover:bg-sky-50'}">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        `;
+
+        paginationBtns.innerHTML = btnsHtml;
+      }
+    }
+
+    async function clearSystemLogs() {
+      if (confirm("Bạn có chắc chắn muốn xóa toàn bộ lịch sử nhật ký bảo mật của hệ thống?")) {
+        if (window.pywebview) {
+          await window.pywebview.api.clear_all_logs();
+          allAuditEvents = [];
+          auditCurrentPage = 1;
+          renderAuditTable();
+        }
+      }
     }
 
     let currentCamMode = 'telemetry';
@@ -719,10 +1123,10 @@
       const elHint = document.getElementById('camHintText');
       const badge = document.getElementById('camFpsBadge');
       if (elHint && badge) {
-        elHint.innerText = "Sẵn sàng thử nghiệm";
+        elHint.innerText = "Sẵn sàng nhận diện";
         badge.className = "text-sm px-5 py-2 rounded-full bg-sky-50 text-sky-800 font-extrabold border border-sky-200 flex items-center gap-2.5 truncate max-w-[420px] shadow-xs";
       }
-      const idsText = [['telFaceDet', '<span class="text-slate-400 font-medium">CHƯA THẤY</span>'], ['telFiqa', '<span class="text-slate-400 font-medium">Đang chờ</span>'], ['telMoire', '<span class="text-slate-400 font-medium">Đang chờ</span>']];
+      const idsText = [['telFaceDet', '<span class="text-slate-400 font-medium">CHƯA PHÁT HIỆN</span>'], ['telFiqa', '<span class="text-slate-400 font-medium">Đang chờ</span>'], ['telMoire', '<span class="text-slate-400 font-medium">Đang chờ</span>'], ['telMatchedUser', '<span class="text-slate-400 font-medium">Chưa xác định</span>'], ['telHeadPose', '<span class="text-slate-400 font-medium">Đang chờ</span>']];
       idsText.forEach(([id, html]) => { const el = document.getElementById(id); if (el) el.innerHTML = html; });
       ['Pad', 'Sim', 'Fused'].forEach(k => {
         const t = document.getElementById('txt' + k + 'Pct'); if (t) t.innerText = "0%";
@@ -730,7 +1134,7 @@
       });
       const box = document.getElementById('telDecisionBox');
       if (box) {
-        box.innerText = "KẾT QUẢ: ĐANG CHỜ KHUÔN MẶT...";
+        box.innerText = "KẾT QUẢ: ĐANG CHỜ DIỆN MẠO...";
         box.className = "p-3.5 rounded-xl bg-slate-100 border border-slate-200 text-center font-black text-slate-500 text-xs tracking-wider shadow-2xs";
       }
       const btnTel = document.getElementById('btnModeTelemetry');
@@ -755,8 +1159,14 @@
       btnInt.className = (mode === 'interactive') ? clsActive : clsIdle;
 
       const spHint = document.getElementById('spaceHintText');
-      if (spHint) spHint.classList.toggle('hidden', mode === 'telemetry');
-      if (pnlTitle) pnlTitle.innerText = "Kiểm Tra Khuôn Mặt";
+      if (spHint) {
+        spHint.classList.toggle('hidden', mode === 'telemetry');
+        const spAction = document.getElementById('spaceHintActionText');
+        if (spAction) {
+          spAction.innerText = (mode === 'drill_fast') ? "để làm mới thời gian" : "để đổi thử thách";
+        }
+      }
+      if (pnlTitle) pnlTitle.innerText = "Phân Tích Đầu Vào";
 
       if (window.pywebview && window.pywebview.api.set_cam_view_mode) {
         await window.pywebview.api.set_cam_view_mode(mode);
@@ -787,26 +1197,29 @@
         btn.innerHTML = '<i class="fa-solid fa-stop"></i> Tắt Camera';
         btn.className = "w-full py-3 rounded-xl font-bold text-xs bg-rose-500 hover:bg-rose-600 text-white shadow-md shadow-rose-200 transition flex items-center justify-center gap-2";
         img.classList.remove('hidden');
-        const bg = document.getElementById('camBlurBg'); if (bg) bg.classList.remove('hidden');
         ph.classList.add('hidden');
-        if (window.pywebview) window.pywebview.api.start_cam();
+        if (window.pywebview) {
+          await window.pywebview.api.start_cam();
+          if (window.pywebview.api.get_mjpeg_url) {
+            const url = await window.pywebview.api.get_mjpeg_url();
+            if (url) img.src = url + "?t=" + Date.now();
+          }
+        }
       } else {
         isCamRunning = false;
         btn.innerHTML = '<i class="fa-solid fa-play"></i> Mở Camera Thử Nghiệm';
         btn.className = "w-full py-3 rounded-xl font-bold text-xs btn-gradient-success text-white flex items-center justify-center gap-2";
         img.classList.add('hidden');
-        const bg = document.getElementById('camBlurBg'); if (bg) bg.classList.add('hidden');
         ph.classList.remove('hidden');
+        img.src = "";
         if (window.pywebview) window.pywebview.api.stop_cam();
       }
     }
 
     // Callback tu Python cap nhat frame camera & telemetry
     function updateCamFrame(b64Jpeg, metrics) {
-      if (isCamRunning) {
-        const dataUri = "data:image/jpeg;base64," + b64Jpeg;
-        document.getElementById('camStream').src = dataUri;
-        const bg = document.getElementById('camBlurBg'); if (bg) bg.src = dataUri;
+      if (isCamRunning && b64Jpeg) {
+        document.getElementById('camStream').src = "data:image/jpeg;base64," + b64Jpeg;
       }
       if (metrics) {
         // Thay vị trí tiêu đề cũ bằng FPS
@@ -818,20 +1231,47 @@
         const badge = document.getElementById('camFpsBadge');
         if (elHint && badge) {
           if (currentCamMode === 'interactive' || currentCamMode === 'drill_fast') {
-            elHint.innerText = metrics.challenge_hint || "Đang chờ thử thách...";
-            if (metrics.active_success) {
+            elHint.innerText = metrics.challenge_hint || "Đang chuẩn bị nhận diện...";
+            if (metrics.decision === 'GENUINE') {
               badge.className = "text-sm px-5 py-2 rounded-full bg-emerald-100 text-emerald-800 font-extrabold border border-emerald-300 flex items-center gap-2.5 truncate max-w-[420px] shadow-xs";
+            } else if (metrics.decision === 'REJECTED') {
+              badge.className = "text-sm px-5 py-2 rounded-full bg-rose-50 text-rose-800 font-extrabold border border-rose-300 flex items-center gap-2.5 truncate max-w-[420px] shadow-xs";
+            } else if (metrics.active_success) {
+              badge.className = "text-sm px-5 py-2 rounded-full bg-emerald-50 text-emerald-800 font-extrabold border border-emerald-300 flex items-center gap-2.5 truncate max-w-[420px] shadow-xs";
             } else {
               badge.className = "text-sm px-5 py-2 rounded-full bg-amber-50 text-amber-800 font-extrabold border border-amber-300 flex items-center gap-2.5 truncate max-w-[420px] shadow-xs";
             }
           } else {
-            elHint.innerText = metrics.face_detected ? "Đã nhận diện khuôn mặt" : "Đang tìm khuôn mặt...";
+            elHint.innerText = metrics.face_detected ? "Đã định vị diện mạo" : "Vui lòng đưa khuôn mặt vào khung hình...";
             badge.className = "text-sm px-5 py-2 rounded-full bg-sky-50 text-sky-800 font-extrabold border border-sky-200 flex items-center gap-2.5 truncate max-w-[420px] shadow-xs";
           }
         }
-        document.getElementById('telFaceDet').innerHTML = metrics.face_detected ? '<span class="text-emerald-700 font-extrabold">ĐÃ THẤY</span>' : '<span class="text-slate-400 font-medium">CHƯA THẤY</span>';
-        document.getElementById('telFiqa').innerHTML = metrics.fiqa_passed ? '<span class="text-emerald-700 font-extrabold">ĐẠT CHUẨN</span>' : '<span class="text-amber-700 font-extrabold">HƠI MỜ</span>';
-        document.getElementById('telMoire').innerHTML = metrics.is_live_fft ? '<span class="text-emerald-700 font-extrabold">MẶT THẬT</span>' : '<span class="text-rose-700 font-extrabold">NGHI MÀN HÌNH</span>';
+        document.getElementById('telFaceDet').innerHTML = metrics.face_detected ? '<span class="text-emerald-700 font-extrabold">ĐÃ XÁC ĐỊNH</span>' : '<span class="text-slate-400 font-medium">CHƯA PHÁT HIỆN</span>';
+        document.getElementById('telFiqa').innerHTML = metrics.fiqa_passed ? '<span class="text-emerald-700 font-extrabold">ĐẠT TIÊU CHUẨN</span>' : '<span class="text-amber-700 font-extrabold">CHƯA ĐẠT CHUẨN</span>';
+        document.getElementById('telMoire').innerHTML = metrics.is_live_fft ? '<span class="text-emerald-700 font-extrabold">THỰC THỂ SỐNG</span>' : '<span class="text-rose-700 font-extrabold">NGHI VẤN MÀN HÌNH</span>';
+        const elUser = document.getElementById('telMatchedUser');
+        if (elUser) {
+          if (metrics.decision === 'GENUINE' && metrics.matched_user) {
+            elUser.innerHTML = '<span class="text-emerald-700 font-extrabold">' + metrics.matched_user + '</span>';
+          } else if (metrics.decision === 'REJECTED') {
+            elUser.innerHTML = '<span class="text-rose-700 font-extrabold">Không trùng khớp</span>';
+          } else {
+            elUser.innerHTML = '<span class="text-slate-400 font-medium">Chưa xác định</span>';
+          }
+        }
+        const elPose = document.getElementById('telHeadPose');
+        if (elPose) {
+          if (!metrics.face_detected) {
+            elPose.innerHTML = '<span class="text-slate-400 font-medium">Đang chờ</span>';
+          } else {
+            const y = Math.round(metrics.yaw || 0);
+            const p = Math.round(metrics.pitch || 0);
+            const straight = (Math.abs(y) <= 15 && Math.abs(p) <= 15);
+            elPose.innerHTML = straight
+              ? '<span class="text-emerald-700 font-extrabold">Chính diện (' + y + '°, ' + p + '°)</span>'
+              : '<span class="text-amber-600 font-extrabold">Lệch góc (' + y + '°, ' + p + '°)</span>';
+          }
+        }
         
         const pad = Math.round(metrics.pad_score * 100);
         document.getElementById('txtPadPct').innerText = pad + "%";
@@ -867,7 +1307,7 @@
           box.innerText = "TỪ CHỐI (GIẢ MẠO HOẶC SAI NGƯỜI)";
           box.className = "p-3.5 rounded-xl bg-rose-500 border border-rose-600 text-center font-black text-white text-xs tracking-wider shadow-md shadow-rose-200";
         } else {
-          box.innerText = "ĐANG CHỜ KHUÔN MẶT...";
+          box.innerText = "KẾT QUẢ: ĐANG CHỜ DIỆN MẠO...";
           box.className = "p-3.5 rounded-xl bg-slate-100 border border-slate-200 text-center font-bold text-slate-500 text-xs tracking-wider";
         }
       }
@@ -1010,17 +1450,16 @@
             document.getElementById('onboardingModal').classList.remove('hidden');
           }
           if (init.config) {
-            document.getElementById('selCameraIdx').value = init.config.cam_idx;
             document.getElementById('numTimeout').value = init.config.timeout_sec;
+            if (init.config.max_failures) document.getElementById('numMaxFailures').value = init.config.max_failures;
+            if (init.config.lockout_sec) document.getElementById('numLockoutSec').value = init.config.lockout_sec;
             document.getElementById('selSecurityLevel').value = init.config.security_level;
 
             document.getElementById('unlock_instant').checked = !init.config.unlock_liveness;
-            document.getElementById('unlock_enter').checked = init.config.unlock_liveness;
-            document.getElementById('unlock_enter').checked = init.config.unlock_liveness;
+            document.getElementById('unlock_enter').checked = !!init.config.unlock_liveness;
 
             document.getElementById('logon_instant').checked = !init.config.logon_liveness;
-            document.getElementById('logon_enter').checked = init.config.logon_liveness;
-            document.getElementById('logon_enter').checked = init.config.logon_liveness;
+            document.getElementById('logon_enter').checked = !!init.config.logon_liveness;
             onStyleChanged();
           }
         }
@@ -1036,14 +1475,14 @@
       <div class="space-y-2">
         <h2 class="text-lg font-extrabold text-slate-900">Kích Hoạt Mở Khóa Màn Hình</h2>
         <p class="text-xs text-slate-600 leading-relaxed">
-          Để tránh lỗi và sử dụng đầy đủ tính năng nhận diện khuôn mặt, vui lòng tích hợp module vào màn hình khóa Windows và khởi động hệ thống trước khi vào Dashboard.
+          Để sử dụng đầy đủ tính năng nhận diện khuôn mặt, vui lòng kích hoạt mô-đun bảo vệ màn hình khóa và bật dịch vụ hệ thống.
         </p>
       </div>
       <div id="onboardingStatus" class="hidden text-xs font-bold text-sky-700 bg-sky-50 py-2.5 px-3 rounded-xl border border-sky-200">
         <i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Đang chờ xác nhận Admin (UAC) và khởi động hệ thống...
       </div>
       <button id="btnOnboardingActivate" onclick="activateAndEnterDashboard()" class="w-full py-3.5 px-5 rounded-xl text-xs font-extrabold text-white btn-gradient-primary flex items-center justify-center gap-2 shadow-lg">
-        <i class="fa-brands fa-windows text-sm"></i> Kích Hoạt Mở Khóa & Bật Hệ Thống
+        <i class="fa-solid fa-shield-halved text-sm"></i> Kích Hoạt Mở Khóa & Bật Dịch Vụ
       </button>
     </div>
   </div>
@@ -1061,8 +1500,8 @@
       </div>
       <div class="space-y-3 text-xs">
         <div id="pwWinBox" class="hidden space-y-1">
-          <label class="font-bold text-slate-700">Mật khẩu Windows:</label>
-          <input type="password" id="pwWin" placeholder="Nhập mật khẩu đăng nhập Windows..." class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2.5 text-slate-800 font-bold focus:outline-none focus:border-sky-500">
+          <label class="font-bold text-slate-700">Mật khẩu đăng nhập máy:</label>
+          <input type="password" id="pwWin" placeholder="Nhập mật khẩu đăng nhập máy..." class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2.5 text-slate-800 font-bold focus:outline-none focus:border-sky-500">
         </div>
         <div class="space-y-1">
           <label class="font-bold text-slate-700">Mật khẩu hiện tại của app:</label>
@@ -1144,12 +1583,12 @@
         </button>
       </div>
       <p class="text-xs text-slate-500 leading-relaxed">
-        Hệ thống chưa có mật khẩu dự phòng Windows. Vui lòng tạo mật khẩu mới trước khi bật dịch vụ nhận diện.
+        Hệ thống chưa có mật khẩu mở máy dự phòng. Vui lòng tạo mật khẩu mới trước khi bật dịch vụ nhận diện.
       </p>
       <div class="space-y-3 text-xs">
         <div id="setupWinPwBox" class="hidden space-y-1">
-          <label class="font-bold text-slate-700">Mật khẩu Windows hiện tại:</label>
-          <input type="password" id="setupWinPw" placeholder="Nhập mật khẩu đăng nhập Windows..." class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2.5 text-slate-800 font-bold focus:outline-none focus:border-sky-500">
+          <label class="font-bold text-slate-700">Mật khẩu đăng nhập máy hiện tại:</label>
+          <input type="password" id="setupWinPw" placeholder="Nhập mật khẩu đăng nhập máy..." class="w-full bg-white border border-sky-200 rounded-xl px-3.5 py-2.5 text-slate-800 font-bold focus:outline-none focus:border-sky-500">
         </div>
         <div class="space-y-1">
           <label class="font-bold text-slate-700">Nhập mật khẩu mới:</label>
@@ -1191,7 +1630,7 @@
 
       if (needWinPwSetup && !winPw) {
         msg.className = "text-xs font-bold py-2 px-3 rounded-xl bg-rose-50 text-rose-700 border border-rose-200";
-        msg.innerText = "Vui lòng nhập mật khẩu Windows hiện tại!";
+        msg.innerText = "Vui lòng nhập mật khẩu đăng nhập máy hiện tại!";
         return;
       }
       if (!newPw) {

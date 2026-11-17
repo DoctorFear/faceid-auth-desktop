@@ -15,6 +15,21 @@ from collections import deque
 from enum import Enum
 import cv2
 import numpy as np
+from core.constants import (
+    DEFAULT_CHALLENGE_TIMEOUT_SEC,
+    LIVENESS_BASE_MAX_YAW,
+    LIVENESS_BASE_MAX_PITCH,
+    LIVENESS_BASE_CALIB_FRAMES,
+    LIVENESS_TURN_LEFT_DYAW,
+    LIVENESS_TURN_LEFT_ABS_YAW,
+    LIVENESS_TURN_RIGHT_DYAW,
+    LIVENESS_TURN_RIGHT_ABS_YAW,
+    LIVENESS_NOD_DOWN_DPITCH,
+    LIVENESS_NOD_DOWN_ABS_PITCH,
+    LIVENESS_LOOK_UP_DPITCH,
+    LIVENESS_LOOK_UP_ABS_PITCH,
+    LIVENESS_POSE_HOLD_FRAMES,
+)
 
 
 @contextmanager
@@ -36,14 +51,14 @@ def suppress_c_stderr():
 
 
 class ActionType(Enum):
-    TURN_LEFT       = "QUAY SANG TRAI <--"
-    TURN_RIGHT      = "QUAY SANG PHAI -->"
-    NOD_DOWN        = "CUI DAU XUONG [v]"
-    LOOK_UP         = "NGUOC MAT LEN [^]"
-    BLINK_ONCE      = "CHOP MAT 1 CAI [o_o]"
-    BLINK_TWICE     = "CHOP MAT 2 CAI [o_o]x2"
-    SMILE           = "CUOI TUOI :D"
-    TWO_FINGERS     = "GIO 2 NGON TAY (CHU V) [V]"
+    TURN_LEFT       = "Vui lòng quay mặt sang trái"
+    TURN_RIGHT      = "Vui lòng quay mặt sang phải"
+    NOD_DOWN        = "Vui lòng cúi nhẹ đầu"
+    LOOK_UP         = "Vui lòng ngẩng nhẹ đầu"
+    BLINK_ONCE      = "Vui lòng chớp mắt 1 lần"
+    BLINK_TWICE     = "Vui lòng chớp mắt 2 lần"
+    SMILE           = "Vui lòng mỉm cười nhẹ"
+    TWO_FINGERS     = "Vui lòng giơ ngón tay chữ V"
 
 
 class ChallengeResponseDetector:
@@ -62,7 +77,7 @@ class ChallengeResponseDetector:
 
     FINGER_HOLD_FRAMES = 4
 
-    def __init__(self, timeout_sec: float = 16.0, preload_hands: bool = True):
+    def __init__(self, timeout_sec: float = DEFAULT_CHALLENGE_TIMEOUT_SEC, preload_hands: bool = True):
         self.timeout_sec = timeout_sec
         self.current_action: ActionType | None = None
         self.challenge_start_time = 0.0
@@ -127,6 +142,7 @@ class ChallengeResponseDetector:
         self.hand_match_frames = 0
         self._pose_base = None
         self._pose_buf = []
+        self._pose_ema = None
 
     def reset_challenge(self, action: ActionType | None = None) -> ActionType:
         self.current_action = action or random.choice(list(ActionType))
@@ -137,42 +153,62 @@ class ChallengeResponseDetector:
     # --- 1. POSE ---
     def _check_pose(self, pose: tuple[float, float, float] | None, act: ActionType) -> tuple[bool, str]:
         if pose is None:
-            return False, "Dang tim khuon mat..."
-        yaw, pitch, _ = pose
+            return False, "Vui lòng đưa khuôn mặt vào khung hình..."
+        raw_yaw, raw_pitch, _ = pose
 
-        # Lay mau tu the nhin thang lam goc (0, 0)
+        # Lam muot goc bang EMA de triet tieu nhieu (jitter) giua cac frame
+        if self._pose_ema is None:
+            self._pose_ema = (raw_yaw, raw_pitch)
+        else:
+            self._pose_ema = (
+                0.60 * raw_yaw + 0.40 * self._pose_ema[0],
+                0.60 * raw_pitch + 0.40 * self._pose_ema[1],
+            )
+        yaw, pitch = self._pose_ema
+
+        # Chi khoa moc xuat phat khi khuon mat dang o tu the thang va on dinh qua LIVENESS_BASE_CALIB_FRAMES frame
         if self._pose_base is None:
-            self._pose_buf.append((yaw, pitch))
-            arr = np.array(self._pose_buf)
-            if len(arr) > 1 and (np.ptp(arr[:, 0]) > 8 or np.ptp(arr[:, 1]) > 8):
-                self._pose_buf = [(yaw, pitch)]
-                return False, "Giu dau yen, nhin thang..."
-            if len(arr) < 8:
-                return False, f"Nhin thang de lay mau... ({len(arr)}/8)"
-            self._pose_base = (float(np.median(arr[:, 0])), float(np.median(arr[:, 1])))
-            return False, "San sang! Hay lam thu thach"
+            if abs(yaw) <= LIVENESS_BASE_MAX_YAW and abs(pitch) <= LIVENESS_BASE_MAX_PITCH:
+                self._pose_buf.append((yaw, pitch))
+                if len(self._pose_buf) >= LIVENESS_BASE_CALIB_FRAMES:
+                    med_y = float(np.median([p[0] for p in self._pose_buf]))
+                    med_p = float(np.median([p[1] for p in self._pose_buf]))
+                    # Kiem tra dau khong dang chuyen dong manh trong luc chot moc
+                    spread_y = max(p[0] for p in self._pose_buf) - min(p[0] for p in self._pose_buf)
+                    spread_p = max(p[1] for p in self._pose_buf) - min(p[1] for p in self._pose_buf)
+                    if spread_y <= 5.0 and spread_p <= 4.0:
+                        self._pose_base = (med_y, med_p)
+                        self._pose_buf.clear()
+                        return False, act.value
+                    else:
+                        # Giữ lại nửa cuối buffer nếu đầu vừa mới ổn định lại
+                        self._pose_buf = self._pose_buf[-(LIVENESS_BASE_CALIB_FRAMES // 2):]
+                return False, act.value
+            else:
+                self._pose_buf.clear()
+                return False, "Vui lòng nhìn thẳng vào camera để bắt đầu..."
 
         dyaw = yaw - self._pose_base[0]
         dpitch = pitch - self._pose_base[1]
 
         if act == ActionType.TURN_LEFT:
-            target_met = dyaw < -9.0
-            hint = f"Quay sang TRAI (dYaw: {dyaw:+.1f} / < -9)"
+            target_met = dyaw < LIVENESS_TURN_LEFT_DYAW
+            hint = "Vui lòng quay mặt sang trái"
         elif act == ActionType.TURN_RIGHT:
-            target_met = dyaw > 9.0
-            hint = f"Quay sang PHAI (dYaw: {dyaw:+.1f} / > +9)"
+            target_met = dyaw > LIVENESS_TURN_RIGHT_DYAW
+            hint = "Vui lòng quay mặt sang phải"
         elif act == ActionType.NOD_DOWN:
-            target_met = dpitch < -7.0
-            hint = f"Cui nhe cam (dPitch: {dpitch:+.1f} / < -7)"
+            target_met = dpitch < LIVENESS_NOD_DOWN_DPITCH
+            hint = "Vui lòng cúi nhẹ đầu"
         else:  # LOOK_UP
-            target_met = dpitch > 8.0
-            hint = f"Nang nhe cam (dPitch: {dpitch:+.1f} / > +8)"
+            target_met = dpitch > LIVENESS_LOOK_UP_DPITCH
+            hint = "Vui lòng ngẩng nhẹ đầu"
 
         if target_met:
             self._pose_hold_frames += 1
-            if self._pose_hold_frames >= 3:
-                return True, "Thanh cong: Da lam dung huong!"
-            return False, f"Giu nguyen ({self._pose_hold_frames}/3)..."
+            if self._pose_hold_frames >= LIVENESS_POSE_HOLD_FRAMES:
+                return True, "Đã xác thực cử động thành công!"
+            return False, f"Giữ nguyên tư thế ({self._pose_hold_frames}/{LIVENESS_POSE_HOLD_FRAMES})..."
 
         self._pose_hold_frames = max(0, self._pose_hold_frames - 1)
         return False, hint
@@ -219,12 +255,12 @@ class ChallengeResponseDetector:
         gray = cv2.GaussianBlur(cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY), (3, 3), 0)
         eyes = self._eye_patches(gray, landmarks)
         if eyes is None:
-            return False, "Mat qua xa camera", 0.0
+            return False, "Vui lòng giữ khoảng cách vừa phải...", 0.0
 
         if self.eye_tmpl is None:
             self._calib.append(eyes)
             if len(self._calib) < self.CALIB_FRAMES:
-                return False, f"Nhin tu nhien de lay mau... ({len(self._calib)}/{self.CALIB_FRAMES})", 1.0
+                return False, "Đang định vị hướng mắt...", 1.0
 
             tmpls, depths, ok = [], [], True
             for i in range(2):
@@ -235,7 +271,7 @@ class ChallengeResponseDetector:
                 depths.append(max(float(np.median([f[i]["depth"] for f in self._calib])), 5.0))
             if not ok:
                 self._calib = []
-                return False, "Lay mau lai mat...", 1.0
+                return False, "Đang căn chỉnh lại góc mắt...", 1.0
             self.eye_tmpl, self.eye_depth = tmpls, depths
 
             sc = np.array([self._eye_score(f) for f in self._calib])
@@ -243,7 +279,7 @@ class ChallengeResponseDetector:
             self.closed_th = m - max(0.16, 3.5 * sigma)
             self.open_th = m - max(0.08, 1.8 * sigma)
             self._calib = []
-            return False, "San sang! Hay chop mat", 1.0
+            return False, ("Vui lòng chớp mắt 1 lần" if target_blinks == 1 else "Vui lòng chớp mắt 2 lần"), 1.0
 
         score = self._eye_score(eyes)
         now = time.time()
@@ -263,10 +299,9 @@ class ChallengeResponseDetector:
                     self.eye_tmpl[i] = 0.94 * self.eye_tmpl[i] + 0.06 * e["tpl"]
 
         if self.blink_count >= target_blinks:
-            return True, f"Thanh cong: Da chop {target_blinks} lan!", score
+            return True, f"Đã chớp mắt đủ {target_blinks} lần!", score
 
-        state = "NHAM" if self.eye_closed else "MO"
-        return False, f"Da chop: {self.blink_count}/{target_blinks} ({state} {int(score*100)}%)", score
+        return False, ("Vui lòng chớp mắt 1 lần" if target_blinks == 1 else f"Đã chớp ({self.blink_count}/{target_blinks}), vui lòng chớp thêm..."), score
 
     # --- 3. CUOI ---
     @staticmethod
@@ -286,7 +321,7 @@ class ChallengeResponseDetector:
         eye_dist = float(np.linalg.norm(re - le))
         mouth_dist = float(np.linalg.norm(rm - lm))
         if eye_dist < 1e-3:
-            return False, "Dang tim mat...", 0.0
+            return False, "Đang tìm khuôn mặt...", 0.0
 
         ratio = mouth_dist / eye_dist
         lift_d = ((rm[1] + lm[1]) / 2.0 - nose[1]) / eye_dist
@@ -298,11 +333,11 @@ class ChallengeResponseDetector:
             self._base_teeth.append(teeth)
             remain = self.SMILE_BASE_FRAMES - len(self._base_ratios)
             if remain > 0:
-                return False, f"Giu mat tu nhien, chua cuoi... ({remain})", ratio
+                return False, "Vui lòng giữ nét mặt tự nhiên...", ratio
             self.baseline_mouth_ratio = float(np.median(self._base_ratios))
             self.baseline_lift = float(np.median(self._base_lifts))
             self.baseline_teeth = float(np.median(self._base_teeth))
-            return False, "Bay gio hay cuoi mim hoac cuoi thay rang :D", ratio
+            return False, "Vui lòng mỉm cười nhẹ", ratio
 
         self._ratio_hist.append(ratio)
         self._lift_hist.append(lift_d)
@@ -324,19 +359,19 @@ class ChallengeResponseDetector:
                 self._smile_start = now
             self.smile_frames += 1
             if self.smile_frames >= self.SMILE_MIN_FRAMES and (now - self._smile_start) >= self.SMILE_MIN_SECONDS:
-                return True, "Thanh cong: Da cuoi!", r
-            return False, f"Dang cuoi... ({self.smile_frames}/{self.SMILE_MIN_FRAMES})", r
+                return True, "Đã xác thực nụ cười thành công!", r
+            return False, f"Đang cười ({self.smile_frames}/{self.SMILE_MIN_FRAMES})...", r
 
         self.smile_frames = 0
         if width_gain < 0.02:
             self.baseline_mouth_ratio = 0.98 * self.baseline_mouth_ratio + 0.02 * r
-        return False, f"Cuoi mim hoac cuoi thay rang :D (+{width_gain*100:+.0f}%)", r
+        return False, "Vui lòng mỉm cười nhẹ", r
 
     # --- 4. GIO 2 NGON TAY (CHỮ V) ---
     def _check_two_fingers(self, frame_bgr: np.ndarray):
         hands = self._get_mp_hands()
         if hands is None:
-            return False, "Chua khoi tao duoc MediaPipe Hands", []
+            return False, "Chưa khởi tạo được bộ nhận diện bàn tay", []
 
         h, w = frame_bgr.shape[:2]
         rgb = np.ascontiguousarray(cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB))
@@ -345,11 +380,11 @@ class ChallengeResponseDetector:
             with suppress_c_stderr():
                 res = hands.process(rgb)
         except Exception:
-            return False, "Dang xu ly ban tay...", []
+            return False, "Đang xử lý cử chỉ bàn tay...", []
 
         if not res or not res.multi_hand_landmarks:
             self.hand_match_frames = max(0, self.hand_match_frames - 1)
-            return False, "Hay dua ban tay vao khung hinh camera", []
+            return False, "Vui lòng giơ ngón tay chữ V vào khung hình", []
 
         def is_finger_up(pts, tip_idx, pip_idx):
             return np.linalg.norm(pts[tip_idx] - pts[0]) > 1.15 * np.linalg.norm(pts[pip_idx] - pts[0])
@@ -379,11 +414,11 @@ class ChallengeResponseDetector:
         if is_valid_v:
             self.hand_match_frames += 1
             if self.hand_match_frames >= self.FINGER_HOLD_FRAMES:
-                return True, "Thanh cong: Da xac nhan chu V!", v_tips
-            return False, f"Giu yen chu V ({self.hand_match_frames}/{self.FINGER_HOLD_FRAMES})...", v_tips
+                return True, "Đã xác nhận cử chỉ chữ V!", v_tips
+            return False, f"Giữ nguyên chữ V ({self.hand_match_frames}/{self.FINGER_HOLD_FRAMES})...", v_tips
         else:
             self.hand_match_frames = max(0, self.hand_match_frames - 1)
-            return False, "Chi gio dung 2 ngon (tro + giua), gap cac ngon con lai", []
+            return False, "Vui lòng giơ ngón tay chữ V", []
 
     def check_action(
         self,
@@ -395,11 +430,11 @@ class ChallengeResponseDetector:
         debug_info = {"fingertips": []}
 
         if self.current_action is None:
-            return False, "Chua khoi tao thu thach", debug_info
+            return False, "Đang chuẩn bị thử thách...", debug_info
 
         now = time.time()
         if now - self.challenge_start_time > self.timeout_sec:
-            return False, "HET GIO! Nhan 'r' de thu thach moi", debug_info
+            return False, "Hết thời gian thử thách! Vui lòng thử lại.", debug_info
 
         act = self.current_action
 
@@ -409,22 +444,22 @@ class ChallengeResponseDetector:
 
         if act in (ActionType.BLINK_ONCE, ActionType.BLINK_TWICE):
             if landmarks is None:
-                return False, "Dang tim mat...", debug_info
+                return False, "Đang tìm khuôn mặt...", debug_info
             target = 1 if act == ActionType.BLINK_ONCE else 2
             passed, hint, _ = self._check_blink_template(frame_bgr, landmarks, target_blinks=target)
             return passed, hint, debug_info
 
         if act == ActionType.SMILE:
             if landmarks is None:
-                return False, "Dang tim mat...", debug_info
+                return False, "Đang tìm khuôn mặt...", debug_info
             passed, hint, _ = self._check_smile_adaptive(landmarks, frame_bgr)
             return passed, hint, debug_info
 
         if act == ActionType.TWO_FINGERS:
             if face_box is None:
-                return False, "Can giu khuon mat trong khung hinh khi gio tay", debug_info
+                return False, "Vui lòng giữ khuôn mặt trong khung hình khi giơ tay", debug_info
             passed, hint, tips = self._check_two_fingers(frame_bgr)
             debug_info["fingertips"] = tips
             return passed, hint, debug_info
 
-        return False, "Dang cho...", debug_info
+        return False, "Đang chờ...", debug_info

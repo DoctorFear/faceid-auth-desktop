@@ -3,6 +3,12 @@ from collections import defaultdict, deque
 import cv2
 import numpy as np
 import onnxruntime as ort
+from core.constants import (
+    PAD_REAL_THRESHOLD,
+    PAD_SCALE,
+    PAD_SMOOTH_WINDOW,
+    MIN_FACE_SIZE_PX,
+)
 
 
 class MiniFASNetDetector:
@@ -11,10 +17,10 @@ class MiniFASNetDetector:
     def __init__(
         self,
         model_path: str | None = None,
-        real_threshold: float = 0.60,
-        scale: float = 2.7,
-        window: int = 5,
-        min_face: int = 80,
+        real_threshold: float = PAD_REAL_THRESHOLD,
+        scale: float = PAD_SCALE,
+        window: int = PAD_SMOOTH_WINDOW,
+        min_face: int = MIN_FACE_SIZE_PX,
         blur_min: float | None = None,
     ):
         if model_path is None:
