@@ -29,13 +29,17 @@ echo "=========================================================="
 chmod o+rx "$(dirname "$(dirname "$SCRIPT_DIR")")" "$(dirname "$SCRIPT_DIR")" "$SCRIPT_DIR" 2>/dev/null || true
 chmod -R a+rwX "$SCRIPT_DIR/data" "$SCRIPT_DIR/config" 2>/dev/null || true
 
-# 1. Tich hop PAM module vao /etc/pam.d/common-auth (truoc pam_unix.so)
+# 1. Tich hop PAM module vao /etc/pam.d/common-auth (truoc pam_unix.so va truoc pam_deny.so)
 PAM_FILE="/etc/pam.d/common-auth"
-PAM_LINE="auth	[success=3 default=ignore]	pam_exec.so stdout $PYTHON_EXE $PAM_CLIENT"
+PAM_LINE_AUTH="auth	[success=4 default=ignore]	pam_exec.so quiet stdout $PYTHON_EXE $PAM_CLIENT"
+PAM_LINE_FAIL="auth	[default=ignore]	pam_exec.so quiet stdout $PYTHON_EXE $PAM_CLIENT --on-pwd-fail"
 
 if [ -f "$PAM_FILE" ]; then
     sed -i "\|faceid_pam_client.py|d" "$PAM_FILE"
-    sed -i "\|pam_unix\.so|i $PAM_LINE" "$PAM_FILE"
+    sed -i "s|auth\t\[success=2 default=ignore\]\tpam_unix\.so|auth\t[success=3 default=ignore]\tpam_unix.so|" "$PAM_FILE"
+    sed -i "s|auth\t\[success=1 default=ignore\]\tpam_sss\.so|auth\t[success=2 default=ignore]\tpam_sss.so|" "$PAM_FILE"
+    sed -i "\|pam_unix\.so|i $PAM_LINE_AUTH" "$PAM_FILE"
+    sed -i "\|pam_deny\.so|i $PAM_LINE_FAIL" "$PAM_FILE"
     echo "[1/3] Da tich hop FaceID PAM vao $PAM_FILE (Login Screen, Lock Screen, sudo, polkit)."
 fi
 

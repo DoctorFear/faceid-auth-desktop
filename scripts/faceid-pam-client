@@ -12,6 +12,7 @@ import os
 import sys
 import json
 import socket
+import time
 
 DEFAULT_SOCKET_PATH = "/run/faceid/faceid.sock"
 DEFAULT_TCP_PORT = 9876
@@ -37,6 +38,26 @@ def get_pam_environment():
             service = sys.argv[2]
         else:
             service = "sudo"
+
+    # Tren Ubuntu / GDM: ca man hinh dang nhap khoi dong (boot) va man hinh khoa tam thoi
+    # deu mac dinh dung service name la 'gdm-password'.
+    # Ta phan biet thong minh tren Linux: Neu user da co active graphical session (wayland hoac x11),
+    # thi day chinh la Man hinh Khoa Tam Thoi -> ap dung chinh sach 'gnome-screensaver' (Khoa tam thoi).
+    if service == "gdm-password" and user and sys.platform != "win32":
+        try:
+            import subprocess
+            out = subprocess.check_output(["loginctl", "list-sessions", "--no-legend"], text=True, timeout=0.8)
+            for line in out.strip().splitlines():
+                parts = line.split()
+                if len(parts) >= 3 and parts[2] == user:
+                    sid = parts[0]
+                    s_info = subprocess.check_output(["loginctl", "show-session", sid, "-p", "Type", "-p", "Class"], text=True, timeout=0.5)
+                    if "Class=user" in s_info and ("Type=wayland" in s_info or "Type=x11" in s_info):
+                        service = "gnome-screensaver"
+                        break
+        except Exception:
+            pass
+
     return user, service
 
 
@@ -63,7 +84,13 @@ def _connect_daemon_socket(timeout: float = 12.0) -> socket.socket:
 def query_daemon(user: str, service: str = "sudo", action: str = "auth") -> dict:
     """Ket noi toi Daemon va lang nghe ca su kien huong dan liveness theo thoi gian thuc."""
     s = None
+    printed_messages = set()
     try:
+        if action == "auth":
+            init_msg = "Đang khởi động camera quét khuôn mặt..."
+            print(init_msg, flush=True)
+            printed_messages.add(init_msg)
+
         s = _connect_daemon_socket(timeout=12.0)
         req = {"action": action, "user": user, "service": service}
         s.sendall((json.dumps(req) + "\n").encode("utf-8"))
@@ -76,13 +103,17 @@ def query_daemon(user: str, service: str = "sudo", action: str = "auth") -> dict
             msg_obj = json.loads(line)
             # Neu la su kien tien do hoac thu thach liveness, in ra man hinh ngay
             if msg_obj.get("event") == "progress":
-                print(f"[FaceID] {msg_obj.get('message')}", file=sys.stderr)
+                msg_text = msg_obj.get("message", "")
+                if msg_text and msg_text not in printed_messages:
+                    printed_messages.add(msg_text)
+                    print(msg_text, flush=True)
             elif "status" in msg_obj:
+                msg_obj["_printed_messages"] = printed_messages
                 return msg_obj
 
-        return {"status": "FAILED", "fallback": "PASSWORD"}
+        return {"status": "FAILED", "fallback": "PASSWORD", "_printed_messages": printed_messages}
     except Exception as e:
-        return {"status": "UNAVAILABLE", "error": str(e)}
+        return {"status": "UNAVAILABLE", "error": str(e), "_printed_messages": printed_messages}
     finally:
         if s:
             s.close()
@@ -94,27 +125,81 @@ def main():
     # Gui lenh toi Daemon
     res = query_daemon(user, service)
     status = res.get("status", "FAILED")
+    printed = res.get("_printed_messages") or set()
 
     if status == "SUCCESS":
-        # In thong bao ra stderr de hien thi tren Terminal cua user truoc khi vao sudo
-        print(f"[FaceID] Xac thuc khuon mat THANH CONG cho '{user}' (Confidence: {res.get('confidence', 0):.2f})!", file=sys.stderr)
+        matched_user = res.get("matched_user") or user
+        msg = f"Xác thực thành công ({matched_user})! Đang mở khóa..."
+        if msg not in printed:
+            print(msg, flush=True)
+
+        # Gui Desktop Notification xac nhan khi vao Desktop
+        try:
+            import subprocess
+            uid_str = os.environ.get("PAM_UID", "1000")
+            dbus_addr = f"unix:path=/run/user/{uid_str}/bus"
+            subprocess.Popen([
+                "notify-send", "-a", "VinFace", "-i", "security-high",
+                f"Xác thực thành công ({matched_user})",
+                "Đã mở khóa máy tính an toàn."
+            ], env=dict(os.environ, DBUS_SESSION_BUS_ADDRESS=dbus_addr), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception:
+            pass
+
+        # Giu thong bao tren man hinh de nguoi dung doc ro truoc khi GDM chuyen huong vao Desktop
+        if service in ("gdm-password", "gnome-screensaver"):
+            time.sleep(1.5)
+        else:
+            time.sleep(0.3)
         sys.exit(0)  # PAM_SUCCESS
     elif status == "LOCKED_OUT":
-        rem = res.get("remaining_seconds", 45)
-        print(f"[FaceID] Tai khoan dang bi khoa tam thoi ({rem}s) -> Fallback Password.", file=sys.stderr)
+        msg = "FaceID đã tạm khóa do thử sai nhiều lần. Vui lòng nhập mật khẩu"
+        if msg not in printed:
+            print(msg, flush=True)
         sys.exit(1)
-    elif status == "CAMERA_BUSY":
-        print("[FaceID] Camera dang ban (Zoom/Meet) -> Chuyen sang nhap Password.", file=sys.stderr)
+    elif status in ("CAMERA_BUSY", "CAMERA_ERROR"):
+        msg = res.get("message") or "Camera đang bận hoặc không thể mở. Vui lòng sử dụng mật mã dự phòng"
+        if msg not in printed:
+            print(msg, flush=True)
+        sys.exit(1)
+    elif status == "BYPASS":
+        msg = "FaceID đang tạm tắt. Vui lòng nhập mật khẩu mở máy"
+        if msg not in printed:
+            print(msg, flush=True)
+        sys.exit(1)
+    elif status == "UNAVAILABLE":
+        msg = "Không thể kết nối FaceID. Vui lòng nhập mật khẩu"
+        if msg not in printed:
+            print(msg, flush=True)
         sys.exit(1)
     elif status == "NOT_ENROLLED":
-        print(f"[FaceID] Nguoi dung '{user}' chua dang ky khuon mat -> Fallback Password.", file=sys.stderr)
+        msg = "Không nhận diện được khuôn mặt. Vui lòng nhập mật mã"
+        if msg not in printed:
+            print(msg, flush=True)
         sys.exit(1)
     else:
-        # Cac truong hop FAILED, UNAVAILABLE, BYPASS -> Fallback password
-        err_hint = res.get("error", "Khuon mat khong khop hoac het timeout")
-        print(f"[FaceID] Xac thuc THAT BAI ({err_hint}) -> Chuyen sang nhap Password.", file=sys.stderr)
+        # Cac truong hop FAILED -> Fallback password
+        msg = res.get("message") or "Không nhận diện được khuôn mặt. Vui lòng nhập mật mã"
+        if msg not in printed:
+            print(msg, flush=True)
         sys.exit(1)
+
+
+def handle_pwd_fail():
+    """Khi nguoi dung nhap sai mat khau du phong:
+    Neu ung dung FaceID dang BAT -> Hien thong bao huong dan tieng Viet.
+    Neu ung dung dang TAT hoac Bypass -> Khong can thiep, giu nguyen nhu cu cua he thong.
+    """
+    try:
+        res = query_daemon("nobody", action="status")
+        if res.get("status") == "OK" and res.get("enabled", False):
+            print("Mật khẩu không đúng. Vui lòng thử lại hoặc quét khuôn mặt.", flush=True)
+    except Exception:
+        pass
+    sys.exit(0)
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--on-pwd-fail":
+        handle_pwd_fail()
     main()

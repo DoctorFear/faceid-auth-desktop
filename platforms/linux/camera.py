@@ -80,7 +80,7 @@ class LinuxCameraManager:
 
         sysfs_base = f"/sys/class/video4linux/video{self.device_index}"
         if not os.path.exists(sysfs_base):
-            return False, f"Khong tim thay sysfs node: {sysfs_base}"
+            return False, f"Không tìm thấy thiết bị camera tại {sysfs_base}"
 
         # 1. Kiem tra duong dan thuc (realpath) trong /sys/devices/virtual
         real_sysfs = os.path.realpath(sysfs_base)
@@ -136,9 +136,19 @@ class LinuxCameraManager:
             with camera_mgr.acquire() as cap:
                 ret, frame = cap.read()
         """
+        # Kiem tra thiet bi camera ton tai
+        if sys.platform != "win32":
+            dev_path = f"/dev/video{self.device_index}"
+            sysfs_base = f"/sys/class/video4linux/video{self.device_index}"
+            if not os.path.exists(dev_path) and not os.path.exists(sysfs_base):
+                logger.warning(f"[-] Khong tim thay thiet bi camera tai {dev_path}")
+                raise CameraDeviceError(f"Không tìm thấy thiết bị camera {dev_path}")
+
         # Kiem tra chong Camera Ao (v4l2loopback) truoc khi mo thiet bi
         is_phys, reason = self.verify_physical_camera()
         if not is_phys:
+            if "Không tìm thấy" in reason:
+                raise CameraDeviceError(reason)
             logger.error(f"[SECURITY ALERT] Chan truy cap Camera Ao: {reason}")
             raise VirtualCameraDetectedError(reason)
 

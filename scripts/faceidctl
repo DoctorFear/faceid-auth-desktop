@@ -222,8 +222,13 @@ def cmd_start(args):
         return
 
     print("[*] Dang khoi dong FaceID Daemon chay ngam (Background Process)...")
-    os.makedirs(os.path.dirname(os.path.abspath(LOG_FILE)), exist_ok=True)
-    log_out = open(LOG_FILE, "a", encoding="utf-8")
+    try:
+        os.makedirs(os.path.dirname(os.path.abspath(LOG_FILE)), exist_ok=True)
+        log_out = open(LOG_FILE, "a", encoding="utf-8")
+    except (PermissionError, OSError):
+        local_log = os.path.join(BASE_DIR, "data", "daemon.log")
+        os.makedirs(os.path.dirname(os.path.abspath(local_log)), exist_ok=True)
+        log_out = open(local_log, "a", encoding="utf-8")
 
     if sys.platform == "win32":
         pythonw_candidate = os.path.join(os.path.dirname(python_exe), "pythonw.exe")
@@ -320,6 +325,11 @@ def cmd_on(args):
         else:
             print("[+] DA BAT cong tac FaceID trong cau hinh.")
             print("    (Goi y: Chay 'python scripts/faceidctl start' de khoi dong Daemon chay ngam)")
+        try:
+            from platforms.linux.gdm_hook import sync_gdm_localization
+            sync_gdm_localization(True)
+        except Exception:
+            pass
     else:
         print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
 
@@ -340,6 +350,11 @@ def cmd_off(args):
             print("    (Neu muon tat han tien trinh ngam, chay: 'python scripts/faceidctl stop')")
         else:
             print("[-] DA TAT FaceID: He thong se bo qua FaceID va hoi mat khau truyen thong.")
+        try:
+            from platforms.linux.gdm_hook import sync_gdm_localization
+            sync_gdm_localization(False)
+        except Exception:
+            pass
     else:
         print(f"[-] Khong tim thay file config: {CONFIG_FILE}")
 

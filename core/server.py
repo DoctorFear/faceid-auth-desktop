@@ -160,6 +160,13 @@ class FaceIDDaemon:
         self._auth_lock = threading.Lock()
         self._server_sock: Optional[socket.socket] = None
 
+        if sys.platform != "win32":
+            try:
+                from platforms.linux.gdm_hook import sync_gdm_localization
+                sync_gdm_localization(self.enabled)
+            except Exception:
+                pass
+
     def _reload_config(self):
         """Doc lai config.json va policy.json de cap nhat trang thai enabled/policy tuc thi (Hot-Reload)."""
         if os.path.exists(self.cfg_file):
@@ -201,6 +208,12 @@ class FaceIDDaemon:
     def _save_enabled_state(self, enabled_state: bool):
         """Luu trang thai enabled vao config.json va cap nhat ngay trong RAM."""
         self.enabled = enabled_state
+        if sys.platform != "win32":
+            try:
+                from platforms.linux.gdm_hook import sync_gdm_localization
+                sync_gdm_localization(enabled_state)
+            except Exception:
+                pass
         if os.path.exists(self.cfg_file):
             try:
                 with open(self.cfg_file, "r", encoding="utf-8") as f:
@@ -316,7 +329,13 @@ class FaceIDDaemon:
         # 6. Mo camera an toan voi Non-blocking Lock chong tranh chap giua cac thread
         if not self._auth_lock.acquire(blocking=False):
             logger.warning(f"[AUDIT] CAMERA_BUSY: Dang co phien xac thuc khac chay (PID {peer_pid}).")
-            return {"status": "CAMERA_BUSY", "fallback": "PASSWORD"}
+            send_progress("Camera đang bận. Vui lòng sử dụng mật mã dự phòng")
+            return {
+                "status": "CAMERA_BUSY",
+                "fallback": "PASSWORD",
+                "message": "Camera đang bận. Vui lòng sử dụng mật mã dự phòng",
+                "error": "CAMERA_BUSY"
+            }
 
         try:
             self.anti_spoof.reset()
@@ -457,15 +476,42 @@ class FaceIDDaemon:
                         "fallback": "PASSWORD"
                     }
 
-        except VirtualCameraDetectedError as e:
-            logger.error(f"[AUDIT] VIRTUAL_CAMERA_BLOCKED tu PID {peer_pid}: {e}")
-            return {"status": "FAILED", "fallback": "PASSWORD"}
         except CameraBusyError as e:
             logger.warning(f"[AUDIT] CAMERA_BUSY tu PID {peer_pid}: {e}. Fallback password ngay.")
-            return {"status": "CAMERA_BUSY", "fallback": "PASSWORD"}
+            send_progress("Camera đang bận hoặc không thể mở. Vui lòng sử dụng mật mã dự phòng")
+            return {
+                "status": "CAMERA_BUSY",
+                "fallback": "PASSWORD",
+                "message": "Camera đang bận hoặc không thể mở. Vui lòng sử dụng mật mã dự phòng",
+                "error": "CAMERA_BUSY"
+            }
+        except CameraDeviceError as e:
+            logger.warning(f"[AUDIT] CAMERA_DEVICE_ERROR tu PID {peer_pid}: {e}. Fallback password ngay.")
+            send_progress("Không thể kết nối camera. Vui lòng sử dụng mật mã dự phòng")
+            return {
+                "status": "CAMERA_BUSY",
+                "fallback": "PASSWORD",
+                "message": "Không thể kết nối camera. Vui lòng sử dụng mật mã dự phòng",
+                "error": "CAMERA_DEVICE_ERROR"
+            }
+        except VirtualCameraDetectedError as e:
+            logger.error(f"[AUDIT] VIRTUAL_CAMERA_BLOCKED tu PID {peer_pid}: {e}")
+            send_progress("Camera không hợp lệ. Vui lòng sử dụng mật mã dự phòng")
+            return {
+                "status": "CAMERA_BUSY",
+                "fallback": "PASSWORD",
+                "message": "Camera không hợp lệ. Vui lòng sử dụng mật mã dự phòng",
+                "error": "VIRTUAL_CAMERA_BLOCKED"
+            }
         except Exception as e:
-            logger.error(f"[AUDIT] System Error: {e}")
-            return {"status": "FAILED", "fallback": "PASSWORD"}
+            logger.error(f"[AUDIT] System Error / Camera Error: {e}")
+            send_progress("Không thể mở camera. Vui lòng sử dụng mật mã dự phòng")
+            return {
+                "status": "CAMERA_BUSY",
+                "fallback": "PASSWORD",
+                "message": "Không thể mở camera. Vui lòng sử dụng mật mã dự phòng",
+                "error": str(e)
+            }
         finally:
             self._auth_lock.release()
 

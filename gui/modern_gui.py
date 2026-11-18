@@ -322,6 +322,7 @@ class FaceIDApi:
             run_kw = {"capture_output": True, "creationflags": getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000)}
             if action == "start":
                 subprocess.run([sys.executable, ctl, "enable-autostart"], **run_kw)
+                subprocess.run([sys.executable, ctl, "start"], **run_kw)
             elif action == "stop":
                 subprocess.run([sys.executable, ctl, "disable-autostart"], **run_kw)
                 subprocess.run([sys.executable, ctl, "stop"], **run_kw)
@@ -330,6 +331,7 @@ class FaceIDApi:
         else:
             if action == "start":
                 subprocess.run([sys.executable, ctl, "enable-autostart"], capture_output=True)
+                subprocess.run([sys.executable, ctl, "start"], capture_output=True)
             elif action == "stop":
                 subprocess.run([sys.executable, ctl, "disable-autostart"], capture_output=True)
                 subprocess.run([sys.executable, ctl, "stop"], capture_output=True)

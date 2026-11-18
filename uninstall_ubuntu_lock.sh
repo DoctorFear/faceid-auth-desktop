@@ -20,7 +20,10 @@ echo "[*] Dang go bo FaceID PAM khoi /etc/pam.d/common-auth..."
 PAM_FILE="/etc/pam.d/common-auth"
 if [ -f "$PAM_FILE" ]; then
     sed -i "\|faceid_pam_client.py|d" "$PAM_FILE"
+    sed -i "s|auth\t\[success=3 default=ignore\]\tpam_unix\.so|auth\t[success=2 default=ignore]\tpam_unix.so|" "$PAM_FILE"
+    sed -i "s|auth\t\[success=2 default=ignore\]\tpam_sss\.so|auth\t[success=1 default=ignore]\tpam_sss.so|" "$PAM_FILE"
 fi
+"$PYTHON_EXE" -c "import sys; sys.path.insert(0, '$SCRIPT_DIR'); from platforms.linux.gdm_hook import remove_gdm_localization; remove_gdm_localization()" 2>/dev/null || true
 rm -f /etc/faceid/pam_installed
 
 echo "[*] Dang dung va go bo systemd service faceid-auth.service..."
